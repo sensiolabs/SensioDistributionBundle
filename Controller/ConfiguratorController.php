@@ -47,8 +47,12 @@ class ConfiguratorController extends ContainerAware
             return new RedirectResponse($this->container->get('router')->generate('_configurator_final'));
         }
 
-        return $this->container->get('templating')->renderResponse($step->getTemplate(),
-            array('form' => $form, 'index' => $index, 'count' => $configurator->getStepCount()));
+        return $this->container->get('templating')->renderResponse($step->getTemplate(), array(
+            'form'    => $form,
+            'index'   => $index,
+            'count'   => $configurator->getStepCount(),
+            'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
+        ));
     }
 
     public function checkAction()
@@ -77,13 +81,12 @@ class ConfiguratorController extends ContainerAware
             return new RedirectResponse($url);
         }
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::check.html.twig',
-            array(
-                'majors' => $majors,
-                'minors' => $minors,
-                'url'    => $url,
-            )
-        );
+        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::check.html.twig', array(
+            'majors' => $majors,
+            'minors' => $minors,
+            'url'    => $url,
+            'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
+        ));
     }
 
     public function finalAction()
@@ -91,11 +94,10 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('symfony.webconfigurator');
         $configurator->clean();
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::final.html.twig',
-            array(
-                'parameters'  => $configurator->render(),
-                'is_writable' => $configurator->isFileWritable(),
-            )
-        );
+        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::final.html.twig', array(
+            'parameters'  => $configurator->render(),
+            'is_writable' => $configurator->isFileWritable(),
+            'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
+        ));
     }
 }

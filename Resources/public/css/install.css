@@ -244,7 +244,7 @@ strong
     -moz-border-radius:         16px;
     -webkit-border-radius:      16px;
     border-radius:              16px;
-    margin-bottom:              20px;
+    margin-bottom:              5px;
 }
 
 #symfony-search
@@ -364,4 +364,11 @@ input[type=text]
 .symfony-install-continue li
 {
     padding-bottom: 10px;
+}
+
+.version
+{
+    text-align: right;
+    font-size: 10px;
+    margin-right: 20px;
 }
