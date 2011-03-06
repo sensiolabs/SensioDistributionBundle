@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="{{ asset('bundles/symfonywebconfigurator/css/configure.css') }}" type="text/css" media="all" />
+        <title>{% block title %}Web Configurator Bundle{% endblock %}</title>
+    </head>
+    <body>
+        <div id="symfony-wrapper">
+            <div id="symfony-header">
+                <img src="{{ asset("bundles/symfonywebconfigurator/images/logo-small.gif") }}" alt="Symfony" />
+            </div>
+            <div id="symfony-content">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

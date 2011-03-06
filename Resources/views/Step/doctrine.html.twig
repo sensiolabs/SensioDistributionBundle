@@ -1,0 +1,37 @@
+{% extends "SymfonyWebConfiguratorBundle::layout.html.twig" %}
+
+{% block title %}Symfony - Configure database{% endblock %}
+
+{% block content %}
+    {% form_theme form "SymfonyWebConfiguratorBundle::form.html.twig" %}
+    {% include "SymfonyWebConfiguratorBundle::steps.html.twig" with { "index": index, "count": count } %}
+
+    <h1>Configure your Database</h1>
+    <p>If your website needs a database connection, please configure it here.</p>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
+        {{ form_hidden(form) }}
+
+        {{ form_row(form.driver) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.host) }}
+        {{ form_row(form.user) }}
+        <div class="symfony-form-row">
+            {{ form_label(form.password) }}
+            <div class="symfony-form-field">
+                {{ form_field(form.password.Password) }}
+                <div class="symfony-form-errors">
+                    {{ form_errors(form.password) }}
+                </div>
+            </div>
+        </div>
+        {{ form_row(form.password.Again) }}
+
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="Next Step" class="symfony-button-grey" /></p>
+            <p>* mandatory fields</p>
+        </div>
+    </form>
+{% endblock %}

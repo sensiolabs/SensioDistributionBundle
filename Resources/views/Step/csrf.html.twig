@@ -1,0 +1,45 @@
+{% extends "SymfonyWebConfiguratorBundle::layout.html.twig" %}
+
+{% block title %}Symfony - Configure CSRF{% endblock %}
+
+{% block content %}
+    {% form_theme form "SymfonyWebConfiguratorBundle::form.html.twig" %}
+    {% include "SymfonyWebConfiguratorBundle::steps.html.twig" with { "index": index, "count": count } %}
+
+    <h1>CSRF Protection</h1>
+    <p>Configure CSRF protection for your website :</p>
+
+    {{ form_errors(form) }}
+    <form action="{{ path('_configurator_step', { 'index': index }) }} " method="POST">
+        {{ form_hidden(form) }}
+
+        <div class="symfony-form-row">
+            {{ form_label(form.csrf_secret) }}
+            <div class="symfony-form-field">
+                {{ form_field(form.csrf_secret) }}
+                <a class="symfony-button-grey" href="#" onclick="generateCsrf(); return false;">Generate</a>
+                <div class="symfony-form-errors">
+                    {{ form_errors(form.csrf_secret) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="Next Step" class="symfony-button-grey" /></p>
+            <p>* mandatory fields</p>
+        </div>
+
+    </form>
+
+    <script type="text/javascript">
+        function generateCsrf()
+        {
+            var result = '';
+            for (i=0; i < 32; i++) {
+                result += Math.round(Math.random()*16).toString(16);
+            }
+            document.getElementById('config_csrf_secret').value = result;
+        }
+    </script>
+
+{% endblock %}
