@@ -8,9 +8,9 @@
     <h3>
         <span>
             {% if is_writable %}
-                Your parameter.ini has been overwritten with these parameters:
+                Your parameters.ini has been overwritten with these parameters (in <em>{{ ini_path }}</em>):
             {% else %}
-                Your parameters.ini file is not writeable ! Here are the parameters you can copy and paste.
+                Your parameters.ini file is not writeable! Here are the parameters you can copy and paste in <em>{{ ini_path }}</em>:
             {% endif %}
         </span>
     </h3>

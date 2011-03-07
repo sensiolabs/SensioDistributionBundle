@@ -82,9 +82,9 @@ class ConfiguratorController extends ContainerAware
         }
 
         return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::check.html.twig', array(
-            'majors' => $majors,
-            'minors' => $minors,
-            'url'    => $url,
+            'majors'  => $majors,
+            'minors'  => $minors,
+            'url'     => $url,
             'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
         ));
     }
@@ -96,8 +96,9 @@ class ConfiguratorController extends ContainerAware
 
         return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::final.html.twig', array(
             'parameters'  => $configurator->render(),
+            'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),
-            'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
+            'version'     => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),
         ));
     }
 }
