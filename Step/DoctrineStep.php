@@ -42,9 +42,6 @@ class DoctrineStep implements StepInterface
      */
     public $user;
 
-    /**
-     * @validation:NotBlank
-     */
     public $password;
 
     public function __construct(array $parameters)
