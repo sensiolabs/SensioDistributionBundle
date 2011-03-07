@@ -32,6 +32,6 @@ class DoctrineForm extends Form
         $this->add(new TextField('name'));
         $this->add(new TextField('host'));
         $this->add(new TextField('user'));
-        $this->add(new RepeatedField(new PasswordField('password'), array('first_key' => 'Password', 'second_key' => 'Again')));
+        $this->add(new RepeatedField(new PasswordField('password', array('required' => false)), array('required' => false, 'first_key' => 'Password', 'second_key' => 'Again')));
     }
 }
