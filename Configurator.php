@@ -107,6 +107,15 @@ class Configurator
         $lines[] = "[parameters]\n";
 
         foreach ($this->parameters as $key => $value) {
+            if (is_integer($value) || is_float($value)) {
+            } elseif (is_bool($value)) {
+                $value = $value ? 'true' : 'false';
+            } elseif (false === strpos($value, '"')) {
+                $value = '"'.$value.'"';
+            } else {
+                throw new \RuntimeException('A value in an ini file can not contain double quotes (").');
+            }
+
             $lines[] = sprintf("    %s=%s\n", $key, $value);
         }
 
