@@ -81,7 +81,7 @@ class ConfiguratorController extends ContainerAware
             return new RedirectResponse($url);
         }
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::check.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SymfonyWebConfigurator::check.html.twig', array(
             'majors'  => $majors,
             'minors'  => $minors,
             'url'     => $url,
@@ -94,7 +94,7 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('symfony.webconfigurator');
         $configurator->clean();
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::final.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SymfonyWebConfigurator::final.html.twig', array(
             'parameters'  => $configurator->render(),
             'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),
