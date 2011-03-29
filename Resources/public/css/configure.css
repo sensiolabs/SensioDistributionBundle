@@ -69,6 +69,11 @@ h2
 
 }
 
+h2.configure-error
+{
+    background-color: #CC514F;
+}
+
 p
 {
     line-height:    20px;
