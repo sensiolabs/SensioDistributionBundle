@@ -1,10 +1,10 @@
-{% extends "SymfonyWebConfigurator::layout.html.twig" %}
+{% extends "SymfonyWebConfiguratorBundle::layout.html.twig" %}
 
 {% block title %}Symfony - Configure database{% endblock %}
 
 {% block content %}
-    {% form_theme form "SymfonyWebConfigurator::form.html.twig" %}
-    {% include "SymfonyWebConfigurator::steps.html.twig" with { "index": index, "count": count } %}
+    {% form_theme form "SymfonyWebConfiguratorBundle::form.html.twig" %}
+    {% include "SymfonyWebConfiguratorBundle::steps.html.twig" with { "index": index, "count": count } %}
 
     <h1>Configure your Database</h1>
     <p>If your website needs a database connection, please configure it here.</p>
