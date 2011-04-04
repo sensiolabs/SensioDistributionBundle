@@ -69,6 +69,6 @@ class CsrfStep implements StepInterface
      */
     public function getTemplate()
     {
-        return 'SymfonyWebConfigurator:Step:csrf.html.twig';
+        return 'SymfonyWebConfiguratorBundle:Step:csrf.html.twig';
     }
 }

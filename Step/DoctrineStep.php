@@ -109,7 +109,7 @@ class DoctrineStep implements StepInterface
      */
     public function getTemplate()
     {
-        return 'SymfonyWebConfigurator:Step:doctrine.html.twig';
+        return 'SymfonyWebConfiguratorBundle:Step:doctrine.html.twig';
     }
 
     /**
