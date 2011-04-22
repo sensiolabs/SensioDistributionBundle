@@ -30,25 +30,28 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('symfony.webconfigurator');
 
         $step = $configurator->getStep($index);
-        $form = $step->getForm($this->container->get('form.context'));
+        $form = $this->container->get('form.factory')->create($step->getFormType());
+        $form->setData($step);
 
-        $form->bind($this->container->get('request'), $step);
+        $request = $this->container->get('request');
+        if ('POST' === $request->getMethod()) {
+            $form->bindRequest($request);
+            if ($form->isValid()) {
+                $configurator->mergeParameters($step->update($form->getData()));
+                $configurator->write();
 
-        if ($form->isValid()) {
-            $configurator->mergeParameters($step->update($form->getData()));
-            $configurator->write();
+                $index++;
 
-            $index++;
+                if ($index < $configurator->getStepCount()) {
+                    return new RedirectResponse($this->container->get('router')->generate('_configurator_step', array('index' => $index)));
+                }
 
-            if ($index < $configurator->getStepCount()) {
-                return new RedirectResponse($this->container->get('router')->generate('_configurator_step', array('index' => $index)));
+                return new RedirectResponse($this->container->get('router')->generate('_configurator_final'));
             }
-
-            return new RedirectResponse($this->container->get('router')->generate('_configurator_final'));
         }
 
         return $this->container->get('templating')->renderResponse($step->getTemplate(), array(
-            'form'    => $form,
+            'form'    => $form->createView(),
             'index'   => $index,
             'count'   => $configurator->getStepCount(),
             'version' => file_get_contents($this->container->getParameter('kernel.root_dir').'/../VERSION'),

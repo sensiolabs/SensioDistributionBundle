@@ -11,7 +11,7 @@
 
 namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
-use Symfony\Component\Form\FormContext;
+use Symfony\Component\Form\Type\FormTypeInterface;
 
 /**
  * StepInterface.
@@ -30,10 +30,9 @@ interface StepInterface
     /**
      * Returns the form used for configuration.
      *
-     * @param FormContext $context
-     * @return Symfony\Component\Form\Form
+     * @return FormTypeInterface
      */
-    function getForm(FormContext $context);
+    function getFormType();
 
     /**
      * Checks for requirements.

@@ -11,9 +11,8 @@
 
 namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
-use Symfony\Component\Form\FormContext;
-use Symfony\Bundle\WebConfiguratorBundle\Form\CsrfForm;
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
+use Symfony\Bundle\WebConfiguratorBundle\Form\CsrfType;
 
 /**
  * Csrf Step.
@@ -23,7 +22,7 @@ use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
 class CsrfStep implements StepInterface
 {
     /**
-     * @validation:NotBlank
+     * @assert:NotBlank
      */
     public $csrf_secret;
 
@@ -35,9 +34,9 @@ class CsrfStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function getForm(FormContext $context)
+    public function getFormType()
     {
-        return CsrfForm::create($context, 'config');
+        return new CsrfType();
     }
 
     /**

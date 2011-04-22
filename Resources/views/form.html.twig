@@ -1,46 +1,22 @@
-{% extends "TwigBundle::form.html.twig" %}
+{% extends "TwigBundle:Form:div_layout.html.twig" %}
 
 {% block field_row %}
     <div class="symfony-form-row">
-        {{ form_label(child) }}
+        {{ form_label(form) }}
         <div class="symfony-form-field">
-            {{ form_field(child) }}
+            {{ form_widget(form) }}
             <div class="symfony-form-errors">
-                {{ form_errors(child) }}
+                {{ form_errors(form) }}
             </div>
         </div>
     </div>
 {% endblock %}
 
-{% block label %}
-    <label for="{{ field.id }}">
-        {% trans label %}
-        {% if field.required %}
+{% block field_label %}
+    <label for="{{ id }}">
+        {{ label|trans }}
+        {% if required %}
             <span class="symfony-form-required" title="This field is required">*</span>
         {% endif %}
     </label>
-{% endblock label %}
-
-{% block errors %}
-    {% if field.hasErrors %}
-        <ul>
-        {% for error in field.errors %}
-            <li>{% trans error.messageTemplate with error.messageParameters from 'validators' %}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-{% endblock errors %}
-
-{% block text_field %}
-    {% if attr.type is defined and attr.type != "text" %}
-        <input {{ block('field_attributes') }} value="{{ field.displayedData }}" />
-    {% else %}
-        {% set attr = attr|merge({ 'maxlength': attr.maxlength|default(field.maxlength) }) %}
-        <input type="text" {{ block('field_attributes') }} value="{{ field.displayedData }}" />
-    {% endif %}
-{% endblock text_field %}
-
-{% block password_field %}
-    {% set attr = attr|merge({ 'maxlength': attr.maxlength|default(field.maxlength) }) %}
-    <input type="password" {{ block('field_attributes') }} class="medium_txt" value="{{ field.displayedData }}" />
-{% endblock password_field %}
+{% endblock %}

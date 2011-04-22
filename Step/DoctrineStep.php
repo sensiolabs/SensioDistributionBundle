@@ -11,9 +11,8 @@
 
 namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
-use Symfony\Component\Form\FormContext;
-use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineForm;
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
+use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineType;
 
 /**
  * Doctrine Step.
@@ -23,22 +22,22 @@ use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
 class DoctrineStep implements StepInterface
 {
     /**
-     * @validation:Choice(callback="getDriverKeys")
+     * @assert:Choice(callback="getDriverKeys")
      */
     public $driver;
 
     /**
-     * @validation:NotBlank
+     * @assert:NotBlank
      */
     public $host;
 
     /**
-     * @validation:NotBlank
+     * @assert:NotBlank
      */
     public $name;
 
     /**
-     * @validation:NotBlank
+     * @assert:NotBlank
      */
     public $user;
 
@@ -58,9 +57,9 @@ class DoctrineStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function getForm(FormContext $context)
+    public function getFormType()
     {
-        return DoctrineForm::create($context, 'config');
+        return new DoctrineType();
     }
 
     /**
