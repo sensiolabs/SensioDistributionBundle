@@ -12,7 +12,7 @@
 namespace Symfony\Bundle\WebConfiguratorBundle\Form;
 
 use Symfony\Bundle\WebConfiguratorBundle\Step\DoctrineStep;
-use Symfony\Component\Form\Type\AbstractType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
 /**
