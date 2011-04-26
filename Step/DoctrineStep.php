@@ -33,7 +33,6 @@ class DoctrineStep implements StepInterface
 
     /**
      * @assert:NotBlank
-     * @assert:MinLength(1000)
      */
     public $name;
 
