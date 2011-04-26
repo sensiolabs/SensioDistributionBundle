@@ -19,17 +19,10 @@ use Symfony\Component\Form\FormBuilder;
  *
  * @author Marc Weistroff <marc.weistroff@sensio.com>
  */
-class CsrfType extends AbstractType
+class CsrfStepType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
         $builder->add('csrf_secret', 'text');
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'data_class' => 'Symfony\Bundle\WebConfiguratorBundle\Step\CsrfStep',
-        );
     }
 }

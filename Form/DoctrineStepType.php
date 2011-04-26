@@ -20,7 +20,7 @@ use Symfony\Component\Form\FormBuilder;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DoctrineType extends AbstractType
+class DoctrineStepType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
@@ -36,12 +36,5 @@ class DoctrineType extends AbstractType
                 'second_name' => 'Password again',
             ))
         ;
-    }
-
-    public function getDefaultOptions(array $options)
-    {
-        return array(
-            'data_class' => 'Symfony\Bundle\WebConfiguratorBundle\Step\DoctrineStep',
-        );
     }
 }

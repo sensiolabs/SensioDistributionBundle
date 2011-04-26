@@ -12,7 +12,7 @@
 namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
-use Symfony\Bundle\WebConfiguratorBundle\Form\CsrfType;
+use Symfony\Bundle\WebConfiguratorBundle\Form\CsrfStepType;
 
 /**
  * Csrf Step.
@@ -36,7 +36,7 @@ class CsrfStep implements StepInterface
      */
     public function getFormType()
     {
-        return new CsrfType();
+        return new CsrfStepType();
     }
 
     /**

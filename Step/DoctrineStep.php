@@ -12,7 +12,7 @@
 namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
-use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineType;
+use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineStepType;
 
 /**
  * Doctrine Step.
@@ -59,7 +59,7 @@ class DoctrineStep implements StepInterface
      */
     public function getFormType()
     {
-        return new DoctrineType();
+        return new DoctrineStepType();
     }
 
     /**

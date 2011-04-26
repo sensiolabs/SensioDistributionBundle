@@ -30,8 +30,7 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('symfony.webconfigurator');
 
         $step = $configurator->getStep($index);
-        $form = $this->container->get('form.factory')->create($step->getFormType());
-        $form->setData($step);
+        $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
 
         $request = $this->container->get('request');
         if ('POST' === $request->getMethod()) {
