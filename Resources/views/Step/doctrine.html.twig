@@ -11,17 +11,14 @@
 
     {{ form_errors(form) }}
     <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
-        {{ form_row(form.driver) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.host) }}
-        {{ form_row(form.user) }}
-        <div class="symfony-form-row">
-            <div class="symfony-form-field">
-                {{ form_widget(form.password) }}
-                <div class="symfony-form-errors">
-                    {{ form_errors(form.password) }}
-                </div>
-            </div>
+        <div class="symfony-form-column">
+            {{ form_row(form.driver) }}
+            {{ form_row(form.host) }}
+            {{ form_row(form.name) }}
+        </div>
+        <div class="symfony-form-column">
+            {{ form_row(form.user) }}
+            {{ form_row(form.password) }}
         </div>
 
         {{ form_rest(form) }}

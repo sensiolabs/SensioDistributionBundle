@@ -1,5 +1,14 @@
 {% extends "TwigBundle:Form:div_layout.html.twig" %}
 
+{% block field_rows %}
+    <div class="symfony-form-errors">
+        {{ form_errors(form) }}
+    </div>
+    {% for child in form.children %}
+        {{ form_row(child) }}
+    {% endfor %}
+{% endblock field_rows %}
+
 {% block field_row %}
     <div class="symfony-form-row">
         {{ form_label(form) }}

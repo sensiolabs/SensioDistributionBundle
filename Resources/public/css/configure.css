@@ -363,9 +363,13 @@ h1
 
 .symfony-form-row
 {
+    padding-bottom: 40px;
+}
+
+.symfony-form-column
+{
     width: 430px;
     float: left;
-    padding-bottom: 40px;
 }
 
 .symfony-form-footer
