@@ -13,7 +13,7 @@ namespace Symfony\Bundle\WebConfiguratorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Bundle\WebConfiguratorBundle\Step\DoctrineStep;
-use Symfony\Bundle\WebConfiguratorBundle\Step\CsrfStep;
+use Symfony\Bundle\WebConfiguratorBundle\Step\SecretStep;
 
 /**
  * SymfonyWebConfiguratorBundle.
@@ -27,6 +27,6 @@ class SymfonyWebConfiguratorBundle extends Bundle
     {
         $configurator = $this->container->get('symfony.webconfigurator');
         $configurator->addStep(new DoctrineStep($configurator->getParameters()));
-        $configurator->addStep(new CsrfStep($configurator->getParameters()));
+        $configurator->addStep(new SecretStep($configurator->getParameters()));
     }
 }
