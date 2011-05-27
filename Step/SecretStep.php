@@ -13,6 +13,7 @@ namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
 use Symfony\Bundle\WebConfiguratorBundle\Form\SecretStepType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Secret Step.
@@ -22,7 +23,7 @@ use Symfony\Bundle\WebConfiguratorBundle\Form\SecretStepType;
 class SecretStep implements StepInterface
 {
     /**
-     * @assert:NotBlank
+     * @Assert\NotBlank
      */
     public $secret;
 

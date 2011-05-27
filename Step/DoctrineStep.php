@@ -13,6 +13,7 @@ namespace Symfony\Bundle\WebConfiguratorBundle\Step;
 
 use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
 use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineStepType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Doctrine Step.
@@ -22,22 +23,22 @@ use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineStepType;
 class DoctrineStep implements StepInterface
 {
     /**
-     * @assert:Choice(callback="getDriverKeys")
+     * @Assert\Choice(callback="getDriverKeys")
      */
     public $driver;
 
     /**
-     * @assert:NotBlank
+     * @Assert\NotBlank
      */
     public $host;
 
     /**
-     * @assert:NotBlank
+     * @Assert\NotBlank
      */
     public $name;
 
     /**
-     * @assert:NotBlank
+     * @Assert\NotBlank
      */
     public $user;
 
