@@ -103,10 +103,11 @@ class ConfiguratorController extends ContainerAware
             'version'     => $this->getVersion(),
         ));
     }
-		
-		public function getVersion()
-		{
-			$kernel = $this->container->get('kernel');
-			return $kernel::VERSION;
-		}
+
+    public function getVersion()
+    {
+        $kernel = $this->container->get('kernel');
+
+        return $kernel::VERSION;
+    }
 }
