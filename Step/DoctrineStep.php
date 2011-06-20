@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle\Step;
+namespace Sensio\Bundle\DistributionBundle\Step;
 
-use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
-use Symfony\Bundle\WebConfiguratorBundle\Form\DoctrineStepType;
+use Sensio\Bundle\DistributionBundle\Exception\StepRequirementException;
+use Sensio\Bundle\DistributionBundle\Form\DoctrineStepType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -109,7 +109,7 @@ class DoctrineStep implements StepInterface
      */
     public function getTemplate()
     {
-        return 'SymfonyWebConfiguratorBundle:Step:doctrine.html.twig';
+        return 'SensioDistributionBundle:Step:doctrine.html.twig';
     }
 
     /**

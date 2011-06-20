@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle\Step;
+namespace Sensio\Bundle\DistributionBundle\Step;
 
 use Symfony\Component\Form\Type\FormTypeInterface;
 

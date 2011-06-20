@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle\Controller;
+namespace Sensio\Bundle\DistributionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Symfony\Bundle\WebConfiguratorBundle\Exception\StepRequirementException;
+use Sensio\Bundle\DistributionBundle\Exception\StepRequirementException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -27,7 +27,7 @@ class ConfiguratorController extends ContainerAware
      */
     public function stepAction($index = 0)
     {
-        $configurator = $this->container->get('symfony.webconfigurator');
+        $configurator = $this->container->get('sensio.distribution.webconfigurator');
 
         $step = $configurator->getStep($index);
         $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
@@ -59,7 +59,7 @@ class ConfiguratorController extends ContainerAware
 
     public function checkAction()
     {
-        $configurator = $this->container->get('symfony.webconfigurator');
+        $configurator = $this->container->get('sensio.distribution.webconfigurator');
 
         $steps = $configurator->getSteps();
 
@@ -83,7 +83,7 @@ class ConfiguratorController extends ContainerAware
             return new RedirectResponse($url);
         }
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::check.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::check.html.twig', array(
             'majors'  => $majors,
             'minors'  => $minors,
             'url'     => $url,
@@ -93,10 +93,10 @@ class ConfiguratorController extends ContainerAware
 
     public function finalAction()
     {
-        $configurator = $this->container->get('symfony.webconfigurator');
+        $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $configurator->clean();
 
-        return $this->container->get('templating')->renderResponse('SymfonyWebConfiguratorBundle::final.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::final.html.twig', array(
             'parameters'  => $configurator->render(),
             'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),

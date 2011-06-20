@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfony\Bundle\WebConfiguratorBundle\DependencyInjection;
+namespace Sensio\Bundle\DistributionBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
@@ -8,11 +8,11 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * SymfonyWebConfiguratorExtension.
+ * SensioDistributionExtension.
  *
  * @author Marc Weistroff <marc.weistroff@sensio.com>
  */
-class SymfonyWebConfiguratorExtension extends Extension
+class SensioDistributionExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -28,6 +28,6 @@ class SymfonyWebConfiguratorExtension extends Extension
 
     public function getAlias()
     {
-        return 'symfony_web_configurator';
+        return 'sensio_distribution';
     }
 }

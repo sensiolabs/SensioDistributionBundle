@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle\Form;
+namespace Sensio\Bundle\DistributionBundle\Form;
 
-use Symfony\Bundle\WebConfiguratorBundle\Step\DoctrineStep;
+use Sensio\Bundle\DistributionBundle\Step\DoctrineStep;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 

@@ -9,23 +9,23 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle;
+namespace Sensio\Bundle\DistributionBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Symfony\Bundle\WebConfiguratorBundle\Step\DoctrineStep;
-use Symfony\Bundle\WebConfiguratorBundle\Step\SecretStep;
+use Sensio\Bundle\DistributionBundle\Step\DoctrineStep;
+use Sensio\Bundle\DistributionBundle\Step\SecretStep;
 
 /**
- * SymfonyWebConfiguratorBundle.
+ * SensioDistributionBundle.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Marc Weistroff <marc.weistroff@sensio.com>
  */
-class SymfonyWebConfiguratorBundle extends Bundle
+class SensioDistributionBundle extends Bundle
 {
     public function boot()
     {
-        $configurator = $this->container->get('symfony.webconfigurator');
+        $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $configurator->addStep(new DoctrineStep($configurator->getParameters()));
         $configurator->addStep(new SecretStep($configurator->getParameters()));
     }

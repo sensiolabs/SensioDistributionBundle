@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Symfony\Bundle\WebConfiguratorBundle;
+namespace Sensio\Bundle\DistributionBundle;
 
-use Symfony\Bundle\WebConfiguratorBundle\Step\StepInterface;
+use Sensio\Bundle\DistributionBundle\Step\StepInterface;
 
 /**
  * Configurator.

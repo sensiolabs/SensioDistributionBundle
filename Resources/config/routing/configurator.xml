@@ -5,14 +5,14 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="_configurator_home" pattern="/">
-        <default key="_controller">SymfonyWebConfiguratorBundle:Configurator:check</default>
+        <default key="_controller">SensioDistributionBundle:Configurator:check</default>
     </route>
 
     <route id="_configurator_step" pattern="/step/{index}">
-        <default key="_controller">SymfonyWebConfiguratorBundle:Configurator:step</default>
+        <default key="_controller">SensioDistributionBundle:Configurator:step</default>
     </route>
 
     <route id="_configurator_final" pattern="/final">
-        <default key="_controller">SymfonyWebConfiguratorBundle:Configurator:final</default>
+        <default key="_controller">SensioDistributionBundle:Configurator:final</default>
     </route>
 </routes>
