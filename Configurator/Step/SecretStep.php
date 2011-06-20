@@ -9,10 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Sensio\Bundle\DistributionBundle\Step;
+namespace Sensio\Bundle\DistributionBundle\Configurator\Step;
 
-use Sensio\Bundle\DistributionBundle\Exception\StepRequirementException;
-use Sensio\Bundle\DistributionBundle\Form\SecretStepType;
+use Sensio\Bundle\DistributionBundle\Configurator\Form\SecretStepType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -73,6 +72,6 @@ class SecretStep implements StepInterface
      */
     public function getTemplate()
     {
-        return 'SensioDistributionBundle:Step:secret.html.twig';
+        return 'SensioDistributionBundle:Configurator/Step:secret.html.twig';
     }
 }

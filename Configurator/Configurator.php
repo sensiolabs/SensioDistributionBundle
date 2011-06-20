@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Sensio\Bundle\DistributionBundle;
+namespace Sensio\Bundle\DistributionBundle\Configurator;
 
-use Sensio\Bundle\DistributionBundle\Step\StepInterface;
+use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 
 /**
  * Configurator.

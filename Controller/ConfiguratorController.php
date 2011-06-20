@@ -12,7 +12,6 @@
 namespace Sensio\Bundle\DistributionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
-use Sensio\Bundle\DistributionBundle\Exception\StepRequirementException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -83,7 +82,7 @@ class ConfiguratorController extends ContainerAware
             return new RedirectResponse($url);
         }
 
-        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::check.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::Configurator/check.html.twig', array(
             'majors'  => $majors,
             'minors'  => $minors,
             'url'     => $url,
@@ -96,7 +95,7 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $configurator->clean();
 
-        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::final.html.twig', array(
+        return $this->container->get('templating')->renderResponse('SensioDistributionBundle::Configurator/final.html.twig', array(
             'parameters'  => $configurator->render(),
             'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),

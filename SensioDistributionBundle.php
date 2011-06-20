@@ -12,8 +12,8 @@
 namespace Sensio\Bundle\DistributionBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Sensio\Bundle\DistributionBundle\Step\DoctrineStep;
-use Sensio\Bundle\DistributionBundle\Step\SecretStep;
+use Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep;
+use Sensio\Bundle\DistributionBundle\Configurator\Step\SecretStep;
 
 /**
  * SensioDistributionBundle.
