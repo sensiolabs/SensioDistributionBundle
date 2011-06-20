@@ -23,7 +23,7 @@ class SensioDistributionExtension extends Extension
 
     public function getNamespace()
     {
-        return 'http://symfony.com/schema/dic/symfony';
+        return 'http://symfony.com/schema/dic/symfony/sensiodistribution';
     }
 
     public function getAlias()
