@@ -95,7 +95,14 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $configurator->clean();
 
+        try {
+            $welcomeUrl = $this->container->get('router')->generate('_welcome');
+        } catch (\Exception $e) {
+            $welcomeUrl = null;
+        }
+
         return $this->container->get('templating')->renderResponse('SensioDistributionBundle::Configurator/final.html.twig', array(
+            'welcome_url' => $welcomeUrl,
             'parameters'  => $configurator->render(),
             'ini_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.ini',
             'is_writable' => $configurator->isFileWritable(),
