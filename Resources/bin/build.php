@@ -29,14 +29,14 @@ system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($baseDir.
 system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($baseDir.'/app/console')));
 
 // without vendors
-system(sprintf('
+system(str_replace(array('$dir'), array(escapeshellarg($baseDir)), '
     rm -rf /tmp/Symfony;
     mkdir /tmp/Symfony;
-    cp -r %s/* /tmp/Symfony;
+    cp -r $dir/* /tmp/Symfony;
     cd /tmp/Symfony;
     sudo rm -rf vendor app/cache/* app/logs/* .git* .DS_Store;
     chmod 777 app/cache app/logs
-', escapeshellarg($baseDir)));
+'));
 
 // create build folder
 if (!is_dir($baseDir.'/build')) {
@@ -44,27 +44,27 @@ if (!is_dir($baseDir.'/build')) {
 }
 
 // generate
-system(sprintf('
+system(str_replace(array('$dir', '$version'), array(escapeshellarg($baseDir), $version), '
     cd /tmp;
     # avoid the creation of ._* files
     export COPY_EXTENDED_ATTRIBUTES_DISABLE=true;
     export COPYFILE_DISABLE=true;
-    tar zcpf %s/build/Symfony_Standard_%s.tgz Symfony;
-    sudo rm -f %s/build/Symfony_Standard_%s.zip;
-    zip -rq %s/build/Symfony_Standard_%s.zip Symfony
-', escapeshellarg($baseDir), $version, escapeshellarg($baseDir), $version, escapeshellarg($baseDir), $version));
+    tar zcpf $dir/build/Symfony_Standard_$version.tgz Symfony;
+    sudo rm -f $dir/build/Symfony_Standard_$version.zip;
+    zip -rq $dir/build/Symfony_Standard_$version.zip Symfony
+'));
 
 // with vendors
 if (!is_dir($baseDir.'/vendor')) {
     exit("The master vendor directory does not exist.\n");
 }
 
-system(sprintf('
-    cd %s;
+system(str_replace(array('$dir'), array(escapeshellarg($baseDir)), '
+    cd /tmp;
     rm -rf /tmp/vendor;
     mkdir /tmp/vendor;
-    cp -r %s/vendor/* /tmp/vendor
-', escapeshellarg($baseDir), escapeshellarg($baseDir)));
+    cp -r $dir/vendor/* /tmp/vendor
+'));
 
 // remove from each vendor
 $deps = parse_ini_file($baseDir.'/deps', true, INI_SCANNER_RAW);
@@ -80,7 +80,7 @@ foreach ($deps as $name => $dep) {
 }
 
 // generate
-system(sprintf('
+system(str_replace(array('$dir', '$version'), array(escapeshellarg($baseDir), $version), '
     cd /tmp;
     mv /tmp/vendor /tmp/Symfony/;
     cd /tmp/Symfony;
@@ -92,8 +92,8 @@ system(sprintf('
     # avoid the creation of ._* files
     export COPY_EXTENDED_ATTRIBUTES_DISABLE=true;
     export COPYFILE_DISABLE=true;
-    tar zcpf %s/build/Symfony_Standard_Vendors_%s.tgz Symfony
-    sudo rm -f %s/build/Symfony_Standard_Vendors_%s.zip
-    zip -rq %s/build/Symfony_Standard_Vendors_%s.zip Symfony
+    tar zcpf $dir/build/Symfony_Standard_Vendors_$version.tgz Symfony
+    sudo rm -f $dir/build/Symfony_Standard_Vendors_$version.zip
+    zip -rq $dir/build/Symfony_Standard_Vendors_$version.zip Symfony
     rm -rf /tmp/Symfony;
-', escapeshellarg($baseDir), $version, escapeshellarg($baseDir), $version, escapeshellarg($baseDir), $version));
+'));
