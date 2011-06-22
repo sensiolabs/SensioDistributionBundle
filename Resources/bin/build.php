@@ -27,9 +27,6 @@ system(sprintf('%s %s', $interpreter, escapeshellarg($baseDir.'/vendor/bundles/S
 // update assets
 system(sprintf('%s %s assets:install %s', $interpreter, escapeshellarg($baseDir.'/app/console'), escapeshellarg($baseDir.'/web/')));
 
-// remove the cache
-system(sprintf('%s %s cache:clear --no-warmup', $interpreter, escapeshellarg($baseDir.'/app/console')));
-
 // vendors
 $scripts = array();
 $deps = parse_ini_file($baseDir.'/deps', true, INI_SCANNER_RAW);
