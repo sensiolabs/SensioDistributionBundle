@@ -32,7 +32,10 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array('Symfony' => $baseDir.'/vendor/symfony/src'));
 $loader->register();
 
-$file = $baseDir.'/app/bootstrap.php.cache';
+$options = getopt('', array('target:'));
+$targetDir = $baseDir.'/'.(isset($options['target']) ? $options['target'] : 'app');
+
+$file = $targetDir.'/bootstrap.php.cache';
 if (file_exists($file)) {
     unlink($file);
 }
