@@ -37,4 +37,9 @@ class DoctrineStepType extends AbstractType
             ))
         ;
     }
+
+    public function getName()
+    {
+        return 'distributionbundle_doctrine_step';
+    }
 }
