@@ -30,10 +30,11 @@ class DoctrineStepType extends AbstractType
             ->add('host', 'text')
             ->add('user', 'text')
             ->add('password', 'repeated', array(
-                'required' => false,
-                'type' => 'password',
-                'first_name' => 'Password',
-                'second_name' => 'Password again',
+                'required'        => false,
+                'type'            => 'password',
+                'first_name'      => 'password',
+                'second_name'     => 'password_again',
+                'invalid_message' => 'The password fields must match.',
             ))
         ;
     }
