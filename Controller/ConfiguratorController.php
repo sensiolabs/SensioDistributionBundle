@@ -60,21 +60,9 @@ class ConfiguratorController extends ContainerAware
     {
         $configurator = $this->container->get('sensio.distribution.webconfigurator');
 
-        $steps = $configurator->getSteps();
-
-        $majors = array();
-        $minors = array();
-
         // Trying to get as much requirements as possible
-        foreach ($steps as $step) {
-            foreach ($step->checkRequirements() as $major) {
-                $majors[] = $major;
-            }
-
-            foreach ($step->checkOptionalSettings() as $minor) {
-                $minors[] = $minor;
-            }
-        }
+        $majors = $configurator->getRequirements();
+        $minors = $configurator->getOptionalSettings();
 
         $url = $this->container->get('router')->generate('_configurator_step', array('index' => 0));
 
