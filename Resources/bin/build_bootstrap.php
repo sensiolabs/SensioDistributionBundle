@@ -50,7 +50,8 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
     'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
     'Symfony\\Component\\Config\\ConfigCache',
-    'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
+    // cannot be included as commands are discovered based on the path to this class via Reflection
+    //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
 ), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
 file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
