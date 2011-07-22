@@ -25,7 +25,7 @@ cp -r app /tmp/Symfony/
 cp -r bin /tmp/Symfony/
 cp -r src /tmp/Symfony/
 cp -r web /tmp/Symfony/
-cp -r README.rst /tmp/Symfony/
+cp -r README.md /tmp/Symfony/
 cp -r LICENSE /tmp/Symfony/
 cp -r deps /tmp/Symfony/
 cp -r deps.lock /tmp/Symfony/
