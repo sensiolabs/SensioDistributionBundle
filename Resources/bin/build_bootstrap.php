@@ -39,7 +39,8 @@ if (file_exists($file)) {
 
 ClassCollectionLoader::load(array(
     'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
-    'Symfony\\Component\\DependencyInjection\\ContainerAware',
+    // Cannot be included because annotations will parse the big compiled class file
+    //'Symfony\\Component\\DependencyInjection\\ContainerAware',
     'Symfony\\Component\\DependencyInjection\\ContainerInterface',
     'Symfony\\Component\\DependencyInjection\\Container',
     'Symfony\\Component\\HttpKernel\\HttpKernelInterface',
