@@ -10,8 +10,15 @@
  * file that was distributed with this source code.
  */
 
-if (!$baseDir = realpath(__DIR__.'/../../../../../../..')) {
-    exit('Looks like you don\'t have a standard layout.');
+$argv = $_SERVER['argv'];
+
+// allow the base path to be passed as the first argument, or default
+if (isset($argv[1])) {
+    $baseDir = $argv[1];
+} else {
+    if (!$baseDir = realpath(__DIR__.'/../../../../../../..')) {
+        exit('Looks like you don\'t have a standard layout.');
+    }
 }
 
 require_once $baseDir.'/vendor/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
