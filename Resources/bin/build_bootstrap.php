@@ -21,6 +21,13 @@ if (isset($argv[1])) {
     }
 }
 
+// allow the path where the bootstrap file will be generated to be passed as the second argument, or default
+if (isset($argv[2])) {
+    $appDir = $argv[2];
+} else {
+    $appDir = $baseDir . '/app';
+}
+
 require_once $baseDir.'/vendor/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
 /*
@@ -39,7 +46,7 @@ $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array('Symfony' => $baseDir.'/vendor/symfony/src'));
 $loader->register();
 
-$file = $baseDir.'/app/bootstrap.php.cache';
+$file = $appDir . '/bootstrap.php.cache';
 if (file_exists($file)) {
     unlink($file);
 }
