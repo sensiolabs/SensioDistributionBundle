@@ -11,9 +11,9 @@
     <h3>
         <span>
             {% if is_writable %}
-                Your parameters.ini has been overwritten with these parameters (in <em>{{ ini_path }}</em>):
+                Your parameters.yml file has been overwritten with these parameters (in <em>{{ yml_path }}</em>):
             {% else %}
-                Your parameters.ini file is not writeable! Here are the parameters you can copy and paste in <em>{{ ini_path }}</em>:
+                Your parameters.yml file is not writeable! Here are the parameters you can copy and paste in <em>{{ yml_path }}</em>:
             {% endif %}
         </span>
     </h3>

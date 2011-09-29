@@ -12,6 +12,7 @@
 namespace Sensio\Bundle\DistributionBundle\Configurator;
 
 use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * Configurator.
@@ -27,7 +28,7 @@ class Configurator
     public function __construct($kernelDir)
     {
         $this->kernelDir = $kernelDir;
-        $this->filename = $kernelDir.'/config/parameters.ini';
+        $this->filename = $kernelDir.'/config/parameters.yml';
 
         $this->steps = array();
         $this->parameters = $this->read();
@@ -134,26 +135,11 @@ class Configurator
      */
     public function render()
     {
-        $lines[] = "[parameters]\n";
-
-        foreach ($this->parameters as $key => $value) {
-            if (is_integer($value) || is_float($value)) {
-            } elseif (is_bool($value)) {
-                $value = $value ? 'true' : 'false';
-            } elseif (false === strpos($value, '"')) {
-                $value = '"'.$value.'"';
-            } else {
-                throw new \RuntimeException('A value in an ini file can not contain double quotes (").');
-            }
-
-            $lines[] = sprintf("    %s=%s\n", $key, $value);
-        }
-
-        return implode('', $lines);
+        return Yaml::dump(array('parameters' => $this->parameters));
     }
 
     /**
-     * Writes parameters to parameters.ini or temporary in the cache directory.
+     * Writes parameters to parameters.yml or temporary in the cache directory.
      *
      * @return boolean
      */
@@ -176,7 +162,7 @@ class Configurator
             $filename = $this->getCacheFilename();
         }
 
-        $ret = parse_ini_file($filename, true);
+        $ret = Yaml::parse($filename);
         if (false === $ret || array() === $ret) {
             throw new \InvalidArgumentException(sprintf('The %s file is not valid.', $filename));
         }
@@ -195,6 +181,6 @@ class Configurator
      */
     protected function getCacheFilename()
     {
-        return $this->kernelDir.'/cache/parameters.ini';
+        return $this->kernelDir.'/cache/parameters.yml';
     }
 }
