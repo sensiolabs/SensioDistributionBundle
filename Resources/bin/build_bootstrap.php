@@ -55,6 +55,7 @@ ClassCollectionLoader::load(array(
     'Symfony\\Component\\HttpKernel\\Kernel',
     'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
     'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
+    'Symfony\\Component\\ClassLoader\\ApcUniversalClassLoader',
     'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
     'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
     'Symfony\\Component\\Config\\ConfigCache',
