@@ -19,8 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SecretStep implements StepInterface
+class SecretStep extends Step
 {
+    protected $title = 'Global Secret';
+    protected $description = 'Configure the global secret for your website (the secret is used for the CSRF protection among other things):';
+
     /**
      * @Assert\NotBlank
      */
@@ -41,22 +44,6 @@ class SecretStep implements StepInterface
     public function getFormType()
     {
         return new SecretStepType();
-    }
-
-    /**
-     * @see StepInterface
-     */
-    public function checkRequirements()
-    {
-        return array();
-    }
-
-    /**
-     * checkOptionalSettings
-     */
-    public function checkOptionalSettings()
-    {
-        return array();
     }
 
     /**

@@ -1,0 +1,30 @@
+{% extends "SensioDistributionBundle::Configurator/layout.html.twig" %}
+
+{% block title %}Symfony - Configure {{ step.getTitle() }}{% endblock %}
+
+{% block content %}
+    {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
+    {% include "SensioDistributionBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
+
+    <h1>Configure your {{ step.getTitle() }}</h1>
+    <p>{{ step.getDescription() }}</p>
+
+    {{ form_errors(form) }}
+        <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
+
+        {% for field in form %}
+            {% if field.get('type') != 'hidden' %}
+                <div class="symfony-form-column">
+                    {{ form_row(field) }}
+                </div>
+            {% endif %}
+        {% endfor %}
+
+        {{ form_rest(form) }}
+
+        <div class="symfony-form-footer">
+            <p><input type="submit" value="Next Step" class="symfony-button-grey" /></p>
+            <p>* mandatory fields</p>
+        </div>
+    </form>
+{% endblock %}

@@ -50,6 +50,7 @@ class ConfiguratorController extends ContainerAware
 
         return $this->container->get('templating')->renderResponse($step->getTemplate(), array(
             'form'    => $form->createView(),
+            'step'    => $step,
             'index'   => $index,
             'count'   => $configurator->getStepCount(),
             'version' => $this->getVersion(),

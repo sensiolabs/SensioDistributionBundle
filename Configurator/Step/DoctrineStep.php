@@ -19,8 +19,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DoctrineStep implements StepInterface
+class DoctrineStep extends Step
 {
+    protected $title = 'Database';
+    protected $description = 'If your website needs a database connection, please configure it here.';
+
     /**
      * @Assert\Choice(callback="getDriverKeys")
      */
@@ -89,14 +92,6 @@ class DoctrineStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function checkOptionalSettings()
-    {
-        return array();
-    }
-
-    /**
-     * @see StepInterface
-     */
     public function update(StepInterface $data)
     {
         $parameters = array();
@@ -106,14 +101,6 @@ class DoctrineStep implements StepInterface
         }
 
         return $parameters;
-    }
-
-    /**
-     * @see StepInterface
-     */
-    public function getTemplate()
-    {
-        return 'SensioDistributionBundle:Configurator/Step:doctrine.html.twig';
     }
 
     /**
