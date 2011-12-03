@@ -44,8 +44,8 @@ mkdir /tmp/vendor;
 TARGET=/tmp/vendor;
 
 if [ ! -d "$DIR/vendor" ]; then
-echo "The master vendor directory does not exist"
-exit
+    echo "The master vendor directory does not exist"
+    exit
 fi
 
 cp -r $DIR/vendor/* $TARGET/
