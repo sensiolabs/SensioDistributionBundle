@@ -25,13 +25,20 @@ class Configurator
     protected $steps;
     protected $parameters;
 
-    public function __construct($kernelDir)
+    public function __construct($kernelDir, $steps = array())
     {
         $this->kernelDir = $kernelDir;
         $this->filename = $kernelDir.'/config/parameters.yml';
 
         $this->steps = array();
         $this->parameters = $this->read();
+
+        foreach ($steps as $step) {
+            $class = $step['class'];
+            if (class_exists($class)) {
+                $this->addStep(new $class($this->getParameters()));
+            }
+        }
     }
 
     public function isFileWritable()

@@ -11,20 +11,20 @@
 
 namespace Sensio\Bundle\DistributionBundle\Configurator\Step;
 
-use Sensio\Bundle\DistributionBundle\Configurator\Form\DoctrineStepType;
+use Sensio\Bundle\DistributionBundle\Configurator\Form\MailerStepType;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Doctrine Step.
+ * Mailer Step.
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class DoctrineStep extends Step
+class MailerStep extends Step
 {
     /**
-     * @Assert\Choice(callback="getDriverKeys")
+     * @Assert\Choice(callback="getTransportKeys")
      */
-    public $driver;
+    public $transport;
 
     /**
      * @Assert\NotBlank
@@ -39,11 +39,6 @@ class DoctrineStep extends Step
     /**
      * @Assert\NotBlank
      */
-    public $name;
-
-    /**
-     * @Assert\NotBlank
-     */
     public $user;
 
     public $password;
@@ -51,9 +46,9 @@ class DoctrineStep extends Step
     public function __construct(array $parameters)
     {
         foreach ($parameters as $key => $value) {
-            if (0 === strpos($key, 'database_')) {
-                $parameters[substr($key, 9)] = $value;
-                $key = substr($key, 9);
+            if (0 === strpos($key, 'mailer_')) {
+                $parameters[substr($key, 7)] = $value;
+                $key = substr($key, 7);
                 $this->$key = $value;
             }
         }
@@ -64,7 +59,7 @@ class DoctrineStep extends Step
      */
     public function getFormType()
     {
-        return new DoctrineStepType();
+        return new MailerStepType();
     }
 
     /**
@@ -74,13 +69,8 @@ class DoctrineStep extends Step
     {
         $messages = array();
 
-        if (!class_exists('\PDO')) {
-            $messages[] = 'PDO extension is mandatory.';
-        } else {
-            $drivers = \PDO::getAvailableDrivers();
-            if (0 == count($drivers)) {
-                $messages[] = 'Please install PDO drivers.';
-            }
+        if (!class_exists('\Swift_Mailer')) {
+            $messages[] = 'Swiftmailer library is mandatory.';
         }
 
         return $messages;
@@ -94,7 +84,7 @@ class DoctrineStep extends Step
         $parameters = array();
 
         foreach ($data as $key => $value) {
-            $parameters['database_'.$key] = $value;
+            $parameters['mailer_'.$key] = $value;
         }
 
         return $parameters;
@@ -105,7 +95,7 @@ class DoctrineStep extends Step
      */
     public function getTitle()
     {
-        return 'Database';
+        return 'Mailer';
     }
 
     /**
@@ -113,31 +103,27 @@ class DoctrineStep extends Step
      */
     public function getDescription()
     {
-        return 'If your website needs a database connection, please configure it here.';
+        return 'If your website needs a mailer connection, please configure it here.';
     }
 
     /**
      * @return array
      */
-    static public function getDriverKeys()
+    static public function getTransportKeys()
     {
-        return array_keys(static::getDrivers());
+        return array_keys(static::getTransports());
     }
 
     /**
      * @return array
      */
-    static public function getDrivers()
+    static public function getTransports()
     {
         return array(
-            'pdo_mysql'  => 'MySQL (PDO)',
-            'pdo_sqlite' => 'SQLite (PDO)',
-            'pdo_pgsql'  => 'PosgreSQL (PDO)',
-            'oci8'       => 'Oracle (native)',
-            'ibm_db2'    => 'IBM DB2 (native)',
-            'pdo_oci'    => 'Oracle (PDO)',
-            'pdo_ibm'    => 'IBM DB2 (PDO)',
-            'pdo_sqlsrv' => 'SQLServer (PDO)',
+            'smtp'     => 'SMTP',
+            'gmail'    => 'GMail',
+            'mail'     => 'PHP Mail',
+            'sendmail' => 'Sendmail',
         );
     }
 }

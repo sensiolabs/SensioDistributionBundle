@@ -11,7 +11,7 @@
     <services>
         <service id="sensio.distribution.webconfigurator" class="%sensio.distribution.webconfigurator.class%">
             <argument>%kernel.root_dir%</argument>
+            <argument key="steps" type="collection"/>
         </service>
     </services>
 </container>
-

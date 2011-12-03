@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class SecretStep implements StepInterface
+class SecretStep extends Step
 {
     /**
      * @Assert\NotBlank
@@ -46,22 +46,6 @@ class SecretStep implements StepInterface
     /**
      * @see StepInterface
      */
-    public function checkRequirements()
-    {
-        return array();
-    }
-
-    /**
-     * checkOptionalSettings
-     */
-    public function checkOptionalSettings()
-    {
-        return array();
-    }
-
-    /**
-     * @see StepInterface
-     */
     public function update(StepInterface $data)
     {
         return array('secret' => $data->secret);
@@ -73,5 +57,21 @@ class SecretStep implements StepInterface
     public function getTemplate()
     {
         return 'SensioDistributionBundle:Configurator/Step:secret.html.twig';
+    }
+
+    /**
+     * @see StepInterface
+     */
+    public function getTitle()
+    {
+        return 'Global Secret';
+    }
+
+    /**
+     * @see StepInterface
+     */
+    public function getDescription()
+    {
+        return 'Configure the global secret for your website (the secret is used for the CSRF protection among other things):';
     }
 }
