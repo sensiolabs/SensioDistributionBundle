@@ -1,0 +1,29 @@
+[symfony]
+    remove=README.md phpunit.xml* tests *.sh vendor
+
+[twig]
+    remove=AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
+
+[monolog]
+    remove=README.markdown phpunit.xml* tests
+
+[doctrine-common]
+    remove=build* tests lib/vendor
+
+[doctrine-dbal]
+    remove=bin build* tests lib/vendor
+
+[doctrine-mongodb]
+    remove=README.markdown phpunit.xml* tests lib/vendor
+
+[doctrine-mongodb-odm]
+    remove=README.markdown phpunit.xml* build* doctrine-mongo-mapping.xsd bin tests tools lib/vendor
+
+[doctrine]
+    remove=UPGRADE* build* bin tests tools lib/vendor
+
+[swiftmailer]
+    remove=CHANGES README* build* docs notes test-suite tests create_pear_package.php package*
+
+[twig-extensions]
+    remove=README doc phpunit.xml* test

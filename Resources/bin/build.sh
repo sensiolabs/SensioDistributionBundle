@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# This file is part of the Symfony Standard Edition.
+# This file is part of the Symfony package.
 #
 # (c) Fabien Potencier <fabien@symfony.com>
 #
@@ -10,6 +10,7 @@
 DIR=`php -r "echo realpath(dirname(\\$_SERVER['argv'][0]));"`
 cd $DIR
 VERSION=`grep 'VERSION' vendor/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
+APP=${1:-Symfony}
 
 if [ ! -d "$DIR/build" ]; then
     mkdir -p $DIR/build
@@ -18,19 +19,12 @@ fi
 $DIR/vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
 $DIR/app/console assets:install web/
 
-# Without vendors
-rm -rf /tmp/Symfony
-mkdir /tmp/Symfony
-cp -r app /tmp/Symfony/
-cp -r bin /tmp/Symfony/
-cp -r src /tmp/Symfony/
-cp -r web /tmp/Symfony/
-cp -r README.md /tmp/Symfony/
-cp -r LICENSE /tmp/Symfony/
-cp -r deps /tmp/Symfony/
-cp -r deps.lock /tmp/Symfony/
-cd /tmp/Symfony
-sudo rm -rf app/cache/* app/logs/* .git*
+# without vendors
+rm -rf /tmp/$APP;
+mkdir /tmp/$APP;
+cp -r $DIR/* /tmp/$APP;
+cd /tmp/$APP;
+sudo rm -rf build vendor app/cache/* app/logs/* .git* .DS_Store;
 chmod 777 app/cache app/logs
 
 # DS_Store cleanup
@@ -40,49 +34,53 @@ cd ..
 # avoid the creation of ._* files
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
 export COPYFILE_DISABLE=true
-tar zcpf $DIR/build/Symfony_Standard_$VERSION.tgz Symfony
-sudo rm -f $DIR/build/Symfony_Standard_$VERSION.zip
-zip -rq $DIR/build/Symfony_Standard_$VERSION.zip Symfony
+tar zcpf $DIR/build/${APP}_$VERSION.tgz $APP
+sudo rm -f $DIR/build/${APP}_$VERSION.zip
+zip -rq $DIR/build/${APP}_$VERSION.zip $APP
 
-# With vendors
-cd $DIR
-rm -rf /tmp/vendor
-mkdir /tmp/vendor
-TARGET=/tmp/vendor
+# with vendors
+rm -rf /tmp/vendor;
+mkdir /tmp/vendor;
+TARGET=/tmp/vendor;
 
 if [ ! -d "$DIR/vendor" ]; then
-    echo "The master vendor directory does not exist"
-    exit
+echo "The master vendor directory does not exist"
+exit
 fi
 
 cp -r $DIR/vendor/* $TARGET/
 
-# Doctrine ORM
-cd $TARGET/doctrine && rm -rf UPGRADE* build* bin tests tools lib/vendor
-
-# Doctrine DBAL
-cd $TARGET/doctrine-dbal && rm -rf bin build* tests lib/vendor
-
-# Doctrine Common
-cd $TARGET/doctrine-common && rm -rf build* tests lib/vendor
-
-# Swiftmailer
-cd $TARGET/swiftmailer && rm -rf CHANGES README* build* docs notes test-suite tests create_pear_package.php package*
-
-# Symfony
-cd $TARGET/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
-
-# Twig
-cd $TARGET/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
-
-# Twig Extensions
-cd $TARGET/twig-extensions && rm -rf README doc phpunit.xml* test
-
-# Monolog
-cd $TARGET/monolog && rm -rf README.markdown phpunit.xml* tests
-
-# Metadata
-cd $TARGET/metadata && rm -rf README.rst phpunit.xml* tests
+# parse dept.ini and cleanup vendors
+DEPS=("$DIR/vendor/bundles/Sensio/Bundle/DistributionBundle/deps" "$DIR/deps")
+for deps in "${DEPS[@]}"; do
+    if [ -r "$deps" ]; then
+        exec < "$deps"
+        while read section; do
+            if [[ "$section" =~ \[.*\] ]]; then
+                section=`echo $section | sed 's/.\(.*\)./\1/g'`
+                eval `sed -e 's/[[:space:]]*\=[[:space:]]*/=/g' \
+                          -e 's/;.*$//' \
+                          -e 's/[[:space:]]*$//' \
+                          -e 's/^[[:space:]]*//' \
+                          -e "s/^\(.*\)=\([^\"']*\)$/\1=\"\2\"/" \
+                          < "$deps" \
+                          | sed -n -e "/^\[$section\]/,/^\s*\[/{/^[^;].*\=.*/p;}"`
+                if [ ${remove+0} ]; then
+                    if [ ${target+0} ]; then
+                       target="$TARGET/$target"
+                    else
+                       target="$TARGET/$section"
+                    fi
+                    if [ -r "$target" ]; then
+                        cd $target && rm -rf $remove
+                    fi
+                fi
+                unset remove
+                unset target
+            fi
+        done
+    fi
+done
 
 # cleanup
 find $TARGET -name .git | xargs rm -rf -
@@ -91,7 +89,9 @@ find $TARGET -name .gitmodules | xargs rm -rf -
 find $TARGET -name .svn | xargs rm -rf -
 
 cd /tmp/
-mv /tmp/vendor /tmp/Symfony/
-tar zcpf $DIR/build/Symfony_Standard_Vendors_$VERSION.tgz Symfony
-sudo rm -f $DIR/build/Symfony_Standard_Vendors_$VERSION.zip
-zip -rq $DIR/build/Symfony_Standard_Vendors_$VERSION.zip Symfony
+mv /tmp/vendor /tmp/$APP/
+tar zcpf $DIR/build/${APP}_Vendors_$VERSION.tgz $APP
+sudo rm -f $DIR/build/${APP}_Vendors_$VERSION.zip
+zip -rq $DIR/build/${APP}_Vendors_$VERSION.zip $APP
+
+rm -rf /tmp/$APP;
