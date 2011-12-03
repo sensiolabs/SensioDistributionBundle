@@ -18,9 +18,6 @@ namespace Sensio\Bundle\DistributionBundle\Configurator\Step;
  */
 abstract class Step implements StepInterface
 {
-    protected $title;
-    protected $description;
-
     public function __construct(array $parameters)
     {
     }
@@ -52,17 +49,17 @@ abstract class Step implements StepInterface
     /**
      * @see StepInterface
      */
-    public function getTemplate()
+    public function update(StepInterface $data)
     {
-        return 'SensioDistributionBundle:Configurator/Step:custom.html.twig';
+        return array();
     }
 
     /**
      * @see StepInterface
      */
-    public function update(StepInterface $data)
+    public function getTemplate()
     {
-        return array();
+        return 'SensioDistributionBundle:Configurator/Step:custom.html.twig';
     }
 
     /**
@@ -72,7 +69,7 @@ abstract class Step implements StepInterface
      */
     public function getTitle()
     {
-        return $this->name;
+        return null;
     }
 
     /**
@@ -82,6 +79,6 @@ abstract class Step implements StepInterface
      */
     public function getDescription()
     {
-        return $this->description;
+        return null;
     }
 }

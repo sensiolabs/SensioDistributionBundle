@@ -13,6 +13,7 @@ namespace Sensio\Bundle\DistributionBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep;
+use Sensio\Bundle\DistributionBundle\Configurator\Step\MailerStep;
 use Sensio\Bundle\DistributionBundle\Configurator\Step\SecretStep;
 
 /**
@@ -27,6 +28,7 @@ class SensioDistributionBundle extends Bundle
     {
         $configurator = $this->container->get('sensio.distribution.webconfigurator');
         $configurator->addStep(new DoctrineStep($configurator->getParameters()));
+        $configurator->addStep(new MailerStep($configurator->getParameters()));
         $configurator->addStep(new SecretStep($configurator->getParameters()));
     }
 }

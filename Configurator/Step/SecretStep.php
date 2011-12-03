@@ -21,9 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class SecretStep extends Step
 {
-    protected $title = 'Global Secret';
-    protected $description = 'Configure the global secret for your website (the secret is used for the CSRF protection among other things):';
-
     /**
      * @Assert\NotBlank
      */
@@ -60,5 +57,21 @@ class SecretStep extends Step
     public function getTemplate()
     {
         return 'SensioDistributionBundle:Configurator/Step:secret.html.twig';
+    }
+
+    /**
+     * @see StepInterface
+     */
+    public function getTitle()
+    {
+        return 'Global Secret';
+    }
+
+    /**
+     * @see StepInterface
+     */
+    public function getDescription()
+    {
+        return 'Configure the global secret for your website (the secret is used for the CSRF protection among other things):';
     }
 }
