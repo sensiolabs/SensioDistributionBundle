@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="{{ asset('bundles/sensiodistribution/webconfigurator/css/configure.css') }}" type="text/css" media="all" />
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="{{ asset('bundles/sensiodistribution/webconfigurator/css/configure.css') }}" />
         <title>{% block title %}Web Configurator Bundle{% endblock %}</title>
-        <link rel="shortcut icon" href="{{ asset('bundles/sensiodistribution/webconfigurator/images/favicon.ico') }}" />
+        <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('bundles/sensiodistribution/webconfigurator/images/favicon.ico') }}" />
     </head>
     <body>
         <div id="symfony-wrapper">
             <div id="symfony-header">
-                <img src="{{ asset("bundles/sensiodistribution/webconfigurator/images/logo-small.gif") }}" alt="Symfony" />
+                <img src="{{ asset("bundles/sensiodistribution/webconfigurator/images/logo-small.gif") }}" alt="Symfony logo" />
             </div>
             <div id="symfony-content">
                 {% block content %}{% endblock %}
