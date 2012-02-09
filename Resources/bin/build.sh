@@ -9,14 +9,11 @@
 
 DIR=`php -r "echo realpath(dirname(\\$_SERVER['argv'][0]));"`
 cd $DIR
-VERSION=`grep 'VERSION' vendor/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
+VERSION=`grep 'VERSION' vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
 
 if [ ! -d "$DIR/build" ]; then
     mkdir -p $DIR/build
 fi
-
-$DIR/vendor/bundles/Sensio/Bundle/DistributionBundle/Resources/bin/build_bootstrap.php
-$DIR/app/console assets:install web/
 
 # Without vendors
 rm -rf /tmp/Symfony
@@ -58,31 +55,31 @@ fi
 cp -r $DIR/vendor/* $TARGET/
 
 # Doctrine ORM
-cd $TARGET/doctrine && rm -rf UPGRADE* build* bin tests tools lib/vendor
+cd $TARGET/doctrine/orm && rm -rf UPGRADE* build* bin tests tools lib/vendor
 
 # Doctrine DBAL
-cd $TARGET/doctrine-dbal && rm -rf bin build* tests lib/vendor
+cd $TARGET/doctrine/dbal && rm -rf bin build* tests lib/vendor
 
 # Doctrine Common
-cd $TARGET/doctrine-common && rm -rf build* tests lib/vendor
+cd $TARGET/doctrine/common && rm -rf build* tests lib/vendor
 
 # Swiftmailer
-cd $TARGET/swiftmailer && rm -rf CHANGES README* build* docs notes test-suite tests create_pear_package.php package*
+cd $TARGET/swiftmailer/swiftmailer && rm -rf CHANGES README* build* docs notes test-suite tests create_pear_package.php package*
 
 # Symfony
-cd $TARGET/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
+cd $TARGET/symfony/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
 
 # Twig
-cd $TARGET/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
+cd $TARGET/twig/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
 
 # Twig Extensions
-cd $TARGET/twig-extensions && rm -rf README doc phpunit.xml* test
+cd $TARGET/twig/extensions && rm -rf README doc phpunit.xml* test
 
 # Monolog
-cd $TARGET/monolog && rm -rf README.markdown phpunit.xml* tests
+cd $TARGET/monolog/monolog && rm -rf README.markdown phpunit.xml* tests
 
 # Metadata
-cd $TARGET/metadata && rm -rf README.rst phpunit.xml* tests
+cd $TARGET/jms/metadata && rm -rf README.rst phpunit.xml* tests
 
 # cleanup
 find $TARGET -name .git | xargs rm -rf -
