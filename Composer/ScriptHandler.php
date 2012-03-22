@@ -22,8 +22,8 @@ class ScriptHandler
 {
     public static function buildBootstrap($event)
     {
-        $extra = $event->getComposer()->getPackage()->getExtra();
-        $appDir = $extra['symfony-app-dir'];
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.'.PHP_EOL;
@@ -35,8 +35,8 @@ class ScriptHandler
 
     public static function clearCache($event)
     {
-        $extra = $event->getComposer()->getPackage()->getExtra();
-        $appDir = $extra['symfony-app-dir'];
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.'.PHP_EOL;
@@ -48,9 +48,10 @@ class ScriptHandler
 
     public static function installAssets($event)
     {
-        $extra = $event->getComposer()->getPackage()->getExtra();
-        $appDir = $extra['symfony-app-dir'];
-        $webDir = $extra['symfony-web-dir'];
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+        $webDir = $options['symfony-web-dir'];
+        $symlink = $options['symfony-symlink-assets'] ? '--symlink ' : '';
 
         if (!is_dir($webDir)) {
             echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
@@ -96,5 +97,18 @@ class ScriptHandler
 
         $process = new Process($php.' '.$console.' '.$cmd);
         $process->run(function ($type, $buffer) { echo $buffer; });
+    }
+
+    protected static function getOptions($event)
+    {
+        $options = array_merge(array(
+          'symfony-app-dir' => 'app',
+          'symfony-web-dir' => 'web',
+          'symfony-symlink-assets' => false
+        ), $event->getComposer()->getPackage()->getExtra());
+
+        $options['symfony-symlink-assets'] |= getenv('SYMFONY_SYMLINK_ASSETS');
+
+        return $options;
     }
 }
