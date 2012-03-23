@@ -91,7 +91,7 @@ class ScriptHandler
     protected static function executeCommand($appDir, $cmd)
     {
         $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellcmd($phpFinder->find());
+        $php = escapeshellarg($phpFinder->find());
         $console = escapeshellarg($appDir.'/console');
 
         $process = new Process($php.' '.$console.' '.$cmd);
