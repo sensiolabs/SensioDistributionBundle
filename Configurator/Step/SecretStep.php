@@ -28,11 +28,21 @@ class SecretStep implements StepInterface
 
     public function __construct(array $parameters)
     {
-        $this->secret = $parameters['secret'];
+        if (array_key_exists('secret', $parameters)){
+            $this->secret = $parameters['secret'];
 
-        if ('ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
-            $this->secret = hash('sha1', uniqid(mt_rand()));
+            if ('ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
+                $this->secret = $this->generateRandomSecret();
+            }
+        } else {
+            $this->secret = $this->generateRandomSecret();
         }
+
+    }
+
+    private function generateRandomSecret()
+    {
+        return hash('sha1', uniqid(mt_rand()));
     }
 
     /**
