@@ -102,9 +102,9 @@ class ScriptHandler
     protected static function getOptions($event)
     {
         $options = array_merge(array(
-          'symfony-app-dir' => 'app',
-          'symfony-web-dir' => 'web',
-          'symfony-symlink-assets' => false
+            'symfony-app-dir' => 'app',
+            'symfony-web-dir' => 'web',
+            'symfony-symlink-assets' => false
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-symlink-assets'] |= getenv('SYMFONY_SYMLINK_ASSETS');
