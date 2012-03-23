@@ -51,14 +51,18 @@ class ScriptHandler
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
         $webDir = $options['symfony-web-dir'];
-        $symlink = $options['symfony-symlink-assets'] ? '--symlink ' : '';
+
+        $symlink = '';
+        if (in_array($options['symfony-assets-install'], array('symlink', 'relative'))) {
+            $symlink = '--'.$options['symfony-assets-install'].' ';
+        }
 
         if (!is_dir($webDir)) {
             echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
             return;
         }
 
-        static::executeCommand($appDir, 'assets:install '.escapeshellarg($webDir));
+        static::executeCommand($appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
     public static function doBuildBootstrap($appDir)
@@ -104,10 +108,10 @@ class ScriptHandler
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-symlink-assets' => false
+            'symfony-assets-install' => 'hard'
         ), $event->getComposer()->getPackage()->getExtra());
 
-        $options['symfony-symlink-assets'] |= getenv('SYMFONY_SYMLINK_ASSETS');
+        $options['symfony-assets-install'] |= getenv('SYMFONY_ASSETS_INSTALL');
 
         return $options;
     }
