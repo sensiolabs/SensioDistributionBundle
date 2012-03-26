@@ -111,7 +111,7 @@ class ScriptHandler
             'symfony-assets-install' => 'hard'
         ), $event->getComposer()->getPackage()->getExtra());
 
-        $options['symfony-assets-install'] = $options['symfony-assets-install'] ?: getenv('SYMFONY_ASSETS_INSTALL');
+        $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 
         return $options;
     }
