@@ -62,7 +62,9 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
+        $isWindows = strpos(strtolower(php_uname('s')), 'windows') !== false;
+        
+        static::executeCommand($appDir, 'assets:install '.($isWindows ? '' : '--symlink ').escapeshellarg($webDir));
     }
 
     public static function doBuildBootstrap($appDir)
