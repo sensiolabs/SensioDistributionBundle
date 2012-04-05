@@ -53,8 +53,11 @@ class ScriptHandler
         $webDir = $options['symfony-web-dir'];
 
         $symlink = '';
-        if (in_array($options['symfony-assets-install'], array('symlink', 'relative'))) {
-            $symlink = '--'.$options['symfony-assets-install'].' ';
+        if ($options['symfony-assets-install'] == 'symlink') {
+            $symlink = '--symlink ';
+        }
+        elseif ($options['symfony-assets-install'] == 'relative') {
+            $symlink = '--symlink --relative ';
         }
 
         if (!is_dir($webDir)) {
