@@ -55,8 +55,7 @@ class ScriptHandler
         $symlink = '';
         if ($options['symfony-assets-install'] == 'symlink') {
             $symlink = '--symlink ';
-        }
-        elseif ($options['symfony-assets-install'] == 'relative') {
+        } elseif ($options['symfony-assets-install'] == 'relative') {
             $symlink = '--symlink --relative ';
         }
 
