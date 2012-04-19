@@ -30,7 +30,7 @@ class ScriptHandler
             return;
         }
 
-        static::doBuildBootstrap($appDir);
+        static::executeBuildBootstrap($appDir);
     }
 
     public static function clearCache($event)
@@ -102,6 +102,17 @@ class ScriptHandler
         $console = escapeshellarg($appDir.'/console');
 
         $process = new Process($php.' '.$console.' '.$cmd);
+        $process->run(function ($type, $buffer) { echo $buffer; });
+    }
+
+    protected static function executeBuildBootstrap($appDir)
+    {
+        $phpFinder = new PhpExecutableFinder;
+        $php = escapeshellarg($phpFinder->find());
+        $cmd = __DIR__.'/../Resources/bin/build_bootstrap.php';
+        $appDir = escapeshellarg($appDir);
+
+        $process = new Process($php.' '.$cmd.' '.$appDir);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
