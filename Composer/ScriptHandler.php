@@ -112,7 +112,7 @@ class ScriptHandler
         $cmd = __DIR__.'/../Resources/bin/build_bootstrap.php';
         $appDir = escapeshellarg($appDir);
 
-        $process = new Process($php.' '.$cmd.' '.$appDir);
+        $process = new Process($php.' "'.$cmd.'" '.$appDir);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
