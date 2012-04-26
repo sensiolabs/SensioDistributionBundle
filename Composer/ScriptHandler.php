@@ -43,7 +43,7 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($appDir, 'cache:clear --no-warmup');
+        static::executeCommand($event, $appDir, 'cache:clear --no-warmup');
     }
 
     public static function installAssets($event)
@@ -64,7 +64,7 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
+        static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
     public static function doBuildBootstrap($appDir)
@@ -95,11 +95,14 @@ class ScriptHandler
         file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
     }
 
-    protected static function executeCommand($appDir, $cmd)
+    protected static function executeCommand($event, $appDir, $cmd)
     {
         $phpFinder = new PhpExecutableFinder;
         $php = escapeshellarg($phpFinder->find());
         $console = escapeshellarg($appDir.'/console');
+        if ($event->getIO()->isDecorated()) {
+            $console.= ' --ansi';
+        }
 
         $process = new Process($php.' '.$console.' '.$cmd);
         $process->run(function ($type, $buffer) { echo $buffer; });
