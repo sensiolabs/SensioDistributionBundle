@@ -85,8 +85,8 @@ class ScriptHandler
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
             'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
-            'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
             'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
+            'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
             'Symfony\\Component\\Config\\ConfigCache',
             // cannot be included as commands are discovered based on the path to this class via Reflection
             //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
