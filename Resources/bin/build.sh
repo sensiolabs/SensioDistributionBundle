@@ -9,7 +9,7 @@
 
 DIR=`php -r "echo realpath(dirname(\\$_SERVER['argv'][0]));"`
 cd $DIR
-VERSION=`grep 'VERSION' vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
+VERSION=`grep ' VERSION ' vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
 
 if [ ! -d "$DIR/build" ]; then
     mkdir -p $DIR/build
