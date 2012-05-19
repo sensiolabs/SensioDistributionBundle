@@ -27,6 +27,7 @@ class ScriptHandler
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.'.PHP_EOL;
+
             return;
         }
 
@@ -40,6 +41,7 @@ class ScriptHandler
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.'.PHP_EOL;
+
             return;
         }
 
@@ -61,6 +63,7 @@ class ScriptHandler
 
         if (!is_dir($webDir)) {
             echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
+
             return;
         }
 
