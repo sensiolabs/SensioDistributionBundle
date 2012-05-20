@@ -82,6 +82,12 @@ class ScriptHandler
 
         if ($options['assetic-dump-asset-root'] !== null) {
             $arguments = ' '.escapeshellarg($options['assetic-dump-asset-root']);
+
+            if (! is_dir($options['assetic-dump-asset-root'])) {
+                echo 'The assetic-dump-asset-root ('.$options['assetic-dump-asset-root'].') specified in composer.json was not found in '.getcwd().', can not dump assets.'.PHP_EOL;
+
+                return;
+            }
         }
 
         static::executeCommand($event, $appDir, 'assetic:dump' .  $arguments);
