@@ -67,6 +67,23 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
+    public static function dumpAssetic($event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+        $arguments = '';
+
+        if ($options['assetic-dump-force']) {
+            $arguments[] = ' --force';
+        }
+
+        if ($options['assetic-dump-asset-root'] !== null) {
+            $arguments = ' '.escapeshellarg($options['assetic-dump-asset-root']);
+        }
+
+        static::executeCommand($event, $appDir, 'assetic:dump' .  $arguments);
+    }
+
     public static function doBuildBootstrap($appDir)
     {
         $file = $appDir.'/bootstrap.php.cache';
@@ -124,7 +141,9 @@ class ScriptHandler
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
+            'symfony-assets-install' => 'hard',
+            'assetic-dump-asset-root' => null,
+            'assetic-dump-force' => false
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
