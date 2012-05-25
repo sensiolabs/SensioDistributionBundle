@@ -16,7 +16,7 @@ $argv = $_SERVER['argv'];
 if (isset($argv[1])) {
     $appDir = $argv[1];
 } else {
-    if (!$appDir = realpath(__DIR__.'/../../../../../../../../app')) {
+    if (!$appDir = realpath(__DIR__.'/../../../../../../../app')) {
         exit('Looks like you don\'t have a standard layout.');
     }
 }
