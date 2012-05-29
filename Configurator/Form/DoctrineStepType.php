@@ -13,7 +13,7 @@ namespace Sensio\Bundle\DistributionBundle\Configurator\Form;
 
 use Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Doctrine Form Type.
@@ -22,7 +22,7 @@ use Symfony\Component\Form\FormBuilder;
  */
 class DoctrineStepType extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('driver', 'choice', array('choices' => DoctrineStep::getDrivers()))
