@@ -27,7 +27,6 @@ class ScriptHandler
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.'.PHP_EOL;
-
             return;
         }
 
@@ -41,7 +40,6 @@ class ScriptHandler
 
         if (!is_dir($appDir)) {
             echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.'.PHP_EOL;
-
             return;
         }
 
@@ -63,11 +61,33 @@ class ScriptHandler
 
         if (!is_dir($webDir)) {
             echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
-
             return;
         }
 
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
+    }
+
+    public static function dumpAssetic($event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+        $arguments = '';
+
+        if ($options['assetic-dump-force']) {
+            $arguments .= ' --force';
+        }
+
+        if ($options['assetic-dump-asset-root'] !== null) {
+            $arguments .= ' '.escapeshellarg($options['assetic-dump-asset-root']);
+
+            if (!is_dir($options['assetic-dump-asset-root'])) {
+                echo 'The assetic-dump-asset-root ('.$options['assetic-dump-asset-root'].') specified in composer.json was not found in '.getcwd().', can not dump assets.'.PHP_EOL;
+
+                return;
+            }
+        }
+
+        static::executeCommand($event, $appDir, 'assetic:dump' .  $arguments);
     }
 
     public static function doBuildBootstrap($appDir)
@@ -127,7 +147,9 @@ class ScriptHandler
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
+            'symfony-assets-install' => 'hard',
+            'assetic-dump-asset-root' => null,
+            'assetic-dump-force' => false
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
