@@ -87,7 +87,7 @@ class ScriptHandler
             'Symfony\\Component\\HttpKernel\\KernelInterface',
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
-            'Symfony\\Component\\ClassLoader\\UniversalClassLoader',
+            'Symfony\\Component\\ClassLoader\\ApcClassLoader',
             'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
             'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
             'Symfony\\Component\\Config\\ConfigCache',
