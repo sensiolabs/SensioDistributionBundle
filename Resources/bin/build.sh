@@ -19,13 +19,12 @@ fi
 rm -rf /tmp/Symfony
 mkdir /tmp/Symfony
 cp -r app /tmp/Symfony/
-cp -r bin /tmp/Symfony/
 cp -r src /tmp/Symfony/
 cp -r web /tmp/Symfony/
-cp -r README.md /tmp/Symfony/
-cp -r LICENSE /tmp/Symfony/
-cp -r deps /tmp/Symfony/
-cp -r deps.lock /tmp/Symfony/
+cp README.md /tmp/Symfony/
+cp LICENSE /tmp/Symfony/
+cp composer.json /tmp/Symfony/
+cp composer.lock /tmp/Symfony/
 cd /tmp/Symfony
 sudo rm -rf app/cache/* app/logs/* .git*
 chmod 777 app/cache app/logs
@@ -78,8 +77,17 @@ cd $TARGET/twig/extensions && rm -rf README doc phpunit.xml* test
 # Monolog
 cd $TARGET/monolog/monolog && rm -rf README.markdown phpunit.xml* tests
 
-# Metadata
+# Sensio
+cd $TARGET/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/ && rm -rf phpunit.xml* Tests CHANGELOG*
+cd $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle/ && rm -rf phpunit.xml* Tests CHANGELOG*
+cd $TARGET/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/ && rm -rf phpunit.xml* Tests CHANGELOG*
+
+# JMS
 cd $TARGET/jms/metadata && rm -rf README.rst phpunit.xml* tests
+cd $TARGET/jms/cg && rm -rf README.rst phpunit.xml* tests
+cd $TARGET/jms/aop-bundle/JMS/AopBundle && rm -rf phpunit.xml* Tests
+cd $TARGET/jms/di-extra-bundle/JMS/DiExtraBundle && rm -rf phpunit.xml* Tests
+cd $TARGET/jms/security-extra-bundle/JMS/SecurityExtraBundle/ && rm -rf phpunit.xml* Tests
 
 # cleanup
 find $TARGET -name .git | xargs rm -rf -
