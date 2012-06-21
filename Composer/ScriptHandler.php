@@ -95,7 +95,14 @@ class ScriptHandler
             //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
         ), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
-        file_put_contents($file, "<?php\n\nnamespace { require_once __DIR__.'/autoload.php'; }\n\n".substr(file_get_contents($file), 5));
+        file_put_contents($file, sprintf("<?php
+
+namespace { \$loader = require_once __DIR__.'/autoload.php'; }
+
+%s
+
+namespace { return \$loader; }
+            ", substr(file_get_contents($file), 5)));
     }
 
     protected static function executeCommand($event, $appDir, $cmd)
