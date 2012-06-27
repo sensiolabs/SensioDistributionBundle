@@ -114,7 +114,7 @@ namespace { return \$loader; }
             $console.= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd);
+        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, 300);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
@@ -125,7 +125,7 @@ namespace { return \$loader; }
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $appDir = escapeshellarg($appDir);
 
-        $process = new Process($php.' '.$cmd.' '.$appDir);
+        $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, 300);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
