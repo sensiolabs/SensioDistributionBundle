@@ -1,15 +1,15 @@
 {% extends "form_div_layout.html.twig" %}
 
-{% block field_rows %}
+{% block form_rows %}
     <div class="symfony-form-errors">
         {{ form_errors(form) }}
     </div>
-    {% for child in form.children %}
+    {% for child in form %}
         {{ form_row(child) }}
     {% endfor %}
-{% endblock field_rows %}
+{% endblock %}
 
-{% block field_row %}
+{% block form_row %}
     <div class="symfony-form-row">
         {{ form_label(form) }}
         <div class="symfony-form-field">
@@ -21,7 +21,10 @@
     </div>
 {% endblock %}
 
-{% block field_label %}
+{% block form_label %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
     <label for="{{ id }}">
         {{ label|trans }}
         {% if required %}
