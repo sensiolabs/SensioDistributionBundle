@@ -144,7 +144,7 @@ namespace { return \$loader; }
     {
         $phpFinder = new PhpExecutableFinder;
         if (!$phpPath = $phpFinder->find()) {
-            throw new \RuntimeException('php could not be found in your PATH, could not execute console command: '.$cmd);
+            throw new \RuntimeException('The php executable could not be found, add it to your PATH environment variable and try again');
         }
 
         return $phpPath;
