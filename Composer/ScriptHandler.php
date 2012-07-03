@@ -107,8 +107,7 @@ namespace { return \$loader; }
 
     protected static function executeCommand($event, $appDir, $cmd)
     {
-        $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellarg($phpFinder->find());
+        $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console.= ' --ansi';
@@ -120,8 +119,7 @@ namespace { return \$loader; }
 
     protected static function executeBuildBootstrap($appDir)
     {
-        $phpFinder = new PhpExecutableFinder;
-        $php = escapeshellarg($phpFinder->find());
+        $php = escapeshellarg(self::getPhp());
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $appDir = escapeshellarg($appDir);
 
@@ -140,5 +138,15 @@ namespace { return \$loader; }
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 
         return $options;
+    }
+
+    protected static function getPhp()
+    {
+        $phpFinder = new PhpExecutableFinder;
+        if (!$phpPath = $phpFinder->find()) {
+            throw new \RuntimeException('php could not be found in your PATH, could not execute console command: '.$cmd);
+        }
+
+        return $phpPath;
     }
 }
