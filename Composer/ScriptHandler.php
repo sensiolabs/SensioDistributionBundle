@@ -81,16 +81,13 @@ class ScriptHandler
             'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
             // Cannot be included because annotations will parse the big compiled class file
             //'Symfony\\Component\\DependencyInjection\\ContainerAware',
-            'Symfony\\Component\\DependencyInjection\\ContainerInterface',
             'Symfony\\Component\\DependencyInjection\\Container',
-            'Symfony\\Component\\HttpKernel\\HttpKernelInterface',
-            'Symfony\\Component\\HttpKernel\\KernelInterface',
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
             'Symfony\\Component\\ClassLoader\\ApcClassLoader',
-            'Symfony\\Component\\HttpKernel\\Bundle\\BundleInterface',
             'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
             'Symfony\\Component\\Config\\ConfigCache',
+            'Symfony\\Bundle\\FrameworkBundle\\HttpKernel',
             // cannot be included as commands are discovered based on the path to this class via Reflection
             //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
         ), dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
