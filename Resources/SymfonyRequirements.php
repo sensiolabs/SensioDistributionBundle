@@ -397,7 +397,7 @@ class SymfonyRequirements extends RequirementCollection
         $this->addRequirement(
             file_get_contents(__FILE__) == file_get_contents(__DIR__.'/../vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/SymfonyRequirements.php'),
             'Outdated requirements file',
-            'Your requirements file is outdated. It has been replaced now. You must re-check your configuration again.'
+            'Your requirements file is outdated. Run composer install and re-check your configuration.'
         );
 
         $baseDir = basename(__DIR__);
