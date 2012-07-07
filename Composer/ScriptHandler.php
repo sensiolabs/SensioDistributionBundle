@@ -70,7 +70,7 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
-    public static function installRequirementsFile()
+    public static function installRequirementsFile($event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
