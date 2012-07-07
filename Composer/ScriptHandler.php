@@ -70,6 +70,20 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
+    public static function installRequirementsFile()
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not install the requirements file.'.PHP_EOL;
+
+            return;
+        }
+
+        copy(__DIR__.'/../Resources/SymfonyRequirements.php', $appDir.'/SymfonyRequirements.php');
+    }
+
     public static function doBuildBootstrap($appDir)
     {
         $file = $appDir.'/bootstrap.php.cache';
