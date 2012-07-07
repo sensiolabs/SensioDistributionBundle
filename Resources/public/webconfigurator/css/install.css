@@ -56,7 +56,6 @@ h2 {
     padding: 2px 4px;
     display: inline-block;
     text-transform: uppercase;
-
 }
 
 p {
@@ -134,4 +133,16 @@ ul li {
     text-align: right;
     font-size: 10px;
     margin-right: 20px;
+}
+
+.ok {
+    color: #fff;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
+    background-color: #6d6;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.ko {
+    background-color: #d66;
 }
