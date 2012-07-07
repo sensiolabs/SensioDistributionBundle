@@ -81,7 +81,14 @@ class ScriptHandler
             return;
         }
 
-        copy(__DIR__.'/../Resources/SymfonyRequirements.php', $appDir.'/SymfonyRequirements.php');
+        copy(__DIR__.'/../Resources/skeleton/app/SymfonyRequirements.php', $appDir.'/SymfonyRequirements.php');
+        copy(__DIR__.'/../Resources/skeleton/app/check.php', $appDir.'/check.php');
+
+        $webDir = $options['symfony-web-dir'];
+
+        if (is_file($webDir.'/config.php')) {
+            copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php');
+        }
     }
 
     public static function doBuildBootstrap($appDir)
