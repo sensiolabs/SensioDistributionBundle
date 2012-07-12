@@ -31,7 +31,7 @@ class ScriptHandler
             return;
         }
 
-        static::executeBuildBootstrap($appDir);
+        static::executeBuildBootstrap($appDir, $options['process-timeout']);
     }
 
     public static function clearCache($event)
@@ -45,7 +45,7 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($event, $appDir, 'cache:clear --no-warmup');
+        static::executeCommand($event, $appDir, 'cache:clear --no-warmup', $options['process-timeout']);
     }
 
     public static function installAssets($event)
@@ -123,7 +123,7 @@ namespace { return \$loader; }
             ", substr(file_get_contents($file), 5)));
     }
 
-    protected static function executeCommand($event, $appDir, $cmd)
+    protected static function executeCommand($event, $appDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir.'/console');
@@ -131,17 +131,17 @@ namespace { return \$loader; }
             $console.= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, 300);
+        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
-    protected static function executeBuildBootstrap($appDir)
+    protected static function executeBuildBootstrap($appDir, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $appDir = escapeshellarg($appDir);
 
-        $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, 300);
+        $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
     }
 
@@ -154,6 +154,8 @@ namespace { return \$loader; }
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
+
+        $options['process-timeout'] = $event->getComposer()->getConfig()->get('process-timeout');
 
         return $options;
     }
