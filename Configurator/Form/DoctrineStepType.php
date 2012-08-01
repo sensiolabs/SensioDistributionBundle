@@ -26,10 +26,11 @@ class DoctrineStepType extends AbstractType
     {
         $builder
             ->add('driver', 'choice', array('choices' => DoctrineStep::getDrivers()))
-            ->add('name', 'text')
-            ->add('host', 'text')
+            ->add('name', 'text', array('required' => false))
+            ->add('host', 'text', array('required' => false))
+            ->add('path', 'text', array('required' => false))
             ->add('port', 'text', array('required' => false))
-            ->add('user', 'text')
+            ->add('user', 'text', array('required' => false))
             ->add('password', 'repeated', array(
                 'required'        => false,
                 'type'            => 'password',
