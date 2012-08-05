@@ -48,6 +48,8 @@ class DoctrineStep implements StepInterface
 
     public $password;
 
+    public $path;
+
     public function __construct(array $parameters)
     {
         foreach ($parameters as $key => $value) {
