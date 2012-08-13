@@ -133,6 +133,9 @@ namespace { return \$loader; }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command', escapeshellarg($cmd)));
+        }
     }
 
     protected static function executeBuildBootstrap($appDir, $timeout = 300)
@@ -143,6 +146,9 @@ namespace { return \$loader; }
 
         $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException('An error ocurred when generating the bootstrap file.');
+        }
     }
 
     protected static function getOptions($event)
