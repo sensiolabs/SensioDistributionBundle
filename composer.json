@@ -16,5 +16,11 @@
     "autoload": {
         "psr-0": { "Sensio\\Bundle\\DistributionBundle": "" }
     },
-    "target-dir": "Sensio/Bundle/DistributionBundle"
+    "target-dir": "Sensio/Bundle/DistributionBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
 }
