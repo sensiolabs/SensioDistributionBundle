@@ -499,6 +499,12 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         $this->addRecommendation(
+            version_compare($installedPhpVersion, '5.4.0', '!='),
+            'Your project might not work properly ("Cannot dump definitions which have method calls") due to the PHP bug #61453 in PHP 5.4.0',
+            'Install PHP 5.4.1 or newer'
+        );
+
+        $this->addRecommendation(
             version_compare($installedPhpVersion, '5.3.8', '>='),
             sprintf('Annotations might not work properly due to the PHP bug #55156 before PHP 5.3.8 (%s installed)', $installedPhpVersion),
             'Install PHP 5.3.8 or newer if your project uses annotations'
