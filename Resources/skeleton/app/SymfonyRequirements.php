@@ -513,7 +513,7 @@ class SymfonyRequirements extends RequirementCollection
         $this->addRecommendation(
             !(extension_loaded('intl') && null === new IntlDateFormatter()),
             'intl extension should be correctly configured',
-            'If your project uses intl, you must fix it. This problem is typical on PHP 5.3.X x64 WIN build'
+            'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds'
         );
 
         $this->addRecommendation(
