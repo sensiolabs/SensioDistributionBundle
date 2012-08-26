@@ -26,6 +26,7 @@
  * ************** CAUTION **************
  *
  * @author Tobias Schultze <http://tobion.de>
+ * @author Fabien Potencier <fabien@symfony.com>
  */
 class Requirement
 {
@@ -488,6 +489,12 @@ class SymfonyRequirements extends RequirementCollection
             null !== $pcreVersion && $pcreVersion > 8.0,
             sprintf('PCRE extension must be available and at least 8.0 (%s installed)', $pcreVersion ? $pcreVersion : 'not'),
             'Upgrade your <strong>PCRE</strong> extension (8.0+)'
+        );
+
+        $this->addRequirement(
+            version_compare($installedPhpVersion, '5.3.16', '!='),
+            'Symfony won\'t work properly with PHP 5.3.16',
+            'Install PHP 5.3.17 or newer'
         );
 
         /* optional recommendations follow */
