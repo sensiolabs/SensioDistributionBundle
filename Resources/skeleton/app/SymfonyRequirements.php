@@ -483,6 +483,20 @@ class SymfonyRequirements extends RequirementCollection
             'Add "<strong>phar</strong>" to <strong>suhosin.executor.include.whitelist</strong> in php.ini<a href="#phpini">*</a>.'
         );
 
+        if (extension_loaded('xdebug')) {
+            $this->addPhpIniRequirement(
+                'xdebug.show_exception_trace', false, true,
+                'xdebug.show_exception_trace setting must be disabled',
+                'Set the "<strong>xdebug.show_exception_trace</strong>" setting to "Off" in php.ini<a href="#phpini">*</a>.'
+            );
+
+            $this->addPhpIniRequirement(
+                'xdebug.scream', false, true,
+                'xdebug.scream setting must be disabled',
+                'Set the "<strong>xdebug.scream</strong>" setting to "Off" in php.ini<a href="#phpini">*</a>.'
+            );
+        }
+
         $pcreVersion = defined('PCRE_VERSION') ? (float) PCRE_VERSION : null;
 
         $this->addRequirement(
