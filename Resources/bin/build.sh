@@ -37,8 +37,9 @@ cd /tmp/Symfony
 git clone https://github.com/symfony/symfony-standard.git .
 
 # alpha as a minimum stability as we don't want clones
-sed -i '' -e's/"minimum-stability"\: ".*"/"minimum-stability": "alpha"/' composer.json
+sed -i '' -e's/"minimum-stability"\: "dev"/"minimum-stability":       "alpha"/' composer.json
 composer.phar update
+sed -i '' -e's/"minimum-stability"\:       "alpha"/"minimum-stability": "dev"/' composer.json
 
 # cleanup
 sudo rm -rf app/cache/* app/logs/* .git*
