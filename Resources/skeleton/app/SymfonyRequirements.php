@@ -397,19 +397,20 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         $this->addRequirement(
+            version_compare($installedPhpVersion, '5.3.16', '!='),
+            'PHP version must not be 5.3.16 as Symfony won\'t work properly with it',
+            'Install PHP 5.3.17 or newer'
+        );
+
+        $this->addRequirement(
             is_dir(__DIR__.'/../vendor/composer'),
             'Vendor libraries must be installed',
             'Vendor libraries are missing. Install composer following instructions from <a href="http://getcomposer.org/">http://getcomposer.org/</a>. ' .
                 'Then run "<strong>php composer.phar install</strong>" to install them.'
         );
 
-        $this->addRequirement(
-            file_get_contents(__FILE__) == file_get_contents(__DIR__.'/../vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/skeleton/app/SymfonyRequirements.php'),
-            'Outdated requirements file',
-            'Your requirements file is outdated. Run composer install and re-check your configuration.'
-        );
-
         $baseDir = basename(__DIR__);
+
         $this->addRequirement(
             is_writable(__DIR__.'/cache'),
             "$baseDir/cache/ directory must be writable",
@@ -431,8 +432,8 @@ class SymfonyRequirements extends RequirementCollection
         if (version_compare($installedPhpVersion, self::REQUIRED_PHP_VERSION, '>=')) {
             $this->addRequirement(
                 (in_array(date_default_timezone_get(), DateTimeZone::listIdentifiers())),
-                sprintf('Default timezone "%s" is not supported by your installation of PHP', date_default_timezone_get()),
-                'Fix your <strong>php.ini</strong> file (check for typos and have a look at the list of deprecated timezones http://php.net/manual/en/timezones.others.php).'
+                sprintf('Configured default timezone "%s" must be supported by your installation of PHP', date_default_timezone_get()),
+                'Your default timezone is not supported by PHP. Check for typos in your <strong>php.ini</strong> file and have a look at the list of deprecated timezones at <a href="http://php.net/manual/en/timezones.others.php">http://php.net/manual/en/timezones.others.php</a>.'
             );
         }
 
@@ -466,33 +467,39 @@ class SymfonyRequirements extends RequirementCollection
             'Install and enable the <strong>SimpleXML</strong> extension.'
         );
 
-        $this->addRequirement(
-            !(function_exists('apc_store') && ini_get('apc.enabled')) || version_compare(phpversion('apc'), '3.0.17', '>='),
-            'APC version must be at least 3.0.17',
-            'Upgrade your <strong>APC</strong> extension (3.0.17+)'
-        );
+        if (function_exists('apc_store') && ini_get('apc.enabled')) {
+            $this->addRequirement(
+                version_compare(phpversion('apc'), '3.0.17', '>='),
+                'APC version must be at least 3.0.17',
+                'Upgrade your <strong>APC</strong> extension (3.0.17+).'
+            );
+        }
 
         $this->addPhpIniRequirement('detect_unicode', false);
 
-        $this->addPhpIniRequirement(
-            'suhosin.executor.include.whitelist',
-            create_function('$cfgValue', 'return false !== stripos($cfgValue, "phar");'),
-            true,
-            'suhosin.executor.include.whitelist must be configured correctly in php.ini',
-            'Add "<strong>phar</strong>" to <strong>suhosin.executor.include.whitelist</strong> in php.ini<a href="#phpini">*</a>.'
-        );
+        ob_start();
+        phpinfo();
+        $phpinfo = ob_get_contents();
+        ob_end_clean();
+
+        // the phpinfo check is necessary when Suhosin is compiled into PHP
+        if (extension_loaded('suhosin') || false !== strpos($phpinfo, 'Suhosin')) {
+            $this->addPhpIniRequirement(
+                'suhosin.executor.include.whitelist',
+                create_function('$cfgValue', 'return false !== stripos($cfgValue, "phar");'),
+                false,
+                'suhosin.executor.include.whitelist must be configured correctly in php.ini',
+                'Add "<strong>phar</strong>" to <strong>suhosin.executor.include.whitelist</strong> in php.ini<a href="#phpini">*</a>.'
+            );
+        }
 
         if (extension_loaded('xdebug')) {
             $this->addPhpIniRequirement(
-                'xdebug.show_exception_trace', false, true,
-                'xdebug.show_exception_trace setting must be disabled',
-                'Set the "<strong>xdebug.show_exception_trace</strong>" setting to "Off" in php.ini<a href="#phpini">*</a>.'
+                'xdebug.show_exception_trace', false, true
             );
 
             $this->addPhpIniRequirement(
-                'xdebug.scream', false, true,
-                'xdebug.scream setting must be disabled',
-                'Set the "<strong>xdebug.scream</strong>" setting to "Off" in php.ini<a href="#phpini">*</a>.'
+                'xdebug.scream', false, true
             );
         }
 
@@ -501,39 +508,33 @@ class SymfonyRequirements extends RequirementCollection
         $this->addRequirement(
             null !== $pcreVersion && $pcreVersion > 8.0,
             sprintf('PCRE extension must be available and at least 8.0 (%s installed)', $pcreVersion ? $pcreVersion : 'not'),
-            'Upgrade your <strong>PCRE</strong> extension (8.0+)'
-        );
-
-        $this->addRequirement(
-            version_compare($installedPhpVersion, '5.3.16', '!='),
-            'Symfony won\'t work properly with PHP 5.3.16',
-            'Install PHP 5.3.17 or newer'
+            'Upgrade your <strong>PCRE</strong> extension (8.0+).'
         );
 
         /* optional recommendations follow */
 
         $this->addRecommendation(
+            file_get_contents(__FILE__) === file_get_contents(__DIR__.'/../vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/skeleton/app/SymfonyRequirements.php'),
+            'Requirements file should be up-to-date',
+            'Your requirements file is outdated. Run composer install and re-check your configuration.'
+        );
+
+        $this->addRecommendation(
             version_compare($installedPhpVersion, '5.3.4', '>='),
-            sprintf('Your project might not work properly ("Notice: Trying to get property of non-object") due to the PHP bug #52083 before PHP 5.3.4 (%s installed)', $installedPhpVersion),
-            'Install PHP 5.3.4 or newer'
+            'You should use at least PHP 5.3.4 due to PHP bug #52083 in earlier versions',
+            'Your project might malfunction randomly due to PHP bug #52083 ("Notice: Trying to get property of non-object"). Install PHP 5.3.4 or newer.'
+        );
+        
+        $this->addRecommendation(
+            version_compare($installedPhpVersion, '5.3.8', '>='),
+            'When using annotations you should have at least PHP 5.3.8 due to PHP bug #55156',
+            'Install PHP 5.3.8 or newer if your project uses annotations.'
         );
 
         $this->addRecommendation(
             version_compare($installedPhpVersion, '5.4.0', '!='),
-            'Your project might not work properly ("Cannot dump definitions which have method calls") due to the PHP bug #61453 in PHP 5.4.0',
-            'Install PHP 5.4.1 or newer'
-        );
-
-        $this->addRecommendation(
-            version_compare($installedPhpVersion, '5.3.8', '>='),
-            sprintf('Annotations might not work properly due to the PHP bug #55156 before PHP 5.3.8 (%s installed)', $installedPhpVersion),
-            'Install PHP 5.3.8 or newer if your project uses annotations'
-        );
-
-        $this->addRecommendation(
-            !(extension_loaded('intl') && null === new Collator('fr_FR')),
-            'intl extension should be correctly configured',
-            'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds'
+            'You should not use PHP 5.4.0 due to the PHP bug #61453',
+            'Your project might not work properly due to the PHP bug #61453 ("Cannot dump definitions which have method calls"). Install PHP 5.4.1 or newer.'
         );
 
         $this->addRecommendation(
@@ -573,6 +574,14 @@ class SymfonyRequirements extends RequirementCollection
             'intl extension should be available',
             'Install and enable the <strong>intl</strong> extension (used for validators).'
         );
+
+        if (class_exists('Collator')) {
+            $this->addRecommendation(
+                null !== new Collator('fr_FR'),
+                'intl extension should be correctly configured',
+                'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds.'
+            );
+        }
 
         if (class_exists('Locale')) {
             if (defined('INTL_ICU_VERSION')) {
