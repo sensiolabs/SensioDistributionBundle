@@ -399,7 +399,7 @@ class SymfonyRequirements extends RequirementCollection
         $this->addRequirement(
             version_compare($installedPhpVersion, '5.3.16', '!='),
             'PHP version must not be 5.3.16 as Symfony won\'t work properly with it',
-            'Install PHP 5.3.17 or newer'
+            'Install PHP 5.3.17 or newer (or downgrade to an earlier PHP version)'
         );
 
         $this->addRequirement(
