@@ -35,6 +35,7 @@ mkdir /tmp/Symfony
 # Clone
 cd /tmp/Symfony
 git clone https://github.com/symfony/symfony-standard.git .
+git reset --hard origin/2.1
 
 # alpha as a minimum stability as we don't want clones
 sed -i '' -e's/"minimum-stability"\: "dev"/"minimum-stability":       "alpha"/' composer.json
