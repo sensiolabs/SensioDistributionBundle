@@ -123,6 +123,20 @@ namespace { return \$loader; }
             ", substr(file_get_contents($file), 5)));
     }
 
+    public static function dumpAssetic($event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not dump assets.'.PHP_EOL;
+
+            return;
+        }
+
+        static::executeCommand($event, $appDir, 'assetic:dump', $options['process-timeout']);
+    }
+
     protected static function executeCommand($event, $appDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
