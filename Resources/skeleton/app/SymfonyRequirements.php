@@ -518,7 +518,7 @@ class SymfonyRequirements extends RequirementCollection
             'You should use at least PHP 5.3.4 due to PHP bug #52083 in earlier versions',
             'Your project might malfunction randomly due to PHP bug #52083 ("Notice: Trying to get property of non-object"). Install PHP 5.3.4 or newer.'
         );
-        
+
         $this->addRecommendation(
             version_compare($installedPhpVersion, '5.3.8', '>='),
             'When using annotations you should have at least PHP 5.3.8 due to PHP bug #55156',
