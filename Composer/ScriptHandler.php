@@ -81,6 +81,7 @@ class ScriptHandler
             return;
         }
 
+        copy(__DIR__.'/../Resources/skeleton/app/AppRequirements.php.dist', $appDir.'/AppRequirements.php.dist');
         copy(__DIR__.'/../Resources/skeleton/app/SymfonyRequirements.php', $appDir.'/SymfonyRequirements.php');
         copy(__DIR__.'/../Resources/skeleton/app/check.php', $appDir.'/check.php');
 

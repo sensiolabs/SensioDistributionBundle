@@ -1,0 +1,36 @@
+<?php
+
+/*
+ * This file is part of the Symfony package.
+ *
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+/*
+ * Users of PHP 5.2 should be able to run the requirements checks.
+ * This is why the file and all classes must be compatible with PHP 5.2+
+ * (e.g. not using namespaces and closures).
+ */
+
+/**
+ * To add your own requirements to app/check.php, copy this file to
+ * app/AppRequirements.php and add requirements to the constructor. See below 
+ * for examples.
+ *
+ * Do not edit the contents of this file directly. It will be overriden by
+ * Composer on the next install/update.
+ */
+
+require_once dirname(__FILE__).'/SymfonyRequirements.php';
+
+class AppRequirements extends RequirementCollection
+{
+    public function __construct()
+    {
+        // $this->addRequirement(); 
+        // $this->addRecommendation();
+    }
+}
