@@ -4,6 +4,13 @@ require_once dirname(__FILE__).'/SymfonyRequirements.php';
 
 $symfonyRequirements = new SymfonyRequirements();
 
+if (file_exists(dirname(__FILE__).'/AppRequirements.php')) {
+    require_once dirname(__FILE__).'/AppRequirements.php';
+    $appRequirements = new AppRequirements();
+} else {
+    $appRequirements = null;
+}
+
 $iniPath = $symfonyRequirements->getPhpIniConfigPath();
 
 echo "********************************\n";
@@ -29,20 +36,32 @@ foreach ($symfonyRequirements->getRequirements() as $req) {
     echo_requirement($req);
 }
 
+if ($appRequirements) {
+    foreach ($appRequirements->getRequirements() as $req) {
+        echo_requirement($req, 'App requirement: ');
+    }
+}
+
 echo_title('Optional recommendations');
 
 foreach ($symfonyRequirements->getRecommendations() as $req) {
     echo_requirement($req);
 }
 
+if ($appRequirements) {
+    foreach ($appRequirements->getRecommendations() as $req) {
+        echo_requirement($req, 'App recommendation: ');
+    }
+}
+
 /**
  * Prints a Requirement instance
  */
-function echo_requirement(Requirement $requirement)
+function echo_requirement(Requirement $requirement, $prefix = '')
 {
     $result = $requirement->isFulfilled() ? 'OK' : ($requirement->isOptional() ? 'WARNING' : 'ERROR');
     echo ' ' . str_pad($result, 9);
-    echo $requirement->getTestMessage() . "\n";
+    echo $prefix . $requirement->getTestMessage() . "\n";
 
     if (!$requirement->isFulfilled()) {
         echo sprintf("          %s\n\n", $requirement->getHelpText());
