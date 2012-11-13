@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="{{ asset('bundles/sensiodistribution/webconfigurator/css/configure.css') }}" />
-        <title>{% block title %}Web Configurator Bundle{% endblock %}</title>
-        <link rel="icon" type="image/x-icon" sizes="16x16" href="{{ asset('bundles/sensiodistribution/webconfigurator/images/favicon.ico') }}" />
-    </head>
-    <body>
-        <div id="symfony-wrapper">
-            <div id="symfony-header">
-                <img src="{{ asset("bundles/sensiodistribution/webconfigurator/images/logo-small.gif") }}" alt="Symfony logo" />
-            </div>
-            <div id="symfony-content">
-                {% block content %}{% endblock %}
-            </div>
-            <div class="version">Symfony Standard Edition v.{{ version }}</div>
-        </div>
-    </body>
-</html>
+{% extends "TwigBundle::layout.html.twig" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ asset('bundles/sensiodistribution/webconfigurator/css/configurator.css') }}" />
+{% endblock %}
+
+{% block title 'Web Configurator Bundle' %}
+
+{% block body %}
+    <div class="block">
+        {% block content %}{% endblock %}
+    </div>
+    <div class="version">Symfony Standard Edition v.{{ version }}</div>
+{% endblock %}
