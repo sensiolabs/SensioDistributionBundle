@@ -4,28 +4,39 @@
 
 {% block content %}
     {% form_theme form "SensioDistributionBundle::Configurator/form.html.twig" %}
-    {% include "SensioDistributionBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
 
-    <h1>Configure your Database</h1>
-    <p>If your website needs a database connection, please configure it here.</p>
+    <div class="step">
+        {% include "SensioDistributionBundle::Configurator/steps.html.twig" with { "index": index, "count": count } %}
 
-    {{ form_errors(form) }}
-    <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
-        <div class="symfony-form-column">
-            {{ form_row(form.driver) }}
-            {{ form_row(form.host) }}
-            {{ form_row(form.name) }}
-        </div>
-        <div class="symfony-form-column">
-            {{ form_row(form.user) }}
-            {{ form_row(form.password) }}
-        </div>
+        <h1>Configure your Database</h1>
+        <p>If your website needs a database connection, please configure it here.</p>
 
-        {{ form_rest(form) }}
+        {{ form_errors(form) }}
+        <form action="{{ path('_configurator_step', { 'index': index }) }}" method="POST">
+            <div class="symfony-form-column">
+                {{ form_row(form.driver) }}
+                {{ form_row(form.host) }}
+                {{ form_row(form.name) }}
+            </div>
+            <div class="symfony-form-column">
+                {{ form_row(form.user) }}
+                {{ form_row(form.password) }}
+            </div>
 
-        <div class="symfony-form-footer">
-            <p><input type="submit" value="Next Step" class="symfony-button-grey" /></p>
-            <p>* mandatory fields</p>
-        </div>
-    </form>
+            {{ form_rest(form) }}
+
+            <div class="symfony-form-footer">
+                <p>
+                    <button type="submit" class="sf-button">
+                        <span class="border-l">
+                            <span class="border-r">
+                                <span class="btn-bg">NEXT STEP</span>
+                            </span>
+                        </span>
+                    </button>
+                </p>
+                <p>* mandatory fields</p>
+            </div>
+        </form>
+    </div>
 {% endblock %}
