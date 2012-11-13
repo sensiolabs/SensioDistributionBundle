@@ -1,52 +1,12 @@
-/*
-Copyright (c) 2010, Yahoo! Inc. All rights reserved.
-Code licensed under the BSD License:
-http://developer.yahoo.com/yui/license.html
-version: 2.8.2r1
-
-Reset
-*/
-
-html{color:#000;background:#FFF;}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0;}table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var,optgroup{font-style:inherit;font-weight:inherit;}del,ins{text-decoration:none;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}q:before,q:after{content:'';}abbr,acronym{border:0;font-variant:normal;}sup{vertical-align:baseline;}sub{vertical-align:baseline;}legend{color:#000;}input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit;}input,button,textarea,select{*font-size:100%;}
-
-html, body {
-    background-color: #EFEFEF;
-}
-
 body {
     font-size: 14px;
     font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
-    color: #313131;
 }
-
-a {
-    color: #08C;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-strong {
-    font-weight: bold;
-}
-
-em {
-    font-style: italic;
-}
-
-h1, h2, h3 {
-    font-family: Georgia, "Times New Roman", Times, serif;
-    color: #404040;
-}
-
-h1 {
+.sf-reset h1.title {
     font-size: 45px;
     padding-bottom: 30px;
 }
-
-h2 {
+.sf-reset h2 {
     font-weight: bold;
     color: #FFFFFF;
     /* Font is reset to sans-serif (like body) */
@@ -57,92 +17,58 @@ h2 {
     display: inline-block;
     text-transform: uppercase;
 }
-
-p {
-    line-height: 20px;
-    padding-bottom: 20px;
-}
-
-ul a {
+.sf-reset ul a,
+.sf-reset ul a:hover {
     background: url(../images/blue-arrow.png) no-repeat right 6px;
     padding-right: 10px;
 }
-
-ul, ol {
+.sf-reset ul, ol {
     padding-left: 20px;
 }
-
-li {
+.sf-reset li {
     padding-bottom: 18px;
 }
-
-ol li {
+.sf-reset ol li {
     list-style-type: decimal;
 }
-
-ul li {
+.sf-reset ul li {
     list-style-type: none;
 }
-
-#symfony-header {
-    position: relative;
-    padding: 30px 30px 20px 30px;
-}
-
-#symfony-wrapper {
-    width: 970px;
-    margin: 0 auto;
-    padding-top: 50px;
-}
-
-#symfony-content {
-    background-color: white;
-    border: 1px solid #DFDFDF;
-    padding: 50px;
-    -moz-border-radius: 16px;
-    -webkit-border-radius: 16px;
-    border-radius: 16px;
-    margin-bottom: 5px;
-}
-
-
-.symfony-blocks-install {
+.sf-reset .symfony-blocks-install {
     overflow: hidden;
 }
-
-.symfony-blocks-install .symfony-block-logo {
-    float: left;
-    width: 358px;
-}
-
-.symfony-blocks-install .symfony-block-content {
-    float: left;
-    width: 510px;
-}
-
-.symfony-install-continue {
+.sf-reset .symfony-install-continue {
     font-size: 0.95em;
     padding-left: 0;
 }
-
-.symfony-install-continue li {
+.sf-reset .symfony-install-continue li {
     padding-bottom: 10px;
 }
-
-.version {
-    text-align: right;
-    font-size: 10px;
-    margin-right: 20px;
-}
-
-.ok {
+.sf-reset .ok {
     color: #fff;
     font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
     background-color: #6d6;
     padding: 10px;
     margin-bottom: 20px;
 }
-
-.ko {
+.sf-reset .ko {
     background-color: #d66;
+}
+.version {
+    text-align: right;
+    font-size: 10px;
+    margin-right: 20px;
+}
+.sf-reset a,
+.sf-reset li a {
+    color: #08C;
+    text-decoration: none;
+}
+.sf-reset a:hover,
+.sf-reset li a:hover {
+    color: #08C;
+    text-decoration: underline;
+}
+.sf-reset textarea {
+    padding: 7px;
 }
