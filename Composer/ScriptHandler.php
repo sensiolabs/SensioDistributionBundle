@@ -128,7 +128,7 @@ namespace { return \$loader; }
         $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir.'/console');
         if ($event->getIO()->isDecorated()) {
-            $console.= ' --ansi';
+            $console .= ' --ansi';
         }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
