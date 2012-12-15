@@ -80,10 +80,16 @@ class ScriptHandler
         if ($options['assetic-dump-force']) {
             $arguments[] = '--force';
         }
+        
         if ($options['assetic-dump-asset-root'] !== null) {
             $arguments = escapeshellarg($options['assetic-dump-asset-root']);
         }
 
+        if (!is_dir($webDir)) {
+            echo 'The symfony-app-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
+            return;
+        }
+        
         static::executeCommand($event, $appDir, 'assetic:dump' . implode(' ', $arguments));
     }
 
