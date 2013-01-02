@@ -131,6 +131,10 @@ namespace { return \$loader; }
             $console .= ' --ansi';
         }
 
+        if (!$event->isDevMode()) {
+            $console.= ' --env=prod';
+        }
+
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
         if (!$process->isSuccessful()) {
