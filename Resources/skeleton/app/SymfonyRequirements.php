@@ -473,6 +473,12 @@ class SymfonyRequirements extends RequirementCollection
                 'APC version must be at least 3.0.17',
                 'Upgrade your <strong>APC</strong> extension (3.0.17+).'
             );
+
+            $this->addRequirement(
+                version_compare($installedPhpVersion, '5.4.0', '>=') && version_compare(phpversion('apc'), '3.1.13', '>='),
+                'APC version must be at least 3.1.13 when using PHP 5.4',
+                'Upgrade your <strong>APC</strong> extension (3.1.13+).'
+            );
         }
 
         $this->addPhpIniRequirement('detect_unicode', false);
