@@ -14,13 +14,22 @@ namespace Sensio\Bundle\DistributionBundle\Composer;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
+use Composer\Script\CommandEvent;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */
 class ScriptHandler
 {
-    public static function buildBootstrap($event)
+    /**
+     * Builds the bootstrap file.
+     *
+     * The bootstrap file contains PHP file that are always needed by the application.
+     * It speeds up the application bootstrapping.
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function buildBootstrap(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -34,7 +43,12 @@ class ScriptHandler
         static::executeBuildBootstrap($appDir, $options['process-timeout']);
     }
 
-    public static function clearCache($event)
+    /**
+     * Clears the Symfony cache.
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function clearCache(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -48,7 +62,19 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'cache:clear --no-warmup', $options['process-timeout']);
     }
 
-    public static function installAssets($event)
+    /**
+     * Installs the assets under the web root directory.
+     *
+     * For better interoperability, assets are copied instead of symlinked by default.
+     *
+     * Even if symlinks work on Windows, this is only true on Windows Vista and later,
+     * but then, only when running the console with admin rights or when disabling the
+     * strict user permission checks (which can be done on Windows 7 but not on Windows
+     * Vista).
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function installAssets(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -70,7 +96,12 @@ class ScriptHandler
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
 
-    public static function installRequirementsFile($event)
+    /**
+     * Updated the requirements file.
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function installRequirementsFile(CommandEvent $event)
     {
         $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
@@ -123,7 +154,7 @@ namespace { return \$loader; }
             ", substr(file_get_contents($file), 5)));
     }
 
-    protected static function executeCommand($event, $appDir, $cmd, $timeout = 300)
+    protected static function executeCommand(CommandEvent $event, $appDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
         $console = escapeshellarg($appDir.'/console');
@@ -151,7 +182,7 @@ namespace { return \$loader; }
         }
     }
 
-    protected static function getOptions($event)
+    protected static function getOptions(CommandEvent $event)
     {
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
