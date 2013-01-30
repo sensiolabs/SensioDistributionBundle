@@ -495,6 +495,14 @@ class SymfonyRequirements extends RequirementCollection
             $this->addPhpIniRequirement(
                 'xdebug.scream', false, true
             );
+            
+            $this->addPhpIniRecommendation(
+                'xdebug.max_nesting_level', 
+                create_function('$cfgValue', 'return $cfgValue > 100;'),
+                true, 
+                'xdebug.max_nesting_level should be above 100 in php.ini', 
+                'Set "<strong>xdebug.max_nesting_level</strong>" to e.g. "<strong>250</strong>" in php.ini<a href="#phpini">*</a> to stop Xdebug\'s infinite recursion protection erroneously throwing a fatal error in your project.'
+            );
         }
 
         $pcreVersion = defined('PCRE_VERSION') ? (float) PCRE_VERSION : null;
