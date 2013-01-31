@@ -28,7 +28,7 @@ class SecretStep implements StepInterface
 
     public function __construct(array $parameters)
     {
-        if (array_key_exists('secret', $parameters)){
+        if (array_key_exists('secret', $parameters)) {
             $this->secret = $parameters['secret'];
 
             if ('ThisTokenIsNotSoSecretChangeIt' == $this->secret) {
