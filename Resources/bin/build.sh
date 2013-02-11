@@ -43,9 +43,17 @@ git clone https://github.com/symfony/symfony-standard.git .
 git reset --hard origin/$2
 
 # alpha as a minimum stability as we don't want clones
-sed -i '' -e's/"minimum-stability"\: "dev"/"minimum-stability":       "alpha"/' composer.json
+CHANGED=0
+if grep '"minimum-stability": "dev"' composer.json; then
+    CHANGED=1
+    sed -i '' -e's/"minimum-stability"\: "dev"/"minimum-stability": "alpha"/' composer.json
+fi
+
 composer.phar update
-sed -i '' -e's/"minimum-stability"\:       "alpha"/"minimum-stability": "dev"/' composer.json
+
+if [ $CHANGED == 0 ]; then
+    sed -i '' -e's/"minimum-stability"\: "alpha"/"minimum-stability": "dev"/' composer.json
+fi;
 
 # cleanup
 sudo rm -rf app/cache/* app/logs/* .git*
