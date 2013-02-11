@@ -12,6 +12,11 @@ if [ ! $1 ]; then
     exit 1
 fi
 
+if [ ! $2 ]; then
+    echo "\033[37;41mYou must pass the branch to build\033[0m"
+    exit 1
+fi
+
 DIR=$1
 CURRENT=`php -r "echo realpath(dirname(\\$_SERVER['argv'][0]));"`
 
@@ -35,7 +40,7 @@ mkdir /tmp/Symfony
 # Clone
 cd /tmp/Symfony
 git clone https://github.com/symfony/symfony-standard.git .
-git reset --hard origin/master
+git reset --hard origin/$2
 
 # alpha as a minimum stability as we don't want clones
 sed -i '' -e's/"minimum-stability"\: "dev"/"minimum-stability":       "alpha"/' composer.json
