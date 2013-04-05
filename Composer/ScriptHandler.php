@@ -117,7 +117,7 @@ class ScriptHandler
 
         $webDir = $options['symfony-web-dir'];
 
-        if (is_file($webDir.'/config.php')) {
+        if (!file_exists($webDir.'/config.php')) {
             copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php');
         }
     }
