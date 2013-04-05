@@ -86,6 +86,8 @@ class ScriptHandler
 
         $webDir = $options['symfony-web-dir'];
 
+        // if the user has already removed the config.php file, do nothing
+        // as the file must be removed for production use
         if (is_file($webDir.'/config.php')) {
             copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php');
         }
