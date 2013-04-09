@@ -95,6 +95,29 @@ class ScriptHandler
 
         static::executeCommand($event, $appDir, 'assets:install '.$symlink.escapeshellarg($webDir));
     }
+    
+    public static function dumpAssets($event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        $arguments = array();
+        
+        if ($options['assetic-dump-force']) {
+            $arguments[] = '--force';
+        }
+        
+        if ($options['assetic-dump-asset-root'] !== null) {
+            $arguments = escapeshellarg($options['assetic-dump-asset-root']);
+        }
+
+        if (!is_dir($webDir)) {
+            echo 'The symfony-app-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
+            return;
+        }
+        
+        static::executeCommand($event, $appDir, 'assetic:dump' . implode(' ', $arguments));
+    }
 
     /**
      * Updated the requirements file.
@@ -201,7 +224,9 @@ namespace { return \$loader; }
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
+            'symfony-assets-install' => 'hard',
+            'assetic-dump-asset-root' => null,
+            'assetic-dump-force' => false
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
