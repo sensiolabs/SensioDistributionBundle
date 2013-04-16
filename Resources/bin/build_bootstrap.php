@@ -11,8 +11,7 @@
  */
 
 if (PHP_SAPI !== 'cli') {
-    echo __FILE__.' should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
-    exit(1);
+    echo 'Warning: '.__FILE__.' should be invoked via the CLI version of PHP, not the '.PHP_SAPI.' SAPI'.PHP_EOL;
 }
 
 $argv = $_SERVER['argv'];
