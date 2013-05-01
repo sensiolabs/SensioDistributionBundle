@@ -42,7 +42,7 @@ cd /tmp/Symfony
 git clone https://github.com/symfony/symfony-standard.git .
 git reset --hard origin/$2
 
-composer.phar update --prefer-dist
+composer.phar update --prefer-dist -n
 
 # cleanup
 sudo rm -rf app/cache/* app/logs/* .git*
@@ -60,13 +60,6 @@ cd $TARGET/doctrine/orm && rm -rf UPGRADE* build* bin tests tools lib/vendor
 cd $TARGET/doctrine/dbal && rm -rf bin build* tests lib/vendor
 cd $TARGET/doctrine/common && rm -rf build* tests lib/vendor
 cd $TARGET/doctrine/doctrine-bundle && rm -rf Doctrine/Bundle/DoctrineBundle/Tests Doctrine/Bundle/DoctrineBundle/Resources/doc
-
-# JMS
-cd $TARGET/jms/metadata && rm -rf README.rst phpunit.xml* tests
-cd $TARGET/jms/cg && rm -rf README.rst phpunit.xml* tests
-cd $TARGET/jms/aop-bundle/JMS/AopBundle && rm -rf phpunit.xml* Tests Resources/doc
-cd $TARGET/jms/di-extra-bundle/JMS/DiExtraBundle && rm -rf phpunit.xml* Tests Resources/doc
-cd $TARGET/jms/security-extra-bundle/JMS/SecurityExtraBundle && rm -rf phpunit.xml* Tests Resources/doc
 
 # kriswallsmith
 cd $TARGET/kriswallsmith/assetic && rm -rf CHANGELOG* phpunit.xml* tests docs
