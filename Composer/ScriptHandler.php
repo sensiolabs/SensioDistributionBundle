@@ -132,6 +132,14 @@ class ScriptHandler
         }
 
         $classes = array(
+            'Symfony\\Component\\HttpFoundation\\ParameterBag',
+            'Symfony\\Component\\HttpFoundation\\HeaderBag',
+            'Symfony\\Component\\HttpFoundation\\FileBag',
+            'Symfony\\Component\\HttpFoundation\\ServerBag',
+            'Symfony\\Component\\HttpFoundation\\Request',
+            'Symfony\\Component\\HttpFoundation\\Response',
+            'Symfony\\Component\\HttpFoundation\\ResponseHeaderBag',
+
             'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
             // Cannot be included because annotations will parse the big compiled class file
             //'Symfony\\Component\\DependencyInjection\\ContainerAware',
