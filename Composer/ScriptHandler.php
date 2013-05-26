@@ -59,7 +59,11 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($event, $appDir, 'cache:clear --no-warmup', $options['process-timeout']);
+        if (!$options['symfony-cache-warmup']) {
+            $warmup = ' --no-warmup';
+        }
+
+        static::executeCommand($event, $appDir, 'cache:clear'.$warmup, $options['process-timeout']);
     }
 
     /**
@@ -209,7 +213,8 @@ namespace { return \$loader; }
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
+            'symfony-assets-install' => 'hard',
+            'symfony-cache-warmup' => false,
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
