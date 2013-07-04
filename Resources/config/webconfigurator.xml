@@ -9,7 +9,7 @@
     </parameters>
 
     <services>
-        <service id="sensio_distribution.webconfigurator" class="%sensio.distribution.webconfigurator.class%">
+        <service id="sensio_distribution.webconfigurator" class="%sensio_distribution.webconfigurator.class%">
             <argument>%kernel.root_dir%</argument>
         </service>
 
