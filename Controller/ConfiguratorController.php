@@ -26,7 +26,7 @@ class ConfiguratorController extends ContainerAware
      */
     public function stepAction($index = 0)
     {
-        $configurator = $this->container->get('sensio.distribution.webconfigurator');
+        $configurator = $this->container->get('sensio_distribution.webconfigurator');
 
         $step = $configurator->getStep($index);
         $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
@@ -58,7 +58,7 @@ class ConfiguratorController extends ContainerAware
 
     public function checkAction()
     {
-        $configurator = $this->container->get('sensio.distribution.webconfigurator');
+        $configurator = $this->container->get('sensio_distribution.webconfigurator');
 
         // Trying to get as much requirements as possible
         $majors = $configurator->getRequirements();
@@ -80,7 +80,7 @@ class ConfiguratorController extends ContainerAware
 
     public function finalAction()
     {
-        $configurator = $this->container->get('sensio.distribution.webconfigurator');
+        $configurator = $this->container->get('sensio_distribution.webconfigurator');
         $configurator->clean();
 
         try {
