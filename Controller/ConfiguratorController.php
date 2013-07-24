@@ -98,7 +98,7 @@ class ConfiguratorController extends ContainerAware
         ));
     }
 
-    public function getVersion()
+    protected function getVersion()
     {
         $kernel = $this->container->get('kernel');
 
