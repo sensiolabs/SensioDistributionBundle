@@ -104,17 +104,6 @@ class ScriptHandler
     public static function installRequirementsFile(CommandEvent $event)
     {
         $options = self::getOptions($event);
-        $appDir = $options['symfony-app-dir'];
-
-        if (!is_dir($appDir)) {
-            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not install the requirements file.'.PHP_EOL;
-
-            return;
-        }
-
-        copy(__DIR__.'/../Resources/skeleton/app/SymfonyRequirements.php', $appDir.'/SymfonyRequirements.php');
-        copy(__DIR__.'/../Resources/skeleton/app/check.php', $appDir.'/check.php');
-
         $webDir = $options['symfony-web-dir'];
 
         // if the user has already removed the config.php file, do nothing

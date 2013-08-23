@@ -17,6 +17,7 @@
         "psr-0": { "Sensio\\Bundle\\DistributionBundle": "" }
     },
     "target-dir": "Sensio/Bundle/DistributionBundle",
+    "bin": ["bin/symfony_requirements.php"],
     "extra": {
         "branch-alias": {
             "dev-master": "2.3.x-dev"
