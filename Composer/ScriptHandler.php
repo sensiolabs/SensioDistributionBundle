@@ -183,6 +183,10 @@ namespace { return \$loader; }
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
+        
+        if ($environment = getenv('SYMFONY_ENV')) {
+            $cmd .= ' --env='.$environment;
+        }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) { echo $buffer; });
