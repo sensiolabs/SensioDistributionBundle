@@ -35,12 +35,12 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.'.PHP_EOL;
+            $event->getIO()->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.');
 
             return;
         }
 
-        static::executeBuildBootstrap($appDir, $options['process-timeout']);
+        static::executeBuildBootstrap($event, $appDir, $options['process-timeout']);
     }
 
     /**
@@ -54,7 +54,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.'.PHP_EOL;
+            $event->getIO->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.');
 
             return;
         }
@@ -88,7 +88,7 @@ class ScriptHandler
         }
 
         if (!is_dir($webDir)) {
-            echo 'The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.'.PHP_EOL;
+            $event->getIO->write('The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.');
 
             return;
         }
@@ -107,7 +107,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            echo 'The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not install the requirements file.'.PHP_EOL;
+            $event->getIO->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not install the requirements file.');
 
             return;
         }
@@ -185,20 +185,20 @@ namespace { return \$loader; }
         }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) use($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
     }
 
-    protected static function executeBuildBootstrap($appDir, $timeout = 300)
+    protected static function executeBuildBootstrap(CommandEvent $event, $appDir, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $appDir = escapeshellarg($appDir);
 
         $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) { echo $buffer; });
+        $process->run(function ($type, $buffer) use($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
         }
