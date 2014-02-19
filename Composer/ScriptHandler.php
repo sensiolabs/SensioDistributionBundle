@@ -35,7 +35,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            $event->getIO()->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not build bootstrap file.');
+            $event->getIO()->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not build bootstrap file.', $appDir, getcwd()));
 
             return;
         }
@@ -54,7 +54,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            $event->getIO->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not clear the cache.');
+            $event->getIO->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not clear the cache.', $appDir, getcwd()));
 
             return;
         }
@@ -88,7 +88,7 @@ class ScriptHandler
         }
 
         if (!is_dir($webDir)) {
-            $event->getIO->write('The symfony-web-dir ('.$webDir.') specified in composer.json was not found in '.getcwd().', can not install assets.');
+            $event->getIO->write(sprintf('The symfony-web-dir (%s) specified in composer.json was not found in %s, can not install assets.', $webDir, getcwd()));
 
             return;
         }
@@ -107,7 +107,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            $event->getIO->write('The symfony-app-dir ('.$appDir.') specified in composer.json was not found in '.getcwd().', can not install the requirements file.');
+            $event->getIO->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not install the requirements file.', $appDir, getcwd()));
 
             return;
         }
@@ -185,7 +185,7 @@ namespace { return \$loader; }
         }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use($event) { $event->getIO()->write($buffer, false); });
+        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
@@ -198,7 +198,7 @@ namespace { return \$loader; }
         $appDir = escapeshellarg($appDir);
 
         $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use($event) { $event->getIO()->write($buffer, false); });
+        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
         }
