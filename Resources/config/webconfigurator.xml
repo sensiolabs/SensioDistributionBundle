@@ -6,11 +6,21 @@
 
     <parameters>
         <parameter key="sensio_distribution.webconfigurator.class">Sensio\Bundle\DistributionBundle\Configurator\Configurator</parameter>
+        <parameter key="sensio_distribution.webconfigurator.doctrine_step.class">Sensio\Bundle\DistributionBundle\Configurator\Step\DoctrineStep</parameter>
+        <parameter key="sensio_distribution.webconfigurator.secret_step.class">Sensio\Bundle\DistributionBundle\Configurator\Step\SecretStep</parameter>
     </parameters>
 
     <services>
         <service id="sensio_distribution.webconfigurator" class="%sensio_distribution.webconfigurator.class%">
             <argument>%kernel.root_dir%</argument>
+        </service>
+
+        <service id="sensio_distribution.webconfigurator.doctrine_step" class="%sensio_distribution.webconfigurator.doctrine_step.class%" public="false">
+            <tag name="webconfigurator.step" priority="10" />
+        </service>
+
+        <service id="sensio_distribution.webconfigurator.secret_step" class="%sensio_distribution.webconfigurator.secret_step.class%" public="false">
+            <tag name="webconfigurator.step" />
         </service>
 
         <!-- deprecated, kept for BC -->
