@@ -681,6 +681,14 @@ class SymfonyRequirements extends RequirementCollection
 
         $this->addPhpIniRecommendation('session.auto_start', false);
 
+        $this->addPhpIniRecommendation(
+            'session.gc_probability',
+            function ($probability) { return (int) $probability > 0; },
+            true,
+            'Symfony will not flush your configured cache session folder',
+            'You should provide a cron job for cleaning it'
+        );
+
         $this->addRecommendation(
             class_exists('PDO'),
             'PDO should be installed',
