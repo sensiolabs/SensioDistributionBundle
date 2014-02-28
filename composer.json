@@ -11,6 +11,7 @@
         }
     ],
     "require": {
+        "php": ">=5.3",
         "symfony/framework-bundle": "~2.2"
     },
     "autoload": {
