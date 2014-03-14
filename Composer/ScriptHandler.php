@@ -158,7 +158,7 @@ class ScriptHandler
         // which won't be included into the cache then.
         // we know that composer autoloader is first (see bin/build_bootstrap.php)
         $autoloaders = spl_autoload_functions();
-        if (is_array($autoloaders[0]) && method_exists( $autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Bundle\\FrameworkBundle\\HttpKernel')) {
+        if (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Bundle\\FrameworkBundle\\HttpKernel')) {
             $classes[] = 'Symfony\\Bundle\\FrameworkBundle\\HttpKernel';
         } else {
             $classes[] = 'Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel';
