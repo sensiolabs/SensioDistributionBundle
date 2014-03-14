@@ -1,0 +1,29 @@
+---------------------------------------------------------------------------
+
+by stof at 2014-01-22T16:01:48Z
+
+This will not work anymore if the autoloader is not a composer autoloader but a Symfony ClassLoader one (for instance the ApcClassLoader wrapper). So the check needs to be adapter
+
+---------------------------------------------------------------------------
+
+by goetas at 2014-01-22T16:10:09Z
+
+There is a lot of similarar autoloaders, so i've used `method_exists`.
+
+---------------------------------------------------------------------------
+
+by stof at 2014-01-22T16:30:38Z
+
+@fabpot you should disable Travis on the repo as there is no tests in it. Having failures because the testsuite cannot be found is a bad contributor experience
+
+---------------------------------------------------------------------------
+
+by fabpot at 2014-01-22T17:08:32Z
+
+@stof Travis is disabled :(
+
+---------------------------------------------------------------------------
+
+by goetas at 2014-01-31T08:49:53Z
+
+News on this?
