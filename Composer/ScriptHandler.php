@@ -12,6 +12,7 @@
 namespace Sensio\Bundle\DistributionBundle\Composer;
 
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Composer\Script\CommandEvent;
@@ -125,6 +126,34 @@ class ScriptHandler
         // as the file must be removed for production use
         if (is_file($webDir.'/config.php')) {
             copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php');
+        }
+    }
+
+    public static function installAcmeDemoBundle(CommandEvent $event)
+    {
+        if (!$event->getIO()->ask('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
+            return;
+        }
+
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        $kernelFile = $appDir.'/AppKernel.php';
+        $rootDir = __DIR__ . '/../../../../../../..';
+
+        $fs = new Filesystem();
+        $fs->mirror(__DIR__.'/../Resources/skeleton/acme-demo-bundle', $rootDir.'/src', null, array('override'));
+
+        $ref = '$bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();';
+        $bundleDeclaration = "\$bundles[] = new Acme\\DemoBundle\\AcmeDemoBundle();";
+        $content = file_get_contents($kernelFile);
+
+        if (false === strpos($content, $bundleDeclaration)) {
+            $updatedContent = str_replace($ref, $bundleDeclaration."\n            ".$ref, $content);
+            if ($content === $updatedContent) {
+                throw new \RuntimeException('Unable to patch %s.', $kernelFile);
+            }
+            $fs->dumpFile($kernelFile, $updatedContent);
         }
     }
 

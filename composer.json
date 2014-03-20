@@ -13,7 +13,8 @@
     "require": {
         "php": ">=5.3.3",
         "symfony/framework-bundle": "~2.2",
-        "symfony/class-loader": "~2.2"
+        "symfony/class-loader": "~2.2",
+        "symfony/filesystem": "~2.2"
     },
     "autoload": {
         "psr-0": { "Sensio\\Bundle\\DistributionBundle": "" }
