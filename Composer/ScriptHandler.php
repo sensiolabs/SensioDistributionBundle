@@ -131,7 +131,7 @@ class ScriptHandler
 
     public static function installAcmeDemoBundle(CommandEvent $event)
     {
-        if (!$event->getIO()->ask('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
+        if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
             return;
         }
 
