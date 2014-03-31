@@ -33,7 +33,7 @@ class SecuredController extends Controller
     }
 
     /**
-     * @Route("/login_check", name="_security_check")
+     * @Route("/login_check", name="_demo_security_check")
      */
     public function securityCheckAction()
     {
