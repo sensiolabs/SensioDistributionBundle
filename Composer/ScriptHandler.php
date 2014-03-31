@@ -129,17 +129,39 @@ class ScriptHandler
         }
     }
 
+    public static function removeSymfonyStandardFiles(CommandEvent $event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            return;
+        }
+
+        if (!is_dir($appDir.'/SymfonyStandard')) {
+            return;
+        }
+
+        $fs = new Filesystem();
+        $fs->remove($appDir.'/SymfonyStandard');
+    }
+
     public static function installAcmeDemoBundle(CommandEvent $event)
     {
+        $rootDir = __DIR__ . '/../../../../../../..';
+        $options = self::getOptions($event);
+
+        if (file_exists($rootDir.'/src/Acme/DemoBundle')) {
+            return;
+        }
+
         if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
             return;
         }
 
-        $options = self::getOptions($event);
         $appDir = $options['symfony-app-dir'];
 
         $kernelFile = $appDir.'/AppKernel.php';
-        $rootDir = __DIR__ . '/../../../../../../..';
 
         $fs = new Filesystem();
         $fs->mirror(__DIR__.'/../Resources/skeleton/acme-demo-bundle', $rootDir.'/src', null, array('override'));
@@ -155,6 +177,69 @@ class ScriptHandler
             }
             $fs->dumpFile($kernelFile, $updatedContent);
         }
+
+        self::patchAcmeDemoBundleConfiguration($appDir, $fs);
+    }
+
+    private static function patchAcmeDemoBundleConfiguration($appDir, Filesystem $fs)
+    {
+        $routingFile = $appDir.'/config/routing_dev.yml';
+        $securityFile = $appDir.'/config/security.yml';
+
+        if ('' !== trim(file_get_contents($securityFile))) {
+            throw new \RuntimeException('Security configuration contains directive, aborting update.');
+        }
+
+        $routingData = file_get_contents($routingFile).<<<EOF
+
+# AcmeDemoBundle routes (to be removed)
+_acme_demo:
+    resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+EOF;
+        $fs->dumpFile($routingFile, $routingData);
+
+        $securityData = <<<EOF
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
+                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        demo_login:
+            pattern:  ^/demo/secured/login$
+            security: false
+
+        demo_secured_area:
+            pattern:    ^/demo/secured/
+            form_login:
+                check_path: _demo_security_check
+                login_path: _demo_login
+            logout:
+                path:   _demo_logout
+                target: _demo
+            #anonymous: ~
+            #http_basic:
+            #    realm: "Secured Demo Area"
+
+    access_control:
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+EOF;
+
+        $fs->dumpFile($securityFile, $securityData);
     }
 
     public static function doBuildBootstrap($appDir)

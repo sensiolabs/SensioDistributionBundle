@@ -11,7 +11,7 @@
         <div class="error">{{ error.message }}</div>
     {% endif %}
 
-    <form action="{{ path("_security_check") }}" method="post" id="login">
+    <form action="{{ path("_demo_security_check") }}" method="post" id="login">
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="_username" value="{{ last_username }}" />
