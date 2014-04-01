@@ -155,7 +155,7 @@ class ScriptHandler
             return;
         }
 
-        if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
+        if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [y/N] ', false)) {
             return;
         }
 
