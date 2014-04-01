@@ -22,8 +22,6 @@ use Composer\Script\CommandEvent;
  */
 class ScriptHandler
 {
-    const DEMO_BUNDLE_NOTIFIER = '/.demo-bundle';
-
     /**
      * Builds the bootstrap file.
      *
@@ -136,11 +134,9 @@ class ScriptHandler
         $rootDir = __DIR__ . '/../../../../../../..';
         $options = self::getOptions($event);
 
-        if (self::hasDemoBundleBeenProposed($rootDir)) {
+        if (file_exists($rootDir.'/src/Acme/DemoBundle')) {
             return;
         }
-
-        touch($rootDir.self::DEMO_BUNDLE_NOTIFIER);
 
         if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [yes/NO] ', false)) {
             return;
@@ -329,17 +325,5 @@ namespace { return \$loader; }
         }
 
         return $phpPath;
-    }
-
-    /**
-     * Returns whether the demo bundle install has already been proposed.
-     *
-     * @param $rootDir The path to the var dir
-     *
-     * @return Boolean
-     */
-    protected static function hasDemoBundleBeenProposed($rootDir)
-    {
-        return file_exists($rootDir.self::DEMO_BUNDLE_NOTIFIER);
     }
 }
