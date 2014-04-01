@@ -129,6 +129,23 @@ class ScriptHandler
         }
     }
 
+    public static function removeSymfonyStandardFiles(CommandEvent $event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            return;
+        }
+
+        if (!is_dir($appDir.'/SymfonyStandard')) {
+            return;
+        }
+
+        $fs = new Filesystem();
+        $fs->remove($appDir.'/SymfonyStandard');
+    }
+
     public static function installAcmeDemoBundle(CommandEvent $event)
     {
         $rootDir = __DIR__ . '/../../../../../../..';
@@ -168,6 +185,10 @@ class ScriptHandler
     {
         $routingFile = $appDir.'/config/routing_dev.yml';
         $securityFile = $appDir.'/config/security.yml';
+
+        if ('' !== trim(file_get_contents($securityFile))) {
+            throw new \RuntimeException('Security configuration contains directive, aborting update.');
+        }
 
         $routingData = file_get_contents($routingFile).<<<EOF
 
