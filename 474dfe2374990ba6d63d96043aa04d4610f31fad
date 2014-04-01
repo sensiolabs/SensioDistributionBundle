@@ -1,0 +1,5 @@
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-03-31T14:30:00Z
+
+I've updated the PR. It addresses @stof comment. I've also dropped the use of the Yaml component.
