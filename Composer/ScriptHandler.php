@@ -161,6 +161,8 @@ class ScriptHandler
             }
         }
 
+        $event->getIO()->write('Installing the Acme demo bundle.');
+
         $appDir = $options['symfony-app-dir'];
 
         $kernelFile = $appDir.'/AppKernel.php';
