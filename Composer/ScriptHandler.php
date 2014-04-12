@@ -155,8 +155,10 @@ class ScriptHandler
             return;
         }
 
-        if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [y/N] ', false)) {
-            return;
+        if (!getenv('SENSIOLABS_FORCE_ACME_DEMO')) {
+            if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [y/N] ', false)) {
+                return;
+            }
         }
 
         $appDir = $options['symfony-app-dir'];
