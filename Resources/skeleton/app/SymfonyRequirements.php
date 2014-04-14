@@ -463,12 +463,6 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         $this->addRequirement(
-            function_exists('filter_var'),
-            'filter_var() must be available',
-            'Install and enable the <strong>filter</strong> extension.'
-        );
-
-        $this->addRequirement(
             function_exists('token_get_all'),
             'token_get_all() must be available',
             'Install and enable the <strong>Tokenizer</strong> extension.'
@@ -604,6 +598,12 @@ class SymfonyRequirements extends RequirementCollection
             function_exists('utf8_decode'),
             'utf8_decode() should be available',
             'Install and enable the <strong>XML</strong> extension.'
+        );
+
+        $this->addRecommendation(
+            function_exists('filter_var'),
+            'filter_var() should be available',
+            'Install and enable the <strong>filter</strong> extension.'
         );
 
         if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
