@@ -60,6 +60,7 @@ class ScriptHandler
             return;
         }
 
+        $warmup = '';
         if (!$options['symfony-cache-warmup']) {
             $warmup = ' --no-warmup';
         }
