@@ -55,7 +55,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            $event->getIO->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not clear the cache.', $appDir, getcwd()));
+            $event->getIO()->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not clear the cache.', $appDir, getcwd()));
 
             return;
         }
@@ -94,7 +94,7 @@ class ScriptHandler
         }
 
         if (!is_dir($webDir)) {
-            $event->getIO->write(sprintf('The symfony-web-dir (%s) specified in composer.json was not found in %s, can not install assets.', $webDir, getcwd()));
+            $event->getIO()->write(sprintf('The symfony-web-dir (%s) specified in composer.json was not found in %s, can not install assets.', $webDir, getcwd()));
 
             return;
         }
@@ -113,7 +113,7 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
 
         if (!is_dir($appDir)) {
-            $event->getIO->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not install the requirements file.', $appDir, getcwd()));
+            $event->getIO()->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not install the requirements file.', $appDir, getcwd()));
 
             return;
         }
