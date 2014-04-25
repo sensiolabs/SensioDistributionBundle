@@ -19,6 +19,7 @@ use Composer\Script\CommandEvent;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
+ * @author Saša Stamenković <umpirsky@gmail.com>
  */
 class ScriptHandler
 {
@@ -69,6 +70,35 @@ class ScriptHandler
     }
 
     /**
+     * Make cache and logs directories writable.
+     *
+     * @param $event CommandEvent
+     */
+    public static function setPermissions(CommandEvent $event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+
+        if (!is_dir($appDir)) {
+            $event->getIO()->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not set permissions.', $appDir, getcwd()));
+
+            return;
+        }
+
+        $cacheDir = isset($options['symfony-cache-dir']) ? $options['symfony-cache-dir'] : $appDir.'/cache';
+        $logsDir = isset($options['symfony-logs-dir']) ? $options['symfony-logs-dir'] : $appDir.'/logs';
+
+        $process = self::runProcess($event, "ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1", $options['process-timeout'], true);
+        $httpdUser = trim($process->getOutput());
+        if (!$httpdUser) {
+            return;
+        }
+
+        self::runProcess($event, sprintf('setfacl -R -m u:"%s":rwX -m u:`whoami`:rwX %s %s', $httpdUser, $cacheDir, $logsDir));
+        self::runProcess($event, sprintf('setfacl -dR -m u:"%s":rwX -m u:`whoami`:rwX %s %s', $httpdUser, $cacheDir, $logsDir));
+    }
+
+    /**
      * Installs the assets under the web root directory.
      *
      * For better interoperability, assets are copied instead of symlinked by default.
@@ -91,6 +121,12 @@ class ScriptHandler
             $symlink = '--symlink ';
         } elseif ($options['symfony-assets-install'] == 'relative') {
             $symlink = '--symlink --relative ';
+        }
+
+        if (!is_dir($appDir)) {
+            $event->getIO()->write(sprintf('The symfony-app-dir (%s) specified in composer.json was not found in %s, can not install assets.', $appDir, getcwd()));
+
+            return;
         }
 
         if (!is_dir($webDir)) {
@@ -307,11 +343,7 @@ namespace { return \$loader; }
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
-        }
+        self::runProcess($event, $php.' '.$console.' '.$cmd, $timeout);
     }
 
     protected static function executeBuildBootstrap(CommandEvent $event, $appDir, $timeout = 300)
@@ -320,11 +352,26 @@ namespace { return \$loader; }
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $appDir = escapeshellarg($appDir);
 
-        $process = new Process($php.' '.$cmd.' '.$appDir, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException('An error occurred when generating the bootstrap file.');
+        try {
+            self::runProcess($event, $php.' '.$cmd.' '.$appDir, $timeout);
+        } catch (\Exception $e) {
+            throw new \RuntimeException('An error occurred when generating the bootstrap file.', 0, $e);
         }
+    }
+
+    protected static function runProcess(CommandEvent $event, $cmd, $timeout = 300, $quiet = false)
+    {
+        $process = new Process($cmd, null, null, null, $timeout);
+        $process->run(function ($type, $buffer) use ($event, $quiet) {
+            if (!$quiet) {
+                $event->getIO()->write($buffer, false);
+            }
+        });
+        if (!$process->isSuccessful()) {
+            throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
+        }
+
+        return $process;
     }
 
     protected static function getOptions(CommandEvent $event)
