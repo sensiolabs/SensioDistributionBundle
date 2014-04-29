@@ -191,10 +191,6 @@ class ScriptHandler
         $routingFile = $appDir.'/config/routing_dev.yml';
         $securityFile = $appDir.'/config/security.yml';
 
-        if ('' !== trim(file_get_contents($securityFile))) {
-            throw new \RuntimeException('Security configuration contains directive, aborting update.');
-        }
-
         $routingData = file_get_contents($routingFile).<<<EOF
 
 # AcmeDemoBundle routes (to be removed)
