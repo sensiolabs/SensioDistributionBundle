@@ -12,9 +12,17 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "symfony/framework-bundle": "~2.3",
-        "symfony/class-loader": "~2.3",
-        "symfony/filesystem": "~2.3"
+        "symfony/framework-bundle": "~2.2",
+        "symfony/class-loader": "~2.2",
+        "symfony/config": "~2.2",
+        "symfony/dependency-injection": "~2.2",
+        "symfony/form": "~2.2",
+        "symfony/http-kernel": "~2.2",
+        "symfony/http-foundation": "~2.2",
+        "symfony/filesystem": "~2.2",
+        "symfony/process": "~2.2",
+        "symfony/validator": "~2.2",
+        "symfony/yaml": "~2.2"
     },
     "autoload": {
         "psr-0": { "Sensio\\Bundle\\DistributionBundle": "" }
