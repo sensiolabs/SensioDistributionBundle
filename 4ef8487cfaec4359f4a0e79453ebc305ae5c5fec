@@ -1,0 +1,45 @@
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-03-31T14:32:56Z
+
+@fabpot The code already use `askConfirmation` method. Let me know if anything is missing
+
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-04-03T15:13:25Z
+
+PR rebased
+
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-05-09T12:00:16Z
+
+I just updated the PR:
+It now uses the existence of the `symfony-var-dir` configuration in `composer.json`'s extras to use the "new directory structure" strategy.
+
+We need to know this information (whether to use the new dir struct or not) on composer install / update because it runs `Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::buildBootstrap` that need the correct bootstrap path to proceed.
+
+---------------------------------------------------------------------------
+
+by sstok at 2014-05-09T12:41:17Z
+
+Seems good to me :+1:
+
+---------------------------------------------------------------------------
+
+by pyrech at 2014-05-09T13:05:35Z
+
+Good job!
+I could be wrong, but shouldn't the .travis.yml of the standard-edition be updated to remove the "-c app" option from the "script" config?
+
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-05-09T13:09:32Z
+
+@pyrech this is right
+
+---------------------------------------------------------------------------
+
+by romainneutron at 2014-05-09T13:55:50Z
+
+PR updated, now updating `.travis.yml` file too
