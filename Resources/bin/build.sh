@@ -33,6 +33,7 @@ fi
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
 export COPYFILE_DISABLE=true
 export SENSIOLABS_FORCE_ACME_DEMO=true
+export SENSIOLABS_DISABLE_NEW_DIRECTORY_STRUCTURE=true
 
 # Temp dir
 rm -rf /tmp/Symfony
