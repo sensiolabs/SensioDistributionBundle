@@ -23,6 +23,18 @@ use Composer\Script\CommandEvent;
 class ScriptHandler
 {
     /**
+     * Composer variables are declared static so that an event could update
+     * a composer.json and set new options, making them immediately available
+     * to forthcoming listeners.
+     */
+    private static $options = array(
+        'symfony-app-dir' => 'app',
+        'symfony-web-dir' => 'web',
+        'symfony-assets-install' => 'hard',
+        'symfony-cache-warmup' => false,
+    );
+
+    /**
      * Asks if the new directory structure should be used, installs the structure if needed.
      *
      * @param CommandEvent $event
@@ -38,11 +50,8 @@ class ScriptHandler
         $rootDir = __DIR__ . '/../../../../../../..';
         $appDir = $options['symfony-app-dir'];
         $webDir = $options['symfony-web-dir'];
-        $binDir = $options['symfony-bin-dir'] = 'bin';
-        $varDir = $options['symfony-var-dir'] = 'var';
-
-        // make new options such as symfony-var-dir available for other listener in this event
-        $event->getComposer()->getPackage()->setExtra(array_replace($event->getComposer()->getPackage()->getExtra(), $options));
+        $binDir = self::$options['symfony-bin-dir'] = 'bin';
+        $varDir = self::$options['symfony-var-dir'] = 'var';
 
         static::updateDirectoryStructure($event, $rootDir, $appDir, $binDir, $varDir, $webDir);
     }
@@ -446,12 +455,7 @@ EOF;
 
     protected static function getOptions(CommandEvent $event)
     {
-        $options = array_merge(array(
-            'symfony-app-dir' => 'app',
-            'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard',
-            'symfony-cache-warmup' => false,
-        ), $event->getComposer()->getPackage()->getExtra());
+        $options = array_merge(self::$options, $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 
