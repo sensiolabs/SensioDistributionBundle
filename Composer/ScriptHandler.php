@@ -47,7 +47,7 @@ class ScriptHandler
             return;
         }
 
-        $rootDir = __DIR__ . '/../../../../../../..';
+        $rootDir = getcwd();
         $appDir = $options['symfony-app-dir'];
         $webDir = $options['symfony-web-dir'];
         $binDir = self::$options['symfony-bin-dir'] = 'bin';
@@ -212,7 +212,7 @@ class ScriptHandler
 
     public static function installAcmeDemoBundle(CommandEvent $event)
     {
-        $rootDir = __DIR__ . '/../../../../../../..';
+        $rootDir = getcwd();
         $options = self::getOptions($event);
 
         if (file_exists($rootDir.'/src/Acme/DemoBundle')) {
@@ -397,7 +397,7 @@ namespace { return \$loader; }
             $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
         }
 
-        $process = new Process($php.' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, null, null, null, $timeout);
+        $process = new Process($php.' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');

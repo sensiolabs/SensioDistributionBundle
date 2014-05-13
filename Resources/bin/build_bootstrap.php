@@ -40,13 +40,14 @@ if (isset($argv[1])) {
     }
 }
 
+$rootDir = __DIR__.'/../../../../../../../..';
 if (null === $autoloadDir) {
-    $autoloadDir = getRealpath(__DIR__.'/../../../../../../../../app', 'Looks like you don\'t have a standard layout.');
+    $autoloadDir = getRealpath($rootDir.'/app', 'Looks like you don\'t have a standard layout.');
 }
 if (null === $bootstrapDir) {
     $bootstrapDir = $autoloadDir;
-    if (file_exists(__DIR__.'/../../../../../../../../var/'.ScriptHandler::NEW_STRUCTURE_NOTIFIER)) {
-        $bootstrapDir = getRealpath(__DIR__.'/../../../../../../../../var');
+    if (file_exists($rootDir.'/var/'.ScriptHandler::NEW_STRUCTURE_NOTIFIER)) {
+        $bootstrapDir = getRealpath($rootDir.'/var');
     }
 }
 
