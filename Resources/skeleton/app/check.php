@@ -16,7 +16,7 @@ echo str_repeat('=', $lineSize);
 
 echo_title('Looking for the INI configuration file used by PHP');
 
-echo $iniPath ? $iniPath.PHP_EOL : 'WARNING: No configuration file (php.ini) used by PHP!'.PHP_EOL;
+echo $iniPath ? $iniPath : 'WARNING: No configuration file (php.ini) used by PHP!';
 
 echo_title('Checking mandatory requirements:');
 
@@ -78,9 +78,6 @@ echo '      server using the web/config.php script.'.PHP_EOL;
 
 exit($checkPassed ? 0 : 1);
 
-/**
- * Prints a Requirement instance
- */
 function getHelpText(Requirement $requirement)
 {
     if ($requirement->isFulfilled()) {
@@ -101,4 +98,5 @@ function echo_result($message, $lineSize)
     echo str_repeat('=', $lineSize).PHP_EOL;
     echo $message.PHP_EOL;
     echo str_repeat('=', $lineSize).PHP_EOL;
+    sleep(1);
 }
