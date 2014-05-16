@@ -71,7 +71,7 @@ if (!empty($message['W'])) {
     }
 }
 
-echo PHP_EOL.'Note  the command console could use a diffrent php.ini file'.PHP_EOL;
+echo PHP_EOL.'Note  the command console could use a different php.ini file'.PHP_EOL;
 echo '~~~~  than the one used with your web server. To be on the'.PHP_EOL;
 echo '      safe side, please check the requirements from your web'.PHP_EOL;
 echo '      server using the web/config.php script.'.PHP_EOL;
