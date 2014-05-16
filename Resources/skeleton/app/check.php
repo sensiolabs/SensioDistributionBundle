@@ -21,12 +21,12 @@ echo $iniPath ? $iniPath : 'WARNING: No configuration file (php.ini) used by PHP
 echo_title('Checking mandatory requirements:');
 
 $checkPassed = true;
-$message = array();
+$messages = array();
 foreach ($symfonyRequirements->getRequirements() as $req) {
     /** @var $req Requirement */
-    if ($helpText = getHelpText($req)) {
+    if ($helpText = getErrorMessage($req)) {
         echo 'E';
-        $message['E'][] = $helpText;
+        $messages['error'][] = $helpText;
     } else {
         echo '.';
     }
@@ -39,34 +39,34 @@ foreach ($symfonyRequirements->getRequirements() as $req) {
 echo_title('Checking optional recommendations:');
 
 foreach ($symfonyRequirements->getRecommendations() as $req) {
-    if ($helpText = getHelpText($req)) {
+    if ($helpText = getErrorMessage($req)) {
         echo 'W';
-        $message['W'][] = $helpText;
+        $messages['warning'][] = $helpText;
     } else {
         echo '.';
     }
 }
 
-if (empty($message['E'])) {
+if (empty($messages['error'])) {
     echo_result($okMessage, $lineSize);
 }
 
-if (!empty($message['E'])) {
+if (!empty($messages['error'])) {
     echo_result($errorMessage, $lineSize);
 
     echo PHP_EOL.'Fix the following mandatory requirements'.PHP_EOL;
     echo str_repeat('-', $lineSize).PHP_EOL;
 
-    foreach ($message['E'] as $helpText) {
+    foreach ($messages['error'] as $helpText) {
         echo '  * '.$helpText.PHP_EOL;
     }
 }
 
-if (!empty($message['W'])) {
+if (!empty($messages['warning'])) {
     echo PHP_EOL.'(Optional) Fix the following recommendations'.PHP_EOL;
     echo str_repeat('-', $lineSize).PHP_EOL;
 
-    foreach ($message['W'] as $helpText) {
+    foreach ($messages['warning'] as $helpText) {
         echo '  * '.$helpText.PHP_EOL;
     }
 }
@@ -78,13 +78,13 @@ echo '      server using the web/config.php script.'.PHP_EOL;
 
 exit($checkPassed ? 0 : 1);
 
-function getHelpText(Requirement $requirement)
+function getErrorMessage(Requirement $requirement)
 {
     if ($requirement->isFulfilled()) {
         return;
     }
 
-    return $requirement->getHelpText();
+    return $requirement->getTestMessage().PHP_EOL.'    -> '.$requirement->getHelpText();
 }
 
 function echo_title($title)
