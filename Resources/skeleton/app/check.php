@@ -46,11 +46,11 @@ foreach ($symfonyRequirements->getRecommendations() as $req) {
 }
 
 if (empty($messages['error'])) {
-    echo_result($okMessage, $lineSize);
+    echo_result($okMessage, $lineSize, 'ok');
 }
 
 if (!empty($messages['error'])) {
-    echo_result($errorMessage, $lineSize);
+    echo_result($errorMessage, $lineSize, 'error');
 
     echo PHP_EOL.'Fix the following mandatory requirements'.PHP_EOL;
     echo str_repeat('~', $lineSize).PHP_EOL;
@@ -97,12 +97,32 @@ function echo_title($title)
     echo '  ';
 }
 
-function echo_result($message, $lineSize)
+function echo_result($message, $lineSize, $type)
 {
+    // ANSI color codes
+    $colorCodes = array(
+        "none"  => "\033[0m",
+        "ok"    => "\033[32m",
+        "error" => "\033[37;41m",
+    );
+
+    $lineStart = hasColorSupport() ? $colorCodes[$type] : '';
+    $lineEnd   = hasColorSupport() ? $colorCodes['none'].PHP_EOL : PHP_EOL;
+
     echo PHP_EOL.PHP_EOL;
-    echo '+'.str_repeat('-', $lineSize).'+'.PHP_EOL;
-    echo '|'.str_repeat(' ', $lineSize).'|'.PHP_EOL;
-    echo '| '.$message.str_repeat(' ', $lineSize - strlen($message) - 2).' |'.PHP_EOL;
-    echo '|'.str_repeat(' ', $lineSize).'|'.PHP_EOL;
-    echo '+'.str_repeat('-', $lineSize).'+'.PHP_EOL;
+
+    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
+    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
+    echo $lineStart.'| '.$message.str_repeat(' ', $lineSize - strlen($message) - 2).' |'.$lineEnd;
+    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
+    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
+}
+
+function hasColorSupport()
+{
+    if (DIRECTORY_SEPARATOR == '\\') {
+        return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
+    }
+
+    return function_exists('posix_isatty') && @posix_isatty(STDOUT);
 }
