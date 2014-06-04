@@ -415,7 +415,7 @@ class SymfonyRequirements extends RequirementCollection
             is_writable($cacheDir),
             'app/cache/ or var/cache/ directory must be writable',
             'Change the permissions of either "<strong>app/cache/</strong>" or  "<strong>var/cache/</strong>" directory so that the web server can write into it.'
-        )
+        );
 
         $logsDir = is_dir(__DIR__.'/../var/logs') ? __DIR__.'/../var/logs' : __DIR__.'/logs';
 
