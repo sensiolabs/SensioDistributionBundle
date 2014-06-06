@@ -433,7 +433,7 @@ namespace { return \$loader; }
 !var/logs/.gitkeep
 /build/
 /vendor/
-/bin/
+/bin/*
 !bin/console
 !bin/symfony_requirements
 /composer.phar
