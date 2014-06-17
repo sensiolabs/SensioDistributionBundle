@@ -11,11 +11,11 @@
 
 namespace Sensio\Bundle\DistributionBundle\Composer;
 
+use Composer\Script\CommandEvent;
 use Symfony\Component\ClassLoader\ClassCollectionLoader;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;
-use Composer\Script\CommandEvent;
+use Symfony\Component\Process\Process;
 
 /**
  * @author Jordi Boggiano <j.boggiano@seld.be>
@@ -377,6 +377,9 @@ namespace { return \$loader; }
         $console = escapeshellarg($consoleDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
+        }
+        if (false === $event->isDevMode()) {
+            $console .= ' --env=prod';
         }
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
