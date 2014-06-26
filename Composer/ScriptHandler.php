@@ -500,7 +500,6 @@ EOF;
         $options = self::getOptions($event);
 
         if (self::useNewDirectoryStructure($options)) {
-            $varDir = $options['symfony-var-dir'];
             if (!self::hasDirectory($event, 'symfony-bin-dir', $options['symfony-bin-dir'], $actionName)) {
                 return;
             }
