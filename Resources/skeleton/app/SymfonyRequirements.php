@@ -662,7 +662,7 @@ class SymfonyRequirements extends RequirementCollection
         $this->addRecommendation(
             $accelerator,
             'a PHP accelerator should be installed',
-            'Install and enable a <strong>PHP accelerator</strong> like APC (highly recommended).'
+            'Install and/or enable a <strong>PHP accelerator</strong> (highly recommended).'
         );
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
