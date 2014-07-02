@@ -139,9 +139,9 @@ class ScriptHandler
         $webDir = $options['symfony-web-dir'];
 
         $symlink = '';
-        if ($options['symfony-assets-install'] == 'symlink') {
+        if ($options['symfony-assets-install'] == 'symlink' and !defined('PHP_WINDOWS_VERSION_BUILD')) {
             $symlink = '--symlink ';
-        } elseif ($options['symfony-assets-install'] == 'relative') {
+        } elseif ($options['symfony-assets-install'] == 'relative' and !defined('PHP_WINDOWS_VERSION_BUILD')) {
             $symlink = '--symlink --relative ';
         }
 
