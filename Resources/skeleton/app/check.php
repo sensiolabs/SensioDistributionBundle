@@ -2,76 +2,70 @@
 
 require_once dirname(__FILE__).'/SymfonyRequirements.php';
 
+$lineSize = 70;
 $symfonyRequirements = new SymfonyRequirements();
-
-$okMessage = '[OK] Your system is ready to execute Symfony2 projects';
-$errorMessage = '[ERROR] Your system is not ready to execute Symfony2 projects';
-
-$lineSize = strlen($errorMessage) + 2;
-
-echo PHP_EOL;
-echo 'Symfony2 Requirements Checker'.PHP_EOL;
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~';
-
 $iniPath = $symfonyRequirements->getPhpIniConfigPath();
 
-echo_title('Looking for the INI configuration file used by PHP:');
-echo $iniPath ? $iniPath : 'WARNING: No configuration file (php.ini) used by PHP!';
+echo_title('Symfony2 Requirements Checker');
 
-echo_title('Checking Symfony requirements:');
+echo '> Looking for the INI configuration file used by PHP:' . PHP_EOL;
+if ($iniPath) {
+    echo_style('green', '  ' . $iniPath);
+} else {
+    echo_style('warning', '  WARNING: No configuration file (php.ini) used by PHP!');
+}
 
-$checkPassed = true;
+echo PHP_EOL . PHP_EOL;
+
+echo '> Checking Symfony requirements:' . PHP_EOL . '  ';
+
 $messages = array();
 foreach ($symfonyRequirements->getRequirements() as $req) {
     /** @var $req Requirement */
     if ($helpText = getErrorMessage($req, $lineSize)) {
-        echo 'E';
+        echo_style('red', 'E');
         $messages['error'][] = $helpText;
     } else {
-        echo '.';
-    }
-
-    if (!$req->isFulfilled()) {
-        $checkPassed = false;
+        echo_style('green', '.');
     }
 }
+
+$checkPassed = empty($messages['error']);
 
 foreach ($symfonyRequirements->getRecommendations() as $req) {
     if ($helpText = getErrorMessage($req, $lineSize)) {
-        echo 'W';
+        echo_style('yellow', 'W');
         $messages['warning'][] = $helpText;
     } else {
-        echo '.';
+        echo_style('green', '.');
     }
 }
 
-if (empty($messages['error'])) {
-    echo_result($okMessage, $lineSize, 'ok');
-}
+if ($checkPassed) {
+    echo_block('success', 'OK', 'Your system is ready to execute Symfony2 projects', true);
+} else {
+    echo_block('error', 'ERROR', 'Your system is not ready to execute Symfony2 projects', true);
 
-if (!empty($messages['error'])) {
-    echo_result($errorMessage, $lineSize, 'error');
-
-    echo PHP_EOL.'Fix the following mandatory requirements'.PHP_EOL;
-    echo str_repeat('~', $lineSize).PHP_EOL;
+    echo_title('Fix the following mandatory requirements', 'red');
 
     foreach ($messages['error'] as $helpText) {
-        echo ' * '.$helpText.PHP_EOL;
+        echo ' * ' . $helpText . PHP_EOL;
     }
 }
 
 if (!empty($messages['warning'])) {
-    echo PHP_EOL.'Optional recommendations to improve your setup'.PHP_EOL;
-    echo str_repeat('~', $lineSize).PHP_EOL;
+    echo_title('Optional recommendations to improve your setup', 'yellow');
 
     foreach ($messages['warning'] as $helpText) {
-        echo ' * '.$helpText.PHP_EOL;
+        echo ' * ' . $helpText . PHP_EOL;
     }
 }
 
 echo PHP_EOL;
-echo 'Note  the command console could use a different php.ini file'.PHP_EOL;
-echo '~~~~  than the one used with your web server. To be on the'.PHP_EOL;
+echo_style('title', 'Note');
+echo '  the command console could use a different php.ini file'.PHP_EOL;
+echo_style('title', '~~~~');
+echo '  than the one used with your web server. To be on the'.PHP_EOL;
 echo '      safe side, please check the requirements from your web'.PHP_EOL;
 echo '      server using the web/config.php script.'.PHP_EOL;
 echo PHP_EOL;
@@ -90,39 +84,57 @@ function getErrorMessage(Requirement $requirement, $lineSize)
     return $errorMessage;
 }
 
-function echo_title($title)
+function echo_title($title, $style = null)
 {
-    echo PHP_EOL.PHP_EOL;
-    echo '> '.$title.PHP_EOL;
-    echo '  ';
+    $style = $style ?: 'title';
+
+    echo PHP_EOL;
+    echo_style($style, $title . PHP_EOL);
+    echo_style($style, str_repeat('~', strlen($title)) . PHP_EOL);
+    echo PHP_EOL;
 }
 
-function echo_result($message, $lineSize, $type)
+function echo_style($style, $message)
 {
     // ANSI color codes
-    $colorCodes = array(
-        "none"  => "\033[0m",
-        "ok"    => "\033[32m",
-        "error" => "\033[37;41m",
+    $styles = array(
+        'reset' => "\033[0m",
+        'red' => "\033[31m",
+        'green' => "\033[32m",
+        'yellow' => "\033[33m",
+        'error' => "\033[37;41m",
+        'success' => "\033[37;42m",
+        'title' => "\033[1;34m"
     );
+    $supports = hasColorSupport();
 
-    $lineStart = hasColorSupport() ? $colorCodes[$type] : '';
-    $lineEnd   = hasColorSupport() ? $colorCodes['none'].PHP_EOL : PHP_EOL;
+    echo ($supports ? $styles[$style] : '') . $message . ($supports ? $styles['reset'] : '');
+}
 
-    echo PHP_EOL.PHP_EOL;
+function echo_block($style, $title, $message)
+{
+    $message = ' ' . trim($message) . ' ';
+    $width = strlen($message);
 
-    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
-    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
-    echo $lineStart.'| '.$message.str_repeat(' ', $lineSize - strlen($message) - 2).' |'.$lineEnd;
-    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
-    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
+    echo PHP_EOL . PHP_EOL;
+
+    echo_style($style, str_repeat(' ', $width) . PHP_EOL);
+    echo_style($style, str_pad(' [' . $title . ']',  $width, ' ', STR_PAD_RIGHT) . PHP_EOL);
+    echo_style($style, str_pad($message,  $width, ' ', STR_PAD_RIGHT) . PHP_EOL);
+    echo_style($style, str_repeat(' ', $width) . PHP_EOL);
 }
 
 function hasColorSupport()
 {
-    if (DIRECTORY_SEPARATOR == '\\') {
-        return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
+    static $support;
+
+    if (null === $support) {
+        if (DIRECTORY_SEPARATOR == '\\') {
+            $support = false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
+        } else {
+            $support = function_exists('posix_isatty') && @posix_isatty(STDOUT);
+        }
     }
 
-    return function_exists('posix_isatty') && @posix_isatty(STDOUT);
+    return $support;
 }
