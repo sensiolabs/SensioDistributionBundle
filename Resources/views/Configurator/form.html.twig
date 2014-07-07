@@ -28,7 +28,7 @@
     <label for="{{ id }}">
         {{ label|trans }}
         {% if required %}
-            <span class="symfony-form-required" title="This field is required">*</span>
+            <span class="symfony-form-required" title="{% trans %}This field is required{% endtrans %}">*</span>
         {% endif %}
     </label>
 {% endblock %}
