@@ -602,6 +602,12 @@ class SymfonyRequirements extends RequirementCollection
             'Install and enable the <strong>XML</strong> extension.'
         );
 
+        $this->addRecommendation(
+            function_exists('filter_var'),
+            'filter_var() should be available',
+            'Install and enable the <strong>filter</strong> extension.'
+        );
+
         if (!defined('PHP_WINDOWS_VERSION_BUILD')) {
             $this->addRecommendation(
                 function_exists('posix_isatty'),
