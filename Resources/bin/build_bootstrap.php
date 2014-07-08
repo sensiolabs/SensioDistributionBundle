@@ -46,7 +46,7 @@ if (null === $autoloadDir) {
 }
 if (null === $bootstrapDir) {
     $bootstrapDir = $autoloadDir;
-    if (file_exists($rootDir.'/var/'.ScriptHandler::NEW_STRUCTURE_NOTIFIER)) {
+    if ($useNewDirectoryStructure) {
         $bootstrapDir = getRealpath($rootDir.'/var');
     }
 }
