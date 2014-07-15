@@ -163,7 +163,9 @@ class ScriptHandler
         $appDir = $options['symfony-app-dir'];
         $fs = new Filesystem();
 
-        if (!self::useNewDirectoryStructure($options)) {
+        $newDirectoryStructure = self::useNewDirectoryStructure($options);
+
+        if (!$newDirectoryStructure) {
             if (!self::hasDirectory($event, 'symfony-app-dir', $appDir, 'install the requirements files')) {
                 return;
             }
@@ -180,6 +182,7 @@ class ScriptHandler
             }
             $fs->copy(__DIR__.'/../Resources/skeleton/app/SymfonyRequirements.php', $varDir.'/SymfonyRequirements.php', true);
             $fs->copy(__DIR__.'/../Resources/skeleton/app/check.php', $binDir.'/symfony_requirements', true);
+            $fs->remove(array($appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true));
 
             $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'.PHP_EOL.str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')), 0755);
         }
@@ -189,7 +192,11 @@ class ScriptHandler
         // if the user has already removed the config.php file, do nothing
         // as the file must be removed for production use
         if ($fs->exists($webDir.'/config.php')) {
-            $fs->copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php', true);
+            if (!$newDirectoryStructure) {
+                $fs->copy(__DIR__ . '/../Resources/skeleton/web/config.php', $webDir . '/config.php', true);
+            } else {
+                $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($varDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__ . '/../Resources/skeleton/web/config.php')));
+            }
         }
     }
 
@@ -427,6 +434,7 @@ namespace { return \$loader; }
 /web/bundles/
 /app/config/parameters.yml
 /var/bootstrap.php.cache
+/var/SymfonyRequirements.php
 /var/cache/*
 /var/logs/*
 !var/cache/.gitkeep
