@@ -8,21 +8,21 @@ $iniPath = $symfonyRequirements->getPhpIniConfigPath();
 
 echo_title('Symfony2 Requirements Checker');
 
-echo '> Looking for the INI configuration file used by PHP:' . PHP_EOL;
+echo '> Looking for the INI configuration file used by PHP:'.PHP_EOL;
 if ($iniPath) {
-    echo_style('green', '  ' . $iniPath);
+    echo_style('green', '  '.$iniPath);
 } else {
     echo_style('warning', '  WARNING: No configuration file (php.ini) used by PHP!');
 }
 
-echo PHP_EOL . PHP_EOL;
+echo PHP_EOL.PHP_EOL;
 
-echo '> Checking Symfony requirements:' . PHP_EOL . '  ';
+echo '> Checking Symfony requirements:'.PHP_EOL.'  ';
 
 $messages = array();
 foreach ($symfonyRequirements->getRequirements() as $req) {
     /** @var $req Requirement */
-    if ($helpText = getErrorMessage($req, $lineSize)) {
+    if ($helpText = get_error_message($req, $lineSize)) {
         echo_style('red', 'E');
         $messages['error'][] = $helpText;
     } else {
@@ -33,7 +33,7 @@ foreach ($symfonyRequirements->getRequirements() as $req) {
 $checkPassed = empty($messages['error']);
 
 foreach ($symfonyRequirements->getRecommendations() as $req) {
-    if ($helpText = getErrorMessage($req, $lineSize)) {
+    if ($helpText = get_error_message($req, $lineSize)) {
         echo_style('yellow', 'W');
         $messages['warning'][] = $helpText;
     } else {
@@ -49,7 +49,7 @@ if ($checkPassed) {
     echo_title('Fix the following mandatory requirements', 'red');
 
     foreach ($messages['error'] as $helpText) {
-        echo ' * ' . $helpText . PHP_EOL;
+        echo ' * '.$helpText.PHP_EOL;
     }
 }
 
@@ -57,7 +57,7 @@ if (!empty($messages['warning'])) {
     echo_title('Optional recommendations to improve your setup', 'yellow');
 
     foreach ($messages['warning'] as $helpText) {
-        echo ' * ' . $helpText . PHP_EOL;
+        echo ' * '.$helpText.PHP_EOL;
     }
 }
 
@@ -72,7 +72,7 @@ echo PHP_EOL;
 
 exit($checkPassed ? 0 : 1);
 
-function getErrorMessage(Requirement $requirement, $lineSize)
+function get_error_message(Requirement $requirement, $lineSize)
 {
     if ($requirement->isFulfilled()) {
         return;
@@ -89,8 +89,8 @@ function echo_title($title, $style = null)
     $style = $style ?: 'title';
 
     echo PHP_EOL;
-    echo_style($style, $title . PHP_EOL);
-    echo_style($style, str_repeat('~', strlen($title)) . PHP_EOL);
+    echo_style($style, $title.PHP_EOL);
+    echo_style($style, str_repeat('~', strlen($title)).PHP_EOL);
     echo PHP_EOL;
 }
 
@@ -104,27 +104,27 @@ function echo_style($style, $message)
         'yellow' => "\033[33m",
         'error' => "\033[37;41m",
         'success' => "\033[37;42m",
-        'title' => "\033[1;34m"
+        'title' => "\033[34m",
     );
-    $supports = hasColorSupport();
+    $supports = has_color_support();
 
-    echo ($supports ? $styles[$style] : '') . $message . ($supports ? $styles['reset'] : '');
+    echo ($supports ? $styles[$style] : '').$message.($supports ? $styles['reset'] : '');
 }
 
 function echo_block($style, $title, $message)
 {
-    $message = ' ' . trim($message) . ' ';
+    $message = ' '.trim($message).' ';
     $width = strlen($message);
 
-    echo PHP_EOL . PHP_EOL;
+    echo PHP_EOL.PHP_EOL;
 
-    echo_style($style, str_repeat(' ', $width) . PHP_EOL);
-    echo_style($style, str_pad(' [' . $title . ']',  $width, ' ', STR_PAD_RIGHT) . PHP_EOL);
-    echo_style($style, str_pad($message,  $width, ' ', STR_PAD_RIGHT) . PHP_EOL);
-    echo_style($style, str_repeat(' ', $width) . PHP_EOL);
+    echo_style($style, str_repeat(' ', $width).PHP_EOL);
+    echo_style($style, str_pad(' ['.$title.']',  $width, ' ', STR_PAD_RIGHT).PHP_EOL);
+    echo_style($style, str_pad($message,  $width, ' ', STR_PAD_RIGHT).PHP_EOL);
+    echo_style($style, str_repeat(' ', $width).PHP_EOL);
 }
 
-function hasColorSupport()
+function has_color_support()
 {
     static $support;
 
