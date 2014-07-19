@@ -1,0 +1,240 @@
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-05-16T16:23:56Z
+
+Please, don't merge this PR yet because we're thinking about some small but important tweaks to the output of the check script. It will be probably ready on Monday.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-05-24T18:36:34Z
+
+Applying the suggestion made by @pyrech and adding the following changes, we could improve the output of this script:
+
+```diff
+diff --git a/Resources/skeleton/app/check.php b/Resources/skeleton/app/check.php
+index 5d05fc1..8eb7c5d 100644
+--- a/Resources/skeleton/app/check.php
++++ b/Resources/skeleton/app/check.php
+@@ -4,27 +4,27 @@ require_once dirname(__FILE__).'/SymfonyRequirements.php';
+
+ $symfonyRequirements = new SymfonyRequirements();
+
+-$iniPath = $symfonyRequirements->getPhpIniConfigPath();
+-
+-$okMessage = '[OK] Your system is ready to execute Symfony2 projects!';
+-$errorMessage = '[ERROR] Your system is not ready to execute Symfony2 projects!';
++$okMessage = '[OK] Your system is ready to execute Symfony2 projects';
++$errorMessage = '[ERROR] Your system is not ready to execute Symfony2 projects';
+
+-$lineSize = strlen($errorMessage);
++$lineSize = strlen($errorMessage) + 2;
+
++echo PHP_EOL;
+ echo 'Symfony2 Requirements Checker'.PHP_EOL;
+-echo str_repeat('=', $lineSize);
++echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~';
+
+-echo_title('Looking for the INI configuration file used by PHP');
++$iniPath = $symfonyRequirements->getPhpIniConfigPath();
+
++echo_title('Looking for the INI configuration file used by PHP:');
+ echo $iniPath ? $iniPath : 'WARNING: No configuration file (php.ini) used by PHP!';
+
+-echo_title('Checking mandatory requirements:');
++echo_title('Checking Symfony requirements:');
+
+ $checkPassed = true;
+ $messages = array();
+ foreach ($symfonyRequirements->getRequirements() as $req) {
+     /** @var $req Requirement */
+-    if ($helpText = getErrorMessage($req)) {
++    if ($helpText = getErrorMessage($req, $lineSize)) {
+         echo 'E';
+         $messages['error'][] = $helpText;
+     } else {
+@@ -36,10 +36,8 @@ foreach ($symfonyRequirements->getRequirements() as $req) {
+     }
+ }
+
+-echo_title('Checking optional recommendations:');
+-
+ foreach ($symfonyRequirements->getRecommendations() as $req) {
+-    if ($helpText = getErrorMessage($req)) {
++    if ($helpText = getErrorMessage($req, $lineSize)) {
+         echo 'W';
+         $messages['warning'][] = $helpText;
+     } else {
+@@ -55,48 +53,56 @@ if (!empty($messages['error'])) {
+     echo_result($errorMessage, $lineSize);
+
+     echo PHP_EOL.'Fix the following mandatory requirements'.PHP_EOL;
+-    echo str_repeat('-', $lineSize).PHP_EOL;
++    echo str_repeat('~', $lineSize).PHP_EOL;
+
+     foreach ($messages['error'] as $helpText) {
+-        echo '  * '.$helpText.PHP_EOL;
++        echo ' * '.$helpText.PHP_EOL;
+     }
+ }
+
+ if (!empty($messages['warning'])) {
+-    echo PHP_EOL.'(Optional) Fix the following recommendations'.PHP_EOL;
+-    echo str_repeat('-', $lineSize).PHP_EOL;
++    echo PHP_EOL.'Optional recommendations to improve your setup'.PHP_EOL;
++    echo str_repeat('~', $lineSize).PHP_EOL;
+
+     foreach ($messages['warning'] as $helpText) {
+-        echo '  * '.$helpText.PHP_EOL;
++        echo ' * '.$helpText.PHP_EOL;
+     }
+ }
+
+-echo PHP_EOL.'Note  the command console could use a different php.ini file'.PHP_EOL;
++echo PHP_EOL;
++echo 'Note  the command console could use a different php.ini file'.PHP_EOL;
+ echo '~~~~  than the one used with your web server. To be on the'.PHP_EOL;
+ echo '      safe side, please check the requirements from your web'.PHP_EOL;
+ echo '      server using the web/config.php script.'.PHP_EOL;
++echo PHP_EOL;
+
+ exit($checkPassed ? 0 : 1);
+
+-function getErrorMessage(Requirement $requirement)
++function getErrorMessage(Requirement $requirement, $lineSize)
+ {
+     if ($requirement->isFulfilled()) {
+         return;
+     }
+
+-    return $requirement->getTestMessage().PHP_EOL.'    -> '.$requirement->getHelpText();
++    $errorMessage  = wordwrap($requirement->getTestMessage(), $lineSize - 3, PHP_EOL.'   ').PHP_EOL;
++    $errorMessage .= '   > '.wordwrap($requirement->getHelpText(), $lineSize - 5, PHP_EOL.'   > ').PHP_EOL;
++
++    return $errorMessage;
+ }
+
+ function echo_title($title)
+ {
+-    echo PHP_EOL.PHP_EOL.'> '.$title.PHP_EOL;
++    echo PHP_EOL.PHP_EOL;
++    echo '> '.$title.PHP_EOL;
++    echo '  ';
+ }
+
+ function echo_result($message, $lineSize)
+ {
+     echo PHP_EOL.PHP_EOL;
+-    echo str_repeat('=', $lineSize).PHP_EOL;
+-    echo $message.PHP_EOL;
+-    echo str_repeat('=', $lineSize).PHP_EOL;
+-    sleep(1);
++    echo '+'.str_repeat('-', $lineSize).'+'.PHP_EOL;
++    echo '|'.str_repeat(' ', $lineSize).'|'.PHP_EOL;
++    echo '| '.$message.str_repeat(' ', $lineSize - strlen($message) - 2).' |'.PHP_EOL;
++    echo '|'.str_repeat(' ', $lineSize).'|'.PHP_EOL;
++    echo '+'.str_repeat('-', $lineSize).'+'.PHP_EOL;
+ }
+```
+
+Here are some comparison screenshots:
+
+**Best case - No errors or warnings**
+
+![check_best_case](https://cloud.githubusercontent.com/assets/73419/3075339/ff3ab724-e371-11e3-8db0-c281f7b84c30.png)
+
+**Errors only**
+
+![check_requirements](https://cloud.githubusercontent.com/assets/73419/3075341/0813762e-e372-11e3-8abf-f6fce5ca97cc.png)
+
+**Warnings only**
+
+![check_recommendations](https://cloud.githubusercontent.com/assets/73419/3075342/1096e3a8-e372-11e3-802a-5c66599e2399.png)
+
+**Worst case - Lots of errors and warnings**
+
+![check_worst_case](https://cloud.githubusercontent.com/assets/73419/3075344/1c3dfbd8-e372-11e3-93f3-51b906c951bc.png)
+
+---------------------------------------------------------------------------
+
+by pyrech at 2014-05-26T18:20:58Z
+
+Good job! ;)
+
+---------------------------------------------------------------------------
+
+by KathrynG at 2014-05-27T07:56:18Z
+
+Looking good! :)
+
+---------------------------------------------------------------------------
+
+by fabpot at 2014-05-27T13:41:41Z
+
+Just a small suggestion: what about using colors to emphasize the main result: ok or ko? probably green vs red.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-05-27T14:00:44Z
+
+@fabpot colors are definitely a very good idea! The problem is that this script must only use raw and simple PHP code to always execute correctly. I don't know if it's easy to add colors by hand and to make them compatible with any kind of PHP installation and Operating System.
+
+---------------------------------------------------------------------------
+
+by fabpot at 2014-05-27T14:37:00Z
+
+Just get some piece of code from the console. Using colors is as easy as it can get and detecting if the user supports colors is a bit more involving the work has already been done in the console component.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-05-28T08:03:11Z
+
+We are going to add the following code to add color support:
+
+```php
+function echo_result($message, $lineSize, $type)
+{
+    // ANSI color codes
+    $colorCodes = array(
+        "none"  => "\033[0m",
+        "ok"    => "\033[32m",
+        "error" => "\033[37;41m",
+    );
+
+    $lineStart = hasColorSupport() ? $colorCodes[$type] : '';
+    $lineEnd   = hasColorSupport() ? $colorCodes['none'].PHP_EOL : PHP_EOL;
+
+    echo PHP_EOL.PHP_EOL;
+    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
+    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
+    echo $lineStart.'| '.$message.str_repeat(' ', $lineSize - strlen($message) - 2).' |'.$lineEnd;
+    echo $lineStart.'|'.str_repeat(' ', $lineSize).'|'.$lineEnd;
+    echo $lineStart.'+'.str_repeat('-', $lineSize).'+'.$lineEnd;
+}
+
+function hasColorSupport()
+{
+    if (DIRECTORY_SEPARATOR == '\\') {
+        return false !== getenv('ANSICON') || 'ON' === getenv('ConEmuANSI');
+    }
+
+    return function_exists('posix_isatty') && @posix_isatty(STDOUT);
+}
+```
+
+For consistency, the colors are exactly the same as the `<info>` and `<error>` styles from the Symfony Console. Here are the screenshots:
+
+![color_ok](https://cloud.githubusercontent.com/assets/73419/3101922/609c902c-e63e-11e3-8909-654768e55f11.png)
+
+![color_errors](https://cloud.githubusercontent.com/assets/73419/3101923/629960ee-e63e-11e3-9bf9-0ec1d3ae2ce4.png)
+
+---------------------------------------------------------------------------
+
+by KathrynG at 2014-06-02T12:03:58Z
+
+Just commited the changes for the colours in the output text.
+
+---------------------------------------------------------------------------
+
+by csarrazi at 2014-06-18T14:11:34Z
+
+How about removing the dash, pipe and plus signs, when in color mode? Relying on the background should be enough in this case.
