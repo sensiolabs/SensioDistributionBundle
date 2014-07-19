@@ -1,9 +1,14 @@
 SensioDistributionBundle
 ========================
 
-SensioDistributionBundle is an add-on to the Symfony Standard Edition, which
-hooks up into the Composer process to automate the following actions when
-running an install or an update:
+SensioDistributionBundle provides useful developer features that can be re-used
+amongst several Symfony Distributions.
+
+Composer Hooks
+--------------
+
+The bundle hooks up into the Composer process to automate the following actions
+when running an install or an update:
 
 * Update the ``bootstrap.php.cache`` file (and clears the cache);
 
@@ -18,5 +23,8 @@ running an install or an update:
   ``SENSIOLABS_ENABLE_NEW_DIRECTORY_STRUCTURE`` environment variable to
   ``true`` (and only when creating a new project).
 
-The bundle also provides a web configurator to ease the setup of a Symfony
+Web Configurator
+----------------
+
+The bundle provides a web configurator to ease the setup of a Symfony
 project via a simple web interface.
