@@ -8,7 +8,7 @@ $iniPath = $symfonyRequirements->getPhpIniConfigPath();
 
 echo_title('Symfony2 Requirements Checker');
 
-echo '> Looking for the INI configuration file used by PHP:'.PHP_EOL;
+echo '> PHP is using the following php.ini file:'.PHP_EOL;
 if ($iniPath) {
     echo_style('green', '  '.$iniPath);
 } else {
@@ -42,9 +42,9 @@ foreach ($symfonyRequirements->getRecommendations() as $req) {
 }
 
 if ($checkPassed) {
-    echo_block('success', 'OK', 'Your system is ready to execute Symfony2 projects', true);
+    echo_block('success', 'OK', 'Your system is ready to run Symfony2 projects', true);
 } else {
-    echo_block('error', 'ERROR', 'Your system is not ready to execute Symfony2 projects', true);
+    echo_block('error', 'ERROR', 'Your system is not ready to run Symfony2 projects', true);
 
     echo_title('Fix the following mandatory requirements', 'red');
 
@@ -63,11 +63,13 @@ if (!empty($messages['warning'])) {
 
 echo PHP_EOL;
 echo_style('title', 'Note');
-echo '  the command console could use a different php.ini file'.PHP_EOL;
+echo '  The command console could use a different php.ini file'.PHP_EOL;
 echo_style('title', '~~~~');
 echo '  than the one used with your web server. To be on the'.PHP_EOL;
 echo '      safe side, please check the requirements from your web'.PHP_EOL;
-echo '      server using the web/config.php script.'.PHP_EOL;
+echo '      server using the ';
+echo_style('yellow', 'web/config.php');
+echo ' script.'.PHP_EOL;
 echo PHP_EOL;
 
 exit($checkPassed ? 0 : 1);
