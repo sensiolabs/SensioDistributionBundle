@@ -1,0 +1,31 @@
+---------------------------------------------------------------------------
+
+by lolautruche at 2014-02-24T20:56:05Z
+
+All comments taken into account
+
+---------------------------------------------------------------------------
+
+by lolautruche at 2014-02-27T14:57:30Z
+
+Does it look good now ?
+
+---------------------------------------------------------------------------
+
+by gquemener at 2014-02-27T15:05:49Z
+
+What about removing existing step from the configurator?
+
+---------------------------------------------------------------------------
+
+by lolautruche at 2014-02-28T10:41:38Z
+
+@gquemener I think it's beyond the scope of this PR. It was not possible to remove existing steps before and this PR is feature equivalent, except the possibility to add steps.
+
+Is it OK ?
+
+---------------------------------------------------------------------------
+
+by WouterJ at 2014-07-02T21:10:12Z
+
+:+1: @fabpot can this please be merged? I would like to use this in the Symfony CMF to add some CMF specific things.
