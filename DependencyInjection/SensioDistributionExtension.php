@@ -19,6 +19,7 @@ class SensioDistributionExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
         $loader->load('webconfigurator.xml');
+        $loader->load('security.xml');
     }
 
     public function getNamespace()
