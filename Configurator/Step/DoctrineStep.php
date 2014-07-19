@@ -50,7 +50,7 @@ class DoctrineStep implements StepInterface
 
     public $path;
 
-    public function __construct(array $parameters)
+    public function setParameters(array $parameters)
     {
         foreach ($parameters as $key => $value) {
             if (0 === strpos($key, 'database_')) {
