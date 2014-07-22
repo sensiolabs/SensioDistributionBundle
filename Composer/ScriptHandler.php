@@ -193,9 +193,9 @@ class ScriptHandler
         // as the file must be removed for production use
         if ($fs->exists($webDir.'/config.php')) {
             if (!$newDirectoryStructure) {
-                $fs->copy(__DIR__ . '/../Resources/skeleton/web/config.php', $webDir . '/config.php', true);
+                $fs->copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php', true);
             } else {
-                $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($varDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__ . '/../Resources/skeleton/web/config.php')));
+                $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($varDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__.'/../Resources/skeleton/web/config.php')));
             }
         }
     }
@@ -394,13 +394,14 @@ namespace { return \$loader; }
 
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
     {
-        $php = escapeshellarg(self::getPhp());
+        $php = escapeshellarg(self::getPhp(false));
+        $phpArgs = implode(' ', array_map('escapeshellarg', self::getPhpArguments()));
         $console = escapeshellarg($consoleDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
+        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
@@ -409,7 +410,8 @@ namespace { return \$loader; }
 
     protected static function executeBuildBootstrap(CommandEvent $event, $bootstrapDir, $autoloadDir, $timeout = 300)
     {
-        $php = escapeshellarg(self::getPhp());
+        $php = escapeshellarg(self::getPhp(false));
+        $phpArgs = implode(' ', array_map('escapeshellarg', self::getPhpArguments()));
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $bootstrapDir = escapeshellarg($bootstrapDir);
         $autoloadDir = escapeshellarg($autoloadDir);
@@ -418,7 +420,7 @@ namespace { return \$loader; }
             $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
         }
 
-        $process = new Process($php.' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
+        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
@@ -497,14 +499,21 @@ EOF;
         return $options;
     }
 
-    protected static function getPhp()
+    protected static function getPhp($includeArgs = true)
     {
-        $phpFinder = new PhpExecutableFinder;
-        if (!$phpPath = $phpFinder->find()) {
+        $phpFinder = new PhpExecutableFinder();
+        if (!$phpPath = $phpFinder->find($includeArgs)) {
             throw new \RuntimeException('The php executable could not be found, add it to your PATH environment variable and try again');
         }
 
         return $phpPath;
+    }
+
+    protected static function getPhpArguments()
+    {
+        $phpFinder = new PhpExecutableFinder();
+
+        return method_exists($phpFinder, 'findArguments') ? $phpFinder->findArguments() : array();
     }
 
     /**
