@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------
+
+by fabpot at 2014-07-19T11:27:52Z
+
+ping @javiereguiluz
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-07-20T18:43:48Z
+
+A big :+1: for this new command. It reuses the original SensioLabs Checker to avoid code duplication and it improves the output of the original proposal. Awesome!
