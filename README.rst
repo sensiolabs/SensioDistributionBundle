@@ -28,3 +28,13 @@ Web Configurator
 
 The bundle provides a web configurator to ease the setup of a Symfony
 project via a simple web interface.
+
+Security
+--------
+
+The bundle includes the SensioLabs Security Checker. When included in a Symfony
+application, the check is available:
+
+.. code-block:: bash
+
+    $ ./app/console security:check
