@@ -512,7 +512,7 @@ EOF;
     {
         $phpFinder = new PhpExecutableFinder;
 
-        return $$phpFinder->findArguments();
+        return $phpFinder->findArguments();
     }
 
     /**
