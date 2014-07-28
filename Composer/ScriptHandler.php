@@ -500,7 +500,7 @@ EOF;
 
     protected static function getPhp($includeArgs = true)
     {
-        $phpFinder = new PhpExecutableFinder;
+        $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find($includeArgs)) {
             throw new \RuntimeException('The php executable could not be found, add it to your PATH environment variable and try again');
         }
@@ -510,7 +510,7 @@ EOF;
 
     protected static function getPhpArguments()
     {
-        $phpFinder = new PhpExecutableFinder;
+        $phpFinder = new PhpExecutableFinder();
 
         return $phpFinder->findArguments();
     }
