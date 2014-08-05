@@ -394,13 +394,14 @@ namespace { return \$loader; }
 
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
     {
-        $php = escapeshellarg(self::getPhp());
+        $php = escapeshellarg(self::getPhp(false));
+        $phpArgs = implode(' ', array_map("escapeshellarg", self::getPhpArguments()));
         $console = escapeshellarg($consoleDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
+        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
@@ -410,7 +411,7 @@ namespace { return \$loader; }
     protected static function executeBuildBootstrap(CommandEvent $event, $bootstrapDir, $autoloadDir, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp(false));
-        $phpArgs = escapeshellarg(self::getPhpArguments());
+        $phpArgs = implode(' ', array_map("escapeshellarg", self::getPhpArguments()));
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $bootstrapDir = escapeshellarg($bootstrapDir);
         $autoloadDir = escapeshellarg($autoloadDir);
