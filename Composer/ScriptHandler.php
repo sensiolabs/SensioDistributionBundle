@@ -460,14 +460,12 @@ EOF;
 EOF;
         $phpunit = str_replace(array('<directory>../src/', '"bootstrap.php.cache"', $phpunitKernelBefore), array('<directory>src/', '"'.$varDir.'/bootstrap.php.cache"', $phpunitKernelAfter),  file_get_contents($rootDir.'/phpunit.xml.dist'));
         $composer = str_replace("\"symfony-app-dir\": \"app\",", "\"symfony-app-dir\": \"app\",\n        \"symfony-bin-dir\": \"bin\",\n        \"symfony-var-dir\": \"var\",", file_get_contents($rootDir.'/composer.json'));
-        $travis = str_replace("\nscript: phpunit -c app", '', file_get_contents($rootDir.'/.travis.yml'));
 
         $fs->dumpFile($webDir.'/app.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app.php')));
         $fs->dumpFile($webDir.'/app_dev.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app_dev.php')));
         $fs->dumpFile($binDir.'/console', str_replace(array(".'/bootstrap.php.cache'", ".'/AppKernel.php'"), array(".'/".$fs->makePathRelative($varDir, $binDir)."bootstrap.php.cache'", ".'/".$fs->makePathRelative($appDir, $binDir)."AppKernel.php'"), file_get_contents($binDir.'/console')));
         $fs->dumpFile($rootDir.'/phpunit.xml.dist', $phpunit);
         $fs->dumpFile($rootDir.'/composer.json', $composer);
-        $fs->dumpFile($rootDir.'/.travis.yml', $travis);
 
         $fs->dumpFile($rootDir.'/.gitignore', $gitignore);
 
