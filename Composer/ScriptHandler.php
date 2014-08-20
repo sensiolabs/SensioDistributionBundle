@@ -131,7 +131,9 @@ class ScriptHandler
             return;
         }
 
-        $fs->copy($appDir.'/config/parameters.yml.dist', $appDir.'/config/parameters.yml', true);
+        if (!$fs->exists($appDir.'/config/parameters.yml')) {
+            $fs->copy($appDir.'/config/parameters.yml.dist', $appDir.'/config/parameters.yml', true);
+        }
     }
 
     /**
