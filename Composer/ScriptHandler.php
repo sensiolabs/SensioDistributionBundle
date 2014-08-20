@@ -116,6 +116,25 @@ class ScriptHandler
     }
 
     /**
+     * Generates the parameters.yml file from the canonical parameters.yml.dist
+     * without asking the user for the value of the configuration parameters.
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function generateParametersFile(CommandEvent $event)
+    {
+        $options = self::getOptions($event);
+        $appDir = $options['symfony-app-dir'];
+        $fs = new Filesystem();
+
+        if (!self::hasDirectory($event, 'symfony-app-dir', $appDir, 'generate the parameters.yml file')) {
+            return;
+        }
+
+        $fs->copy($appDir.'/config/parameters.yml.dist', $appDir.'/config/parameters.yml', true);
+    }
+
+    /**
      * Installs the assets under the web root directory.
      *
      * For better interoperability, assets are copied instead of symlinked by default.
