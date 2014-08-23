@@ -386,12 +386,19 @@ namespace { return \$loader; }
             $console .= ' --ansi';
         }
 
-        if (!$event->getIO()->isVerbose() && !$event->getIO()->isVeryVerbose() && !$event->getIO()->isDebug()) {
-            $console .= ' --quiet';
-        }
+        $event->getIO()->write(sprintf(
+            'Running the <info>%s %s</info> command',
+            $consoleDir.'/console',
+            $cmd
+        ));
 
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
+        $process->run(function ($type, $buffer) use ($event) {
+            // output the command's output if we have an above-normal verbosity level
+            if ($event->getIO()->isVerbose()) {
+                $event->getIO()->write($buffer, false);
+            }
+        });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
         }
