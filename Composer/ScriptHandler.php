@@ -270,10 +270,10 @@ EOF;
         $fs->dumpFile($routingFile, $routingData);
 
         $securityData = <<<EOF
-# you can read more about security in the regarding section of the documentation
+# you can read more about security in the related section of the documentation
 # http://symfony.com/doc/current/book/security.html
 security:
-    # setting for encoding the users' password
+    # setting for encoding the user's password
     # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
@@ -283,9 +283,9 @@ security:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    # settings for the user providers, you can list here the services
+    # settings for the user providers, you can here list the services
     # which will provide you the users data
-    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
             memory:
@@ -302,7 +302,7 @@ security:
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        # the action login page has to be accessable for everybody
+        # the action login page has to be accessible for everybody
         demo_login:
             pattern:  ^/demo/secured/login$
             security: false
@@ -310,8 +310,8 @@ security:
         # the secured part of your application
         demo_secured_area:
             pattern:    ^/demo/secured/
-            # it's important to notice, _demo_security_check and _demo_login
-            # are route names, and they are specified in the AcmeDemoBundle
+            # it's important to notice that _demo_security_check and _demo_login
+            # are route names and that they are specified in the AcmeDemoBundle
             # you can specify your own routes and replace these with them
             form_login:
                 check_path: _demo_security_check
@@ -323,7 +323,7 @@ security:
             #http_basic:
             #    realm: "Secured Demo Area"
 
-    # with this settings you can restrict or allow access for different part
+    # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
     # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
     access_control:
