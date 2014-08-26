@@ -273,7 +273,6 @@ EOF;
 # you can read more about security in the related section of the documentation
 # http://symfony.com/doc/current/book/security.html
 security:
-    # setting for encoding the user's password
     # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
@@ -283,8 +282,6 @@ security:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
-    # settings for the user providers, you can here list the services
-    # which will provide you the users data
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
@@ -293,26 +290,23 @@ security:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
-    # the main part of the security, where you can set up the firewall
-    # for the specific section of your app
-    #
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
     firewalls:
-        # with these settings all your assets and the profiler page
-        # will not require any authentication
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        # the action login page has to be accessible for everybody
+        # the login page has to be accessible for everybody
         demo_login:
             pattern:  ^/demo/secured/login$
             security: false
 
-        # the secured part of your application
+        # secures part of the application
         demo_secured_area:
             pattern:    ^/demo/secured/
-            # it's important to notice that _demo_security_check and _demo_login
+            # it's important to notice that in this case _demo_security_check and _demo_login
             # are route names and that they are specified in the AcmeDemoBundle
-            # you can specify your own routes and replace these with them
             form_login:
                 check_path: _demo_security_check
                 login_path: _demo_login
