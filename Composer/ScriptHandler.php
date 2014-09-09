@@ -270,14 +270,19 @@ EOF;
         $fs->dumpFile($routingFile, $routingData);
 
         $securityData = <<<EOF
+# you can read more about security in the related section of the documentation
+# http://symfony.com/doc/current/book/security.html
 security:
+    # http://symfony.com/doc/current/book/security.html#encoding-the-user-s-password
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
 
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
             memory:
@@ -285,17 +290,23 @@ security:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
     firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
+        # the login page has to be accessible for everybody
         demo_login:
             pattern:  ^/demo/secured/login$
             security: false
 
+        # secures part of the application
         demo_secured_area:
             pattern:    ^/demo/secured/
+            # it's important to notice that in this case _demo_security_check and _demo_login
+            # are route names and that they are specified in the AcmeDemoBundle
             form_login:
                 check_path: _demo_security_check
                 login_path: _demo_login
@@ -306,6 +317,9 @@ security:
             #http_basic:
             #    realm: "Secured Demo Area"
 
+    # with these settings you can restrict or allow access for different parts
+    # of your application based on roles, ip, host or methods
+    # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 EOF;
