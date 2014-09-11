@@ -193,9 +193,9 @@ class ScriptHandler
         // as the file must be removed for production use
         if ($fs->exists($webDir.'/config.php')) {
             if (!$newDirectoryStructure) {
-                $fs->copy(__DIR__ . '/../Resources/skeleton/web/config.php', $webDir . '/config.php', true);
+                $fs->copy(__DIR__.'/../Resources/skeleton/web/config.php', $webDir.'/config.php', true);
             } else {
-                $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($varDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__ . '/../Resources/skeleton/web/config.php')));
+                $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($varDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__.'/../Resources/skeleton/web/config.php')));
             }
         }
     }
