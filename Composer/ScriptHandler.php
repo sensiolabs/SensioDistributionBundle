@@ -513,7 +513,7 @@ EOF;
     {
         $phpFinder = new PhpExecutableFinder();
 
-        return $phpFinder->findArguments();
+        return method_exists($phpFinder, "findArguments") ? $phpFinder->findArguments() : array();
     }
 
     /**
