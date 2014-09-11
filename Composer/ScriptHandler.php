@@ -395,7 +395,7 @@ namespace { return \$loader; }
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp(false));
-        $phpArgs = implode(' ', array_map("escapeshellarg", self::getPhpArguments()));
+        $phpArgs = implode(' ', array_map('escapeshellarg', self::getPhpArguments()));
         $console = escapeshellarg($consoleDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
@@ -411,7 +411,7 @@ namespace { return \$loader; }
     protected static function executeBuildBootstrap(CommandEvent $event, $bootstrapDir, $autoloadDir, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp(false));
-        $phpArgs = implode(' ', array_map("escapeshellarg", self::getPhpArguments()));
+        $phpArgs = implode(' ', array_map('escapeshellarg', self::getPhpArguments()));
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $bootstrapDir = escapeshellarg($bootstrapDir);
         $autoloadDir = escapeshellarg($autoloadDir);
@@ -513,7 +513,7 @@ EOF;
     {
         $phpFinder = new PhpExecutableFinder();
 
-        return method_exists($phpFinder, "findArguments") ? $phpFinder->findArguments() : array();
+        return method_exists($phpFinder, 'findArguments') ? $phpFinder->findArguments() : array();
     }
 
     /**
