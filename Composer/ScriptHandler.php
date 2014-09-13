@@ -399,7 +399,12 @@ namespace { return \$loader; }
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
-
+        if (false === $event->isDevMode()) {
+            $env = getenv('SYMFONY_ENV');
+            if (!$env || 'dev' === $env) {
+                throw new \RuntimeException('Running scripts in dev environment may require dev dependencies. Set environment with SYMFONY_ENV.');
+            }
+        }
         $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
