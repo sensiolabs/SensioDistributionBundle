@@ -63,7 +63,7 @@ class SecuredController extends Controller
      * @Security("is_granted('ROLE_ADMIN')")
      * @Template()
      */
-    public function helloadminAction($name)
+    public function helloAdminAction($name)
     {
         return array('name' => $name);
     }
