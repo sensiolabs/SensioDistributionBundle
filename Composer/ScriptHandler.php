@@ -395,12 +395,13 @@ namespace { return \$loader; }
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
+        $phpini = self::formatPhpIniArgument();
         $console = escapeshellarg($consoleDir.'/console');
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.' '.$console.' '.$cmd, null, null, null, $timeout);
+        $process = new Process($php.$phpini.' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf('An error occurred when executing the "%s" command.', escapeshellarg($cmd)));
@@ -410,6 +411,7 @@ namespace { return \$loader; }
     protected static function executeBuildBootstrap(CommandEvent $event, $bootstrapDir, $autoloadDir, $timeout = 300)
     {
         $php = escapeshellarg(self::getPhp());
+        $phpini = self::formatPhpIniArgument();
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
         $bootstrapDir = escapeshellarg($bootstrapDir);
         $autoloadDir = escapeshellarg($autoloadDir);
@@ -418,7 +420,7 @@ namespace { return \$loader; }
             $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
         }
 
-        $process = new Process($php.' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
+        $process = new Process($php.$phpini.' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
@@ -505,6 +507,12 @@ EOF;
         }
 
         return $phpPath;
+    }
+
+    protected static function formatPhpIniArgument()
+    {
+        $ini = php_ini_loaded_file();
+        return $ini === false ? '' : escapeshellarg(' --php-ini=' . $ini);
     }
 
     /**
