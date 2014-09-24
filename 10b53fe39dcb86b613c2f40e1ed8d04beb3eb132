@@ -1,0 +1,47 @@
+---------------------------------------------------------------------------
+
+by apfelbox at 2014-07-22T15:42:36Z
+
+Shouldn't `$self::getPhp()` be `self::getPhp()`?
+
+---------------------------------------------------------------------------
+
+by JJK801 at 2014-07-22T15:46:29Z
+
+@apfelbox fixed, thanks :)
+
+---------------------------------------------------------------------------
+
+by acoquoin at 2014-07-28T07:41:47Z
+
+:+1: It's a nice fix, i need it !
+
+---------------------------------------------------------------------------
+
+by JJK801 at 2014-07-28T13:15:48Z
+
+@fabpot my last commit will fix the problem once https://github.com/symfony/symfony/pull/11497 merged
+
+---------------------------------------------------------------------------
+
+by DZunke at 2014-07-30T14:04:18Z
+
+Thanks @JJK801 !
+
+---------------------------------------------------------------------------
+
+by lsmith77 at 2014-09-11T05:59:46Z
+
+any word when this will be merged and tagged? its preventing us from testing against HHVM with the CMF
+
+---------------------------------------------------------------------------
+
+by fabpot at 2014-09-11T06:38:05Z
+
+symfony/symfony#11497 should be merged first, but we are almost there.
+
+---------------------------------------------------------------------------
+
+by FlorianKoerner at 2014-09-24T14:39:00Z
+
+:+1:
