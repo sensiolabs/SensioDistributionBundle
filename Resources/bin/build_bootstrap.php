@@ -30,14 +30,16 @@ $autoloadDir = $bootstrapDir = null;
 $useNewDirectoryStructure = false;
 
 // allow the base path to be passed as the first argument, or default
-if (isset($argv[1])) {
+if (!empty($argv[1])) {
     $bootstrapDir = getRealpath($argv[1]);
-    if (isset($argv[2])) {
-        $autoloadDir = getRealpath($argv[2]);
-    }
-    if (isset($argv[3])) {
-        $useNewDirectoryStructure = true;
-    }
+}
+
+if (!empty($argv[2])) {
+    $autoloadDir = getRealpath($argv[2]);
+}
+
+if (!empty($argv[3])) {
+    $useNewDirectoryStructure = true;
 }
 
 $rootDir = __DIR__.'/../../../../../../../..';
