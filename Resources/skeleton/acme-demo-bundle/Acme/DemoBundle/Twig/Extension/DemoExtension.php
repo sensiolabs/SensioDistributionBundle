@@ -32,7 +32,7 @@ class DemoExtension extends \Twig_Extension
     public function getCode($template)
     {
         // highlight_string highlights php code only if '<?php' tag is present.
-        $controller = highlight_string("<?php" . $this->getControllerCode(), true);
+        $controller = highlight_string("<?php".$this->getControllerCode(), true);
         $controller = str_replace('<span style="color: #0000BB">&lt;?php&nbsp;&nbsp;&nbsp;&nbsp;</span>', '&nbsp;&nbsp;&nbsp;&nbsp;', $controller);
 
         $template = htmlspecialchars($this->getTemplateCode($template), ENT_QUOTES, 'UTF-8');

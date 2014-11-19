@@ -176,9 +176,9 @@ class Configurator
 
     /**
      * Writes parameters to parameters.yml or temporary in the cache directory.
-     * 
+     *
      * @param int $expanded
-     * 
+     *
      * @return int
      */
     public function write($expanded = 0)
