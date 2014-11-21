@@ -689,6 +689,14 @@ class SymfonyRequirements extends RequirementCollection
 
         $this->addPhpIniRecommendation('session.auto_start', false);
 
+        $this->addPhpIniRecommendation(
+            'mbstring.func_overload',
+            create_function('$cfgValue', 'return (int) $cfgValue === 2;'),
+            true,
+            'string functions should not be overloaded',
+            'Set "<strong>mbstring.func_overload</strong>" to <strong>0</strong> in php.ini<a href="#phpini">*</a> to disable function overloading by the mbstring extension.'
+        );
+
         $this->addRecommendation(
             class_exists('PDO'),
             'PDO should be installed',
