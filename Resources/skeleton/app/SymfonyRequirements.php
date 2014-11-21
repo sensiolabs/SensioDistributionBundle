@@ -530,6 +530,16 @@ class SymfonyRequirements extends RequirementCollection
             'Install the <strong>PCRE</strong> extension (version 8.0+).'
         );
 
+        if (extension_loaded('mbstring')) {
+            $this->addPhpIniRequirement(
+                'mbstring.func_overload',
+                create_function('$cfgValue', 'return (int) $cfgValue !== 0;'),
+                true,
+                'string functions should not be overloaded',
+                'Set "<strong>mbstring.func_overload</strong>" to <strong>0</strong> in php.ini<a href="#phpini">*</a> to disable function overloading by the mbstring extension.'
+            );
+        }
+
         /* optional recommendations follow */
 
         $this->addRecommendation(
