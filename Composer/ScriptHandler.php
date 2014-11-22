@@ -514,6 +514,7 @@ EOF;
     protected static function formatPhpIniArgument()
     {
         $ini = php_ini_loaded_file();
+
         return $ini === false ? '' : (' --php-ini='.escapeshellarg($ini));
     }
 
