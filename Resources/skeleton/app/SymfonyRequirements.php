@@ -684,7 +684,7 @@ class SymfonyRequirements extends RequirementCollection
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $this->addPhpIniRecommendation(
                 'realpath_cache_size',
-                create_function('$cfgValue', 'return (int) $cfgValue > 1000;'),
+                create_function('$cfgValue', 'return (stripos($cfgValue, "k")!==false) || (stripos($cfgValue, "m")!==false) || ((int) $cfgValue > 1000);'),
                 false,
                 'realpath_cache_size should be above 1024 in php.ini',
                 'Set "<strong>realpath_cache_size</strong>" to e.g. "<strong>1024</strong>" in php.ini<a href="#phpini">*</a> to improve performance on windows.'
