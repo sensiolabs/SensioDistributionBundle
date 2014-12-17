@@ -682,10 +682,8 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $this->addPhpIniRecommendation(
-                'realpath_cache_size',
-                create_function('$cfgValue', 'return (int) $cfgValue > 1000;'),
-                false,
+            $this->addRecommendation(
+                $this->getRealpathCacheSize() > 1000,
                 'realpath_cache_size should be above 1024 in php.ini',
                 'Set "<strong>realpath_cache_size</strong>" to e.g. "<strong>1024</strong>" in php.ini<a href="#phpini">*</a> to improve performance on windows.'
             );
@@ -712,6 +710,30 @@ class SymfonyRequirements extends RequirementCollection
                 sprintf('PDO should have some drivers installed (currently available: %s)', count($drivers) ? implode(', ', $drivers) : 'none'),
                 'Install <strong>PDO drivers</strong> (mandatory for Doctrine).'
             );
+        }
+    }
+
+    /**
+     * Loads realpath_cache_size from php.ini and converts it to int.
+     *
+     * (e.g. 16k is converted to 16384 int)
+     *
+     * @return int
+     */
+    protected function getRealpathCacheSize()
+    {
+        $size = ini_get('realpath_cache_size');
+        $size = trim($size);
+        $unit = strtolower(substr($size, -1, 1));
+        switch ($unit) {
+            case 'g':
+                return $size * 1024 * 1024 * 1024;
+            case 'm':
+                return $size * 1024 * 1024;
+            case 'k':
+                return $size * 1024;
+            default:
+                return (int) $size;
         }
     }
 }
