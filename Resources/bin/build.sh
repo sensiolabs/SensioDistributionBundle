@@ -59,7 +59,11 @@ TARGET=/tmp/Symfony/vendor
 cd $TARGET/doctrine/orm && rm -rf UPGRADE* build* bin tests tools lib/vendor
 cd $TARGET/doctrine/dbal && rm -rf bin build* tests lib/vendor
 cd $TARGET/doctrine/common && rm -rf build* tests lib/vendor
-cd $TARGET/doctrine/doctrine-bundle && rm -rf Doctrine/Bundle/DoctrineBundle/Tests Doctrine/Bundle/DoctrineBundle/Resources/doc
+if [ -d $TARGET/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle ]; then
+    cd $TARGET/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle && rm -rf Tests Resources/doc
+else
+    cd $TARGET/doctrine/doctrine-bundle && rm -rf Tests Resources/doc
+fi
 
 # kriswallsmith
 cd $TARGET/kriswallsmith/assetic && rm -rf CHANGELOG* phpunit.xml* tests docs
@@ -77,7 +81,11 @@ cd $TARGET/swiftmailer/swiftmailer && rm -rf CHANGES README* build* docs notes t
 
 # Symfony
 cd $TARGET/symfony/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
-cd $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle && rm -rf Tests Resources/doc
+if [ -d $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle ]; then
+    cd $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle && rm -rf Tests Resources/doc
+else
+    cd $TARGET/symfony/assetic-bundle && rm -rf Tests Resources/doc
+fi
 if [ -d $TARGET/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle ]; then
     cd $TARGET/symfony/swiftmailer-bundle/Symfony/Bundle/SwiftmailerBundle && rm -rf Tests Resources/doc
 else
