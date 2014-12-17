@@ -1,0 +1,5 @@
+---------------------------------------------------------------------------
+
+by mhujer at 2014-12-16T20:49:03Z
+
+@fabpot I've changed the implementation as you suggested, but the build is failing without any additional info - can you see what's wrong?
