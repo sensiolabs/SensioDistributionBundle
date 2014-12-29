@@ -738,13 +738,18 @@ class SymfonyRequirements extends RequirementCollection
     }
 
     /**
-     * Read inside the composer.json to get the real vendor dir.
+     * In some special setups, the vendor/ directory isn't located in the project's
+     * root directory. To make this command work for every case, read Composer's
+     * vendor/ directory location directly from composer.json file.
+     *
      * @return string
      */
     protected function getComposerVendorDir()
     {
-        $composerJson = json_decode(file_get_contents("../composer.json"));
-        if(isset($composerJson->config)) return $composerJson->config->{'vendor-dir'};
+        $composerJson = json_decode(file_get_contents(__DIR__."/../composer.json"));
+        if(isset($composerJson->config)) {
+            return $composerJson->config->{'vendor-dir'};
+        }
         return __DIR__.'/../vendor/composer';
     }
 }
