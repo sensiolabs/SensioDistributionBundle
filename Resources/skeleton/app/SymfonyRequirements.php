@@ -750,6 +750,7 @@ class SymfonyRequirements extends RequirementCollection
         if(isset($composerJson->config)) {
             return $composerJson->config->{'vendor-dir'};
         }
+        
         return __DIR__.'/../vendor/composer';
     }
 }
