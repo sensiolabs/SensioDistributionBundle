@@ -744,13 +744,13 @@ class SymfonyRequirements extends RequirementCollection
      *
      * @return string
      */
-    protected function getComposerVendorDir()
+    private function getComposerVendorDir()
     {
-        $composerJson = json_decode(file_get_contents(__DIR__."/../composer.json"));
-        if(isset($composerJson->config)) {
+        $composerJson = json_decode(file_get_contents(__DIR__.'/../composer.json'));
+        if (isset($composerJson->config)) {
             return $composerJson->config->{'vendor-dir'};
         }
-        
+
         return __DIR__.'/../vendor/composer';
     }
 }
