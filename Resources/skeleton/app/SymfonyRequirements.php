@@ -403,7 +403,7 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         $this->addRequirement(
-            is_dir(__DIR__.'/../vendor/composer'),
+            is_dir($this->getComposerVendorDir()),
             'Vendor libraries must be installed',
             'Vendor libraries are missing. Install composer following instructions from <a href="http://getcomposer.org/">http://getcomposer.org/</a>. '.
                 'Then run "<strong>php composer.phar install</strong>" to install them.'
@@ -735,5 +735,16 @@ class SymfonyRequirements extends RequirementCollection
             default:
                 return (int) $size;
         }
+    }
+
+    /**
+     * Read inside the composer.json to get the real vendor dir.
+     * @return string
+     */
+    protected function getComposerVendorDir()
+    {
+        $composerJson = json_decode(file_get_contents("../composer.json"));
+        if(isset($composerJson->config)) return __DIR__.$composerJson->config->{'vendor-dir'};
+        return __DIR__.'/../vendor/composer';
     }
 }
