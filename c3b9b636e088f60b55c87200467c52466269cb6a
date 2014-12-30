@@ -1,0 +1,68 @@
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-12-29T09:53:33Z
+
+@karlosagudo first of all, congrats on your first PR!
+
+As you may know, we have a robot called `fabbot` (not to be confused with the human `fabpot`) that automatically checks every submitted pull requests. One of the things checked by this robot is whether your code complies with the [Symfony Coding Standards](http://symfony.com/doc/current/contributing/code/standards.html). Right now it seems that your pull request doesn't comply with those standards, and hence the error shown by GitHub.
+
+In order to fix this issues, you can check the [exact changes proposed by fabbot](http://fabbot.io/report/sensiolabs/SensioDistributionBundle/185/a4b36572e1c7128cc011ca2a21d0431338158575#patchcs). As you can see, it's a matter of refactoring the `if()...` in several lines. I know that this kind of changes may seem negligible, but using the same coding standard for all the code, makes the codebase more consistent and simplifies code reviewers work.
+
+I also have two additional comments. First, I'd reword a bit the PHPdoc comment of the `getComposerVendorDir()` method the better explain its purpose. Here it is a proposal:
+
+```
+/**
+ * In some special setups, the vendor/ directory isn't located in the project's
+ * root directory. To make this command work for every case, read Composer's
+ * vendor/ directory location directly from composer.json file.
+ *
+ * @return string
+ */
+```
+
+The other thing I'd change is this line of code:
+
+```php
+$composerJson = json_decode(file_get_contents("../composer.json"));
+```
+
+We don't usually use relative dirs in the code and we always prefix them with `__DIR__`
+
+---------------------------------------------------------------------------
+
+by karlosagudo at 2014-12-29T10:12:42Z
+
+Thanks a lot @javiereguiluz , changes done.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-12-29T10:19:30Z
+
+@karlosagudo thanks for your quick reply! There is still one very minor change to do related to this coding standard:
+
+```
+Add a blank line before return statements, unless the return is alone inside a
+statement-group (like an if statement);
+```
+
+This means that there should be a blank line before the last `return` of the `getComposerVendorDir()` method.
+
+And about the other errors displayed by fabbot and not related to this pull request, I think we can safely ignore them because they are related to PHPdoc contents alignment.
+
+---------------------------------------------------------------------------
+
+by karlosagudo at 2014-12-29T10:22:54Z
+
+DOne. Sorry i forgot this one. THanks again¡
+
+---------------------------------------------------------------------------
+
+by karlosagudo at 2014-12-29T12:23:02Z
+
+Corrected styles, thanks @fabpot
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2014-12-29T19:14:59Z
+
+:+1: thanks @karlosagudo
