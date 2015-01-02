@@ -747,9 +747,9 @@ class SymfonyRequirements extends RequirementCollection
     private function getComposerVendorDir()
     {
         $composerVendorDir = "vendor";
-        $composerJson = json_decode(file_get_contents(__DIR__.'/../composer.json'));
-        if (isset($composerJson->config) && isset($composerJson->config->{'vendor-dir'})) {
-            $composerVendorDir = $composerJson->config->{'vendor-dir'};
+        $composerJson = json_decode(file_get_contents(__DIR__.'/../composer.json'),true);
+        if (isset($composerJson["config"]["vendor-dir"])) {
+            $composerVendorDir = $composerJson["config"]["vendor-dir"];
             if (realpath($composerVendorDir) == $composerVendorDir) { //is absolute
                 return $composerVendorDir;
             }
