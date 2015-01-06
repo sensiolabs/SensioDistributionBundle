@@ -319,7 +319,7 @@ security:
 
     # with these settings you can restrict or allow access for different parts
     # of your application based on roles, ip, host or methods
-    # http://symfony.com/doc/current/book/security.html#security-book-access-control-matching-options
+    # http://symfony.com/doc/current/cookbook/security/access_control.html
     access_control:
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
 EOF;
