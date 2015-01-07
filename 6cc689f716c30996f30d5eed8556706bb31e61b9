@@ -1,0 +1,35 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-01-06T13:19:24Z
+
+@xelaris I think this should rather be fixed in the documentation. There might be other resources on the Internet linking to the old anchors as well and we can't update all of them.
+
+---------------------------------------------------------------------------
+
+by xelaris at 2015-01-06T13:40:19Z
+
+@xabbuh I agree in principle. Is it possible to keep all previous anchors in the documentation? I think many more link targets has been changed on rewrites (not only this time). Maybe I am wrong. Is it possible to add this anchors in addition? Or how can this achieved? I think it is complicated to track all previous anchors. At least one of the URLs also got a new url.
+
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-01-06T13:42:33Z
+
+Yes, that's possible. I'll make a pull request later. If you spot any more anchors that are broken, feel free to report them. Unfortunately, we didn't always take care of them.
+
+---------------------------------------------------------------------------
+
+by xelaris at 2015-01-06T14:25:04Z
+
+Ok, than I'm going to close here and will have a look at your PR to learn how this is done.
+
+---------------------------------------------------------------------------
+
+by xelaris at 2015-01-06T23:48:20Z
+
+Reopened to complement symfony/symfony-docs#4785. I'm going to change the commit to only fix the last URL here as said by @xabbuh.
+
+---------------------------------------------------------------------------
+
+by xelaris at 2015-01-06T23:51:18Z
+
+PR has been changed
