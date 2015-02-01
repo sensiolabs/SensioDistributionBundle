@@ -42,7 +42,7 @@ cd /tmp/Symfony
 git clone https://github.com/symfony/symfony-standard.git .
 git reset --hard origin/$2
 
-composer.phar update --prefer-dist -n
+composer install --prefer-dist -n
 
 # cleanup
 sudo rm -rf app/cache/* app/logs/* .git*
