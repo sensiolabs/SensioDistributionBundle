@@ -209,7 +209,7 @@ namespace { return \$loader; }
         $options = array_merge(array(
             'symfony-app-dir' => 'app',
             'symfony-web-dir' => 'web',
-            'symfony-assets-install' => 'hard'
+            'symfony-assets-install' => 'hard',
         ), $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
@@ -221,7 +221,7 @@ namespace { return \$loader; }
 
     protected static function getPhp()
     {
-        $phpFinder = new PhpExecutableFinder;
+        $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find()) {
             throw new \RuntimeException('The php executable could not be found, add it to your PATH environment variable and try again');
         }
