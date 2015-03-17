@@ -222,27 +222,27 @@ class ScriptHandler
         $rootDir = getcwd();
         $options = self::getOptions($event);
 
-        if (file_exists($rootDir.'/src/Acme/DemoBundle')) {
+        if (file_exists($rootDir.'/src/DemoBundle')) {
             return;
         }
 
         if (!getenv('SENSIOLABS_FORCE_ACME_DEMO')) {
-            if (!$event->getIO()->askConfirmation('Would you like to install Acme demo bundle? [y/N] ', false)) {
+            if (!$event->getIO()->askConfirmation('Would you like to install the Demo Bundle? [y/N] ', false)) {
                 return;
             }
         }
 
-        $event->getIO()->write('Installing the Acme demo bundle.');
+        $event->getIO()->write('Installing the Demo Bundle.');
 
         $appDir = $options['symfony-app-dir'];
 
         $kernelFile = $appDir.'/AppKernel.php';
 
         $fs = new Filesystem();
-        $fs->mirror(__DIR__.'/../Resources/skeleton/acme-demo-bundle', $rootDir.'/src', null, array('override' => true));
+        $fs->mirror(__DIR__.'/../Resources/skeleton/demo-bundle', $rootDir.'/src', null, array('override' => true));
 
         $ref = '$bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();';
-        $bundleDeclaration = "\$bundles[] = new Acme\\DemoBundle\\AcmeDemoBundle();";
+        $bundleDeclaration = "\$bundles[] = new DemoBundle\\DemoBundle();";
         $content = file_get_contents($kernelFile);
 
         if (false === strpos($content, $bundleDeclaration)) {
@@ -253,19 +253,19 @@ class ScriptHandler
             $fs->dumpFile($kernelFile, $updatedContent);
         }
 
-        self::patchAcmeDemoBundleConfiguration($appDir, $fs);
+        self::patchDemoBundleConfiguration($appDir, $fs);
     }
 
-    private static function patchAcmeDemoBundleConfiguration($appDir, Filesystem $fs)
+    private static function patchDemoBundleConfiguration($appDir, Filesystem $fs)
     {
         $routingFile = $appDir.'/config/routing_dev.yml';
         $securityFile = $appDir.'/config/security.yml';
 
         $routingData = file_get_contents($routingFile).<<<EOF
 
-# AcmeDemoBundle routes (to be removed)
-_acme_demo:
-    resource: "@AcmeDemoBundle/Resources/config/routing.yml"
+# Demo Bundle Routes
+demo_bundle:
+    resource: "@DemoBundle/Resources/config/routing.yml"
 EOF;
         $fs->dumpFile($routingFile, $routingData);
 
@@ -306,7 +306,7 @@ security:
         demo_secured_area:
             pattern:    ^/demo/secured/
             # it's important to notice that in this case _demo_security_check and _demo_login
-            # are route names and that they are specified in the AcmeDemoBundle
+            # are route names and that they are specified in the Demo Bundle
             form_login:
                 check_path: _demo_security_check
                 login_path: _demo_login

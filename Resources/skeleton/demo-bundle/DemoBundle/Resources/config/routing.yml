@@ -1,0 +1,12 @@
+_welcome:
+    path:     /
+    defaults: { _controller: DemoBundle:Welcome:index }
+
+_demo_secured:
+    resource: "@DemoBundle/Controller/SecuredController.php"
+    type:     annotation
+
+_demo:
+    resource: "@DemoBundle/Controller/DemoController.php"
+    type:     annotation
+    prefix:   /demo
