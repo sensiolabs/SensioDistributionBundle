@@ -12,11 +12,6 @@ if [ ! $1 ]; then
     exit 1
 fi
 
-if [ ! $2 ]; then
-    echo "\033[37;41mYou must pass the version to build\033[0m"
-    exit 1
-fi
-
 DIR=$1
 CURRENT=`php -r "echo realpath(dirname(\\$_SERVER['argv'][0]));"`
 
@@ -37,30 +32,27 @@ export COPYFILE_DISABLE=true
 rm -rf /tmp/Symfony
 mkdir /tmp/Symfony
 
-# Create project
-composer create-project -n symfony/framework-standard-edition /tmp/Symfony $2
-
-if [ 0 -ne $? ]; then
-    echo "\033[37;41mVersion $2 does not exist\033[0m"
-    exit 1
-fi
-
+# Clone project and install dependencies
+git clone https://github.com/symfony/symfony-demo /tmp/Symfony
 cd /tmp/Symfony
+composer install --prefer-dist --quiet --no-interaction --no-scripts --ignore-platform-reqs --no-plugins --optimize-autoloader
 
 # cleanup
+cd /tmp/Symfony
+sudo rm -f UPGRADE*
+sudo mv .gitignore keep.gitignore
 sudo rm -rf app/cache/* app/logs/* .git*
+sudo mv keep.gitignore .gitignore
 chmod 777 app/cache app/logs
 find . -name .DS_Store | xargs rm -rf -
 
-VERSION=`grep ' VERSION ' vendor/symfony/symfony/src/Symfony/Component/HttpKernel/Kernel.php | sed -E "s/.*'(.+)'.*/\1/g"`
-
-# With vendors
+# remove unneded dependencies files
 cd /tmp/Symfony
 TARGET=/tmp/Symfony/vendor
 
 # Doctrine
-cd $TARGET/doctrine/orm && rm -rf UPGRADE* build* tests tools lib/vendor
-cd $TARGET/doctrine/dbal && rm -rf build* tests lib/vendor
+cd $TARGET/doctrine/orm && rm -rf UPGRADE* build* bin tests tools lib/vendor
+cd $TARGET/doctrine/dbal && rm -rf bin build* tests lib/vendor
 cd $TARGET/doctrine/common && rm -rf build* tests lib/vendor
 if [ -d $TARGET/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle ]; then
     cd $TARGET/doctrine/doctrine-bundle/Doctrine/Bundle/DoctrineBundle && rm -rf Tests Resources/doc
@@ -107,21 +99,14 @@ fi
 cd $TARGET/twig/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
 cd $TARGET/twig/extensions && rm -rf README doc phpunit.xml* test
 
-# cleanup
+# final cleanup
 find $TARGET -name .git | xargs rm -rf -
 find $TARGET -name .gitignore | xargs rm -rf -
 find $TARGET -name .gitmodules | xargs rm -rf -
 find $TARGET -name .svn | xargs rm -rf -
 
-# With vendors
+# build ZIP and TGZ packages
 cd /tmp
-tar zcpf $DIR/Symfony_Standard_Vendors_$VERSION.tgz Symfony
-sudo rm -f $DIR/Symfony_Standard_Vendors_$VERSION.zip
-zip -rq $DIR/Symfony_Standard_Vendors_$VERSION.zip Symfony
-
-# Without vendors
-cd /tmp
-rm -rf Symfony/vendor
-tar zcpf $DIR/Symfony_Standard_$VERSION.tgz Symfony
-sudo rm -f $DIR/Symfony_Standard_$VERSION.zip
-zip -rq $DIR/Symfony_Standard_$VERSION.zip Symfony
+tar zcpf $DIR/Symfony_Demo.tgz Symfony
+sudo rm -f $DIR/Symfony_Demo.zip
+zip -rq $DIR/Symfony_Demo.zip Symfony
