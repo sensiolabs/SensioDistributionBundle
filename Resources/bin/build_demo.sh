@@ -28,14 +28,14 @@ fi
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
 export COPYFILE_DISABLE=true
 
-# Temp dir
+# Prepare temp. dir
 rm -rf /tmp/Symfony
 mkdir /tmp/Symfony
 
-# Clone project and install dependencies
+# Clone demo application and install its dependencies
 git clone https://github.com/symfony/symfony-demo /tmp/Symfony
 cd /tmp/Symfony
-composer install --prefer-dist --quiet --no-interaction --no-scripts --ignore-platform-reqs --no-plugins --optimize-autoloader
+composer install --prefer-dist --quiet --no-interaction --ignore-platform-reqs --no-plugins --optimize-autoloader
 
 # cleanup
 cd /tmp/Symfony
