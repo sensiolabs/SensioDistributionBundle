@@ -39,10 +39,10 @@ composer install --prefer-dist --no-interaction --ignore-platform-reqs --no-plug
 
 # cleanup
 cd /tmp/Symfony
-sudo rm -f UPGRADE*
-sudo mv .gitignore keep.gitignore
-sudo rm -rf app/cache/* app/logs/* .git*
-sudo mv keep.gitignore .gitignore
+rm -f UPGRADE*
+mv .gitignore keep.gitignore
+rm -rf app/cache/* app/logs/* .git*
+mv keep.gitignore .gitignore
 chmod 777 app/cache app/logs
 find . -name .DS_Store | xargs rm -rf -
 
@@ -108,5 +108,5 @@ find $TARGET -name .svn | xargs rm -rf -
 # build ZIP and TGZ packages
 cd /tmp
 tar zcpf $DIR/Symfony_Demo.tgz Symfony
-sudo rm -f $DIR/Symfony_Demo.zip
+rm -f $DIR/Symfony_Demo.zip
 zip -rq $DIR/Symfony_Demo.zip Symfony
