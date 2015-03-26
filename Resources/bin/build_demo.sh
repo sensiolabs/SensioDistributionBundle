@@ -35,7 +35,7 @@ mkdir /tmp/Symfony
 # Clone demo application and install its dependencies
 git clone https://github.com/symfony/symfony-demo /tmp/Symfony
 cd /tmp/Symfony
-composer install --prefer-dist --quiet --no-interaction --ignore-platform-reqs --no-plugins --optimize-autoloader
+composer install --prefer-dist --no-interaction --ignore-platform-reqs --no-plugins --optimize-autoloader
 
 # cleanup
 cd /tmp/Symfony
