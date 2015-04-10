@@ -407,7 +407,10 @@ EOF;
 
         file_put_contents($file, sprintf("<?php
 
-namespace { \$loader = require_once __DIR__.'/".$autoloadDir."autoload.php'; }
+namespace {
+    error_reporting(error_reporting() & ~E_USER_DEPRECATED);
+    \$loader = require_once __DIR__.'/".$autoloadDir."autoload.php';
+}
 
 %s
 
