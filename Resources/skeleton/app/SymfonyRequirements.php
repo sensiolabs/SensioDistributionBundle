@@ -530,8 +530,15 @@ class SymfonyRequirements extends RequirementCollection
 
         /* optional recommendations follow */
 
+        try {
+            $r = new \ReflectionClass('Sensio\Bundle\DistributionBundle\SensioDistributionBundle');
+
+            $contents = file_get_contents(dirname($r->getFileName()).'/Resources/skeleton/app/SymfonyRequirements.php');
+        } catch (\ReflectionException $e) {
+            $contents = '';
+        }
         $this->addRecommendation(
-            file_get_contents(__FILE__) === file_get_contents(__DIR__.'/../vendor/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle/Resources/skeleton/app/SymfonyRequirements.php'),
+            file_get_contents(__FILE__) === $contents,
             'Requirements file should be up-to-date',
             'Your requirements file is outdated. Run composer install and re-check your configuration.'
         );
