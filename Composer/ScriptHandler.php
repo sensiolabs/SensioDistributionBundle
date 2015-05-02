@@ -405,17 +405,20 @@ EOF;
             $autoloadDir = $fs->makePathRelative($autoloadDir, $bootstrapDir);
         }
 
-        file_put_contents($file, sprintf("<?php
+        file_put_contents($file, sprintf(<<<'EOF'
+<?php
 
 namespace {
     error_reporting(error_reporting() & ~E_USER_DEPRECATED);
-    \$loader = require_once __DIR__.'/".$autoloadDir."autoload.php';
+    $loader = require_once __DIR__.'/%sautoload.php';
 }
 
 %s
 
-namespace { return \$loader; }
-            ", $bootstrapContent));
+namespace { return $loader; }
+
+EOF
+            , $autoloadDir, $bootstrapContent));
     }
 
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
