@@ -106,7 +106,6 @@ fi
 
 # Twig
 cd $TARGET/twig/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package.xml.tpl phpunit.xml* test
-cd $TARGET/twig/extensions && rm -rf README doc phpunit.xml* test
 
 # cleanup
 find $TARGET -name .git | xargs rm -rf -
