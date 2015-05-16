@@ -207,7 +207,8 @@ class ScriptHandler
             $fs->copy(__DIR__.'/../Resources/skeleton/app/check.php', $binDir.'/symfony_requirements', true);
             $fs->remove(array($appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true));
 
-            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'.PHP_EOL.str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')), 0755);
+            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'.PHP_EOL.str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
+            $fs->chmod($binDir.'/symfony_requirements', 0755);
         }
 
         $webDir = $options['symfony-web-dir'];
