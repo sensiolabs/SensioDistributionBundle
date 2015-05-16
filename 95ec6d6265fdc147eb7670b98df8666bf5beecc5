@@ -1,0 +1,5 @@
+---------------------------------------------------------------------------
+
+by stof at 2015-03-09T16:50:52Z
+
+The drawback of this is that all these methods are becoming extensions points subject to BC. @fabpot is it desirable ?
