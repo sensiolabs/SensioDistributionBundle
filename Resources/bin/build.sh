@@ -73,7 +73,11 @@ cd $TARGET/monolog/monolog && rm -rf README.markdown phpunit.xml* tests
 
 # Sensio
 cd $TARGET/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
-cd $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+if [ -d $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle ]; then
+    cd $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+else
+    cd $TARGET/sensio/framework-extra-bundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+fi
 cd $TARGET/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
 
 # Swiftmailer
