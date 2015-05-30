@@ -626,18 +626,12 @@ class SymfonyRequirements extends RequirementCollection
         );
 
         if (class_exists('Collator')) {
-            try {
-                // in some WAMP server installations, new Collator() returns null
-                $this->addRecommendation(
-                    null !== new Collator('fr_FR'),
-                    'intl extension should be correctly configured',
-                    'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds.'
-                );
-            } catch (Symfony\Component\Intl\Exception\ExceptionInterface $e) {
-                // if an exception is thrown from the Intl component is thrown
-                // then they don't have intl installed at all, and we've warned
-                //them about this already
-            }
+            // in some WAMP server installations, new Collator() returns null
+            $this->addRecommendation(
+                !(extension_loaded('intl') && null !== new Collator('fr_FR')),
+                'intl extension should be correctly configured',
+                'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds.'
+            );
         }
 
         if (class_exists('Locale')) {
