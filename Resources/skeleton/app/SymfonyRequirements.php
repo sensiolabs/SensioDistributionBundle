@@ -625,10 +625,10 @@ class SymfonyRequirements extends RequirementCollection
             'Install and enable the <strong>intl</strong> extension (used for validators).'
         );
 
-        if (class_exists('Collator')) {
+        if (class_exists('Collator') && extension_loaded('intl')) {
             // in some WAMP server installations, new Collator() returns null
             $this->addRecommendation(
-                !(extension_loaded('intl') && null !== new Collator('fr_FR')),
+                null !== new Collator('fr_FR'),
                 'intl extension should be correctly configured',
                 'The intl extension does not behave properly. This problem is typical on PHP 5.3.X x64 WIN builds.'
             );
