@@ -1,0 +1,46 @@
+---------------------------------------------------------------------------
+
+by unkind at 2015-05-30T23:00:16Z
+
+I think it would be better to check extension with `extension_loaded("Intl")` or fix check like this:
+```diff
+-if (class_exists('Collator')) {
++if (class_exists('Collator', false)) {
+```
+so stub won't be autoloaded.
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-05-30T23:23:49Z
+
+@unkind Done! I had avoided `extension_loaded()` thinking that there must be a reason why it wasn't used before (some edge case I wasn't thinking about). But in fact, `extension_loaded()` WAS used in the original #48, then was removed (accidentally) at sha: 0b9fc9dca302748e85deb067e45a63c42a1fb066. So, this re-adds part of the check that was lost a long time ago.
+
+I'm hoping @javiereguiluz can test this latest patch when he's available :).
+
+Thanks!
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-05-31T15:05:53Z
+
+Updated again. It seems that this entire block needs to be wrapped with a check for the `intl` extension. The checks for `get_class` on `Locale` and `Collator` are ancient - I tracked `class_exists('locale')` back to the initial commit of this file in 2012 (sha: https://github.com/sensiolabs/SensioDistributionBundle/commit/d6908c508dc680f881b7a25ccb40a9ff0506a4fe#diff-8c51fc4db4fe2137d09314df0c77f09dR530). Quite simply, ever since the `Intl` extension started providing stubs, I think this check was just plain wrong.
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-05-31T15:07:15Z
+
+I'm also not sure the check *above* this (with a `class_exists('Locale')` that warns about installing the `intl` extension) is correct, but I'm not trying to over-fix things, just plug the current bug :).
+
+---------------------------------------------------------------------------
+
+by weaverryan at 2015-05-31T17:44:32Z
+
+The latest version of this *does* in fact fix the original issue in symfony/symfony-installer#163
+
+There's still some mystery around why some of the logic was written the way it was originally, but I believe this is safe and good to merge.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2015-05-31T17:52:54Z
+
+:+1: thanks for fixing this issue @weaverryan
