@@ -3,6 +3,7 @@
 namespace Acme\DemoBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -20,14 +21,23 @@ class SecuredController extends Controller
      */
     public function loginAction(Request $request)
     {
-        if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(SecurityContext::AUTHENTICATION_ERROR);
+        if (class_exists('\Symfony\Component\Security\Core\Security')) {
+            $authErrorKey = Security::AUTHENTICATION_ERROR;
+            $lastUsernameKey = Security::LAST_USERNAME;
         } else {
-            $error = $request->getSession()->get(SecurityContext::AUTHENTICATION_ERROR);
+            // BC for SF < 2.6
+            $authErrorKey = SecurityContext::AUTHENTICATION_ERROR;
+            $lastUsernameKey = SecurityContext::LAST_USERNAME;
+        }
+        
+        if ($request->attributes->has($authErrorKey)) {
+            $error = $request->attributes->get($authErrorKey);
+        } else {
+            $error = $request->getSession()->get($authErrorKey);
         }
 
         return array(
-            'last_username' => $request->getSession()->get(SecurityContext::LAST_USERNAME),
+            'last_username' => $request->getSession()->get($lastUsernameKey),
             'error'         => $error,
         );
     }
