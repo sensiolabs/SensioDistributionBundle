@@ -29,7 +29,7 @@ class SecuredController extends Controller
             $authErrorKey = SecurityContext::AUTHENTICATION_ERROR;
             $lastUsernameKey = SecurityContext::LAST_USERNAME;
         }
-        
+
         if ($request->attributes->has($authErrorKey)) {
             $error = $request->attributes->get($authErrorKey);
         } else {
@@ -38,7 +38,7 @@ class SecuredController extends Controller
 
         return array(
             'last_username' => $request->getSession()->get($lastUsernameKey),
-            'error'         => $error,
+            'error' => $error,
         );
     }
 
