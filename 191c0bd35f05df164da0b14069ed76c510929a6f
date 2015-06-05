@@ -1,0 +1,5 @@
+---------------------------------------------------------------------------
+
+by Restless-ET at 2015-06-05T16:34:48Z
+
+@fabpot I've kept the code for BC with symfony versions < 2.6. I don't know if that's still required... if not I can remove it.
