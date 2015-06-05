@@ -241,20 +241,6 @@ class ScriptHandler
         $fs->remove($appDir.'/SymfonyStandard');
     }
 
-    public static function installAcmeDemoBundle(CommandEvent $event)
-    {
-        // Do nothing because the AcmeDemoBundle has been deprecated in favor of
-        // the Symfony Demo application (https://github.com/symfony/symfony-demo)
-        // Maintained to avoid backwards compatibility breaks.
-    }
-
-    private static function patchAcmeDemoBundleConfiguration($appDir, Filesystem $fs)
-    {
-        // Do nothing because the AcmeDemoBundle has been deprecated in favor of
-        // the Symfony Demo application (https://github.com/symfony/symfony-demo)
-        // Maintained to avoid backwards compatibility breaks.
-    }
-
     public static function doBuildBootstrap($bootstrapDir, $autoloadDir = null, $useNewDirectoryStructure = false)
     {
         $file = $bootstrapDir.'/bootstrap.php.cache';
