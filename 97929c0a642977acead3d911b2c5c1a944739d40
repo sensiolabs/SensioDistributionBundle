@@ -1,0 +1,57 @@
+---------------------------------------------------------------------------
+
+by fabpot at 2015-06-05T13:44:35Z
+
+I don't think we need to keep BC in the ScriptHandler script.
+
+---------------------------------------------------------------------------
+
+by fabpot at 2015-06-05T13:45:15Z
+
+One way to keep BC would be to bump version to 4.0 for the bundle and update the symfony SE to use the new version for all new versions (including 2.3?).
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2015-06-05T14:11:11Z
+
+It's great to hear that. I've created two separate pull requests to remove the AcmeDemoBundle from Symfony Standard too:
+
+  * 2.3: https://github.com/symfony/symfony-standard/pull/818
+  * 2.6+: https://github.com/symfony/symfony-standard/pull/819
+
+---------------------------------------------------------------------------
+
+by stof at 2015-06-11T08:21:54Z
+
+If we remove the methods, we indeed need to bump the major version as it is a BC break for anyone using it in their composer.json. but it is fine IMO
+
+---------------------------------------------------------------------------
+
+by Pierstoval at 2015-06-11T08:23:32Z
+
+Is it possible to simply throw a "deprecated" error in the composer script that tells the user to remove the methods in his `composer.json` file?
+
+---------------------------------------------------------------------------
+
+by stof at 2015-06-11T08:58:00Z
+
+@Pierstoval this is a bad idea. Composer turns all PHP errors into exceptions, including the E_USER_DEPRECATED ones, meaning that it would make the composer installation fail if you trigger it in the script handler (and if you trigger it silenced, it will never be reported as the special error handler of Symfony logging all deprecations even silenced is not registered in Composer runs)
+
+---------------------------------------------------------------------------
+
+by Pierstoval at 2015-06-11T09:06:17Z
+
+So what is the best solution then? Show the message simply in the output?
+
+---------------------------------------------------------------------------
+
+by stof at 2015-06-11T09:27:21Z
+
+Well, in 3.x of the bundle, the handler should continue to work (for BC reasons). But we could indeed add a message in the output saying it is deprecated (not sure it is worth it as I'm not sure people will read it).
+and in 4.0, we should just remove the methods entirely IMO and document the change in the upgrade instructions (it is an easy upgrade)
+
+---------------------------------------------------------------------------
+
+by Tobion at 2015-06-11T10:33:14Z
+
+:+1: for removing in 4.0. @javiereguiluz so you need to change the branch alias in composer.json
