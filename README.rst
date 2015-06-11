@@ -16,9 +16,6 @@ when running an install or an update:
 
 * Updated the requirements file;
 
-* Install the Acme Demo bundle by setting the ``SENSIOLABS_FORCE_ACME_DEMO``
-  environment variable to ``true`` (and only when creating a new project);
-
 * Switch to the Symfony 3.0 directory structure by setting the
   ``SENSIOLABS_ENABLE_NEW_DIRECTORY_STRUCTURE`` environment variable to
   ``true`` (and only when creating a new project).

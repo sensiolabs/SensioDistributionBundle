@@ -32,7 +32,6 @@ fi
 # avoid the creation of ._* files
 export COPY_EXTENDED_ATTRIBUTES_DISABLE=true
 export COPYFILE_DISABLE=true
-export SENSIOLABS_FORCE_ACME_DEMO=true
 
 # Temp dir
 rm -rf /tmp/Symfony
