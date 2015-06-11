@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.9",
         "symfony/framework-bundle": "~2.3",
         "symfony/class-loader": "~2.2",
         "symfony/process": "~2.2",
@@ -33,7 +33,7 @@
     "target-dir": "Sensio/Bundle/DistributionBundle",
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0.x-dev"
+            "dev-master": "4.0.x-dev"
         }
     },
     "minimum-stability": "dev"
