@@ -11,8 +11,6 @@
 
 namespace Sensio\Bundle\DistributionBundle;
 
-use Sensio\Bundle\DistributionBundle\DependencyInjection\Compiler\StepsPass;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -24,8 +22,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class SensioDistributionBundle extends Bundle
 {
-    public function build(ContainerBuilder $container)
-    {
-        $container->addCompilerPass(new StepsPass());
-    }
 }
