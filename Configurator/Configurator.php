@@ -169,7 +169,7 @@ class Configurator
      *
      * @return string
      */
-    public function render($expanded = 0)
+    public function render($expanded = 10)
     {
         return Yaml::dump(array('parameters' => $this->parameters), $expanded);
     }
@@ -181,7 +181,7 @@ class Configurator
      *
      * @return int
      */
-    public function write($expanded = 0)
+    public function write($expanded = 10)
     {
         $filename = $this->isFileWritable() ? $this->filename : $this->getCacheFilename();
 
