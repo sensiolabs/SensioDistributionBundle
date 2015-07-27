@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------
+
+by xabbuh at 2015-07-21T12:39:10Z
+
+So this addresses symfony/symfony#14015?
+
+---------------------------------------------------------------------------
+
+by Xosofox at 2015-07-21T13:28:13Z
+
+Exactly, I stumbled upon it yesterday and thought to fix it. However, I see there are discussions going on to remove the config completely, so I did not bother fixing the (other people's) coding standards issues ;-)
