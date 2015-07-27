@@ -1,0 +1,49 @@
+---------------------------------------------------------------------------
+
+by stof at 2015-07-17T09:54:25Z
+
+Another argument: in many setups, it is unusable as it cannot replace the config file itself (not writable by the webserver) and many people will not read the message telling them that the file has been saved in the cache folder and that they need to move it.
+
+So a big :+1: from me
+
+---------------------------------------------------------------------------
+
+by fabpot at 2015-07-17T12:10:39Z
+
+I suppose there are some links to the configurator that also need to be removed.
+
+---------------------------------------------------------------------------
+
+by stof at 2015-07-17T14:29:04Z
+
+Links to the configurator where in the AcmeDemoBundle homepage IIRC. I'm not sure we still have one (or maybe just in the requirement checker script maybe, to be checked)
+
+---------------------------------------------------------------------------
+
+by fabpot at 2015-07-27T09:57:53Z
+
+Do we need to bump the version to 5.0?
+
+---------------------------------------------------------------------------
+
+by stof at 2015-07-27T09:59:26Z
+
+following semver, we should
+
+---------------------------------------------------------------------------
+
+by stof at 2015-07-27T10:00:07Z
+
+and this is a BC break for people importing the configurator routing in their routing files, so we should indeed bump the major version to avoid breaking existing projects
+
+---------------------------------------------------------------------------
+
+by fabpot at 2015-07-27T10:03:22Z
+
+@javiereguiluz Can you bump the version in Composer?
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2015-07-27T10:36:03Z
+
+Rebased and bumped to 5.0.
