@@ -45,7 +45,7 @@ class ConfiguratorController extends ContainerAware
                 $configurator->mergeParameters($step->update($form->getData()));
                 $configurator->write();
 
-                $index++;
+                ++$index;
 
                 if ($index < $configurator->getStepCount()) {
                     return new RedirectResponse($this->container->get('router')->generate('_configurator_step', array('index' => $index)));
@@ -56,9 +56,9 @@ class ConfiguratorController extends ContainerAware
         }
 
         return $this->container->get('templating')->renderResponse($step->getTemplate(), array(
-            'form'    => $form->createView(),
-            'index'   => $index,
-            'count'   => $configurator->getStepCount(),
+            'form' => $form->createView(),
+            'index' => $index,
+            'count' => $configurator->getStepCount(),
             'version' => $this->getVersion(),
         ));
     }
@@ -78,9 +78,9 @@ class ConfiguratorController extends ContainerAware
         }
 
         return $this->container->get('templating')->renderResponse('SensioDistributionBundle::Configurator/check.html.twig', array(
-            'majors'  => $majors,
-            'minors'  => $minors,
-            'url'     => $url,
+            'majors' => $majors,
+            'minors' => $minors,
+            'url' => $url,
             'version' => $this->getVersion(),
         ));
     }
@@ -98,10 +98,10 @@ class ConfiguratorController extends ContainerAware
 
         return $this->container->get('templating')->renderResponse('SensioDistributionBundle::Configurator/final.html.twig', array(
             'welcome_url' => $welcomeUrl,
-            'parameters'  => $configurator->render(),
-            'yml_path'    => $this->container->getParameter('kernel.root_dir').'/config/parameters.yml',
+            'parameters' => $configurator->render(),
+            'yml_path' => $this->container->getParameter('kernel.root_dir').'/config/parameters.yml',
             'is_writable' => $configurator->isFileWritable(),
-            'version'     => $this->getVersion(),
+            'version' => $this->getVersion(),
         ));
     }
 

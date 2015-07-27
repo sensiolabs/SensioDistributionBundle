@@ -50,7 +50,7 @@ class Configurator
 
     /**
      * @param StepInterface $step
-     * @param int $priority
+     * @param int           $priority
      */
     public function addStep(StepInterface $step, $priority = 0)
     {
@@ -63,7 +63,7 @@ class Configurator
     }
 
     /**
-     * @param integer $index
+     * @param int $index
      *
      * @return StepInterface
      */
@@ -92,7 +92,7 @@ class Configurator
 
     /**
      * Sort routers by priority.
-     * The highest priority number is the highest priority (reverse sorting)
+     * The highest priority number is the highest priority (reverse sorting).
      *
      * @return StepInterface[]
      */
@@ -117,7 +117,7 @@ class Configurator
     }
 
     /**
-     * @return integer
+     * @return int
      */
     public function getStepCount()
     {
@@ -217,7 +217,7 @@ class Configurator
     }
 
     /**
-     * getCacheFilename
+     * getCacheFilename.
      *
      * @return string
      */

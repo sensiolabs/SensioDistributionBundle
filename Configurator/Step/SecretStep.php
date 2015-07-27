@@ -61,7 +61,7 @@ class SecretStep implements StepInterface
     }
 
     /**
-     * checkOptionalSettings
+     * checkOptionalSettings.
      */
     public function checkOptionalSettings()
     {

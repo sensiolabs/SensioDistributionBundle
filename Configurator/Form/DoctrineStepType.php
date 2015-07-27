@@ -32,10 +32,10 @@ class DoctrineStepType extends AbstractType
             ->add('port', 'text', array('required' => false))
             ->add('user', 'text', array('required' => false))
             ->add('password', 'repeated', array(
-                'required'        => false,
-                'type'            => 'password',
-                'first_name'      => 'password',
-                'second_name'     => 'password_again',
+                'required' => false,
+                'type' => 'password',
+                'first_name' => 'password',
+                'second_name' => 'password_again',
                 'invalid_message' => 'The password fields must match.',
             ))
         ;
