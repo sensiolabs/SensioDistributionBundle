@@ -20,12 +20,6 @@ when running an install or an update:
   ``SENSIOLABS_ENABLE_NEW_DIRECTORY_STRUCTURE`` environment variable to
   ``true`` (and only when creating a new project).
 
-Web Configurator
-----------------
-
-The bundle provides a web configurator to ease the setup of a Symfony
-project via a simple web interface.
-
 Security
 --------
 
