@@ -1,0 +1,11 @@
+---------------------------------------------------------------------------
+
+by stof at 2015-07-30T08:43:48Z
+
+Using the ``Locale`` class to detect the intl extension is indeed broken because of our stub implementation being available
+
+---------------------------------------------------------------------------
+
+by bocharsky-bw at 2015-07-30T08:50:06Z
+
+@stof thank you! I updated it.
