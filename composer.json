@@ -15,6 +15,7 @@
         "symfony/dependency-injection": "~2.3",
         "symfony/config": "~2.3",
         "symfony/filesystem": "~2.3",
+        "symfony/http-kernel": "~2.3",
         "symfony/class-loader": "~2.2",
         "symfony/process": "~2.2",
         "sensiolabs/security-checker": "~2.0"
