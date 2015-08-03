@@ -14,7 +14,7 @@ when running an install or an update:
 
 * Install the assets under the web root directory;
 
-* Updated the requirements file;
+* Update the requirements file;
 
 * Switch to the Symfony 3.0 directory structure by setting the
   ``SENSIOLABS_ENABLE_NEW_DIRECTORY_STRUCTURE`` environment variable to
