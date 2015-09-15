@@ -387,8 +387,10 @@ EOF;
         $autoloaders = spl_autoload_functions();
         if (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Bundle\\FrameworkBundle\\HttpKernel')) {
             $classes[] = 'Symfony\\Bundle\\FrameworkBundle\\HttpKernel';
-        } else {
+        } elseif (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel')) {
             $classes[] = 'Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel';
+        } else {
+            $classes[] = 'Symfony\\Component\\HttpKernel\\HttpKernel';
         }
 
         ClassCollectionLoader::load($classes, dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
