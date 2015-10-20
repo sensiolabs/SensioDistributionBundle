@@ -1,0 +1,13 @@
+---------------------------------------------------------------------------
+
+by Pierstoval at 2015-10-20T06:48:04Z
+
+(Finally you got it :smile: )
+What about php for windows? Is it compiled with iconv too?
+
+---------------------------------------------------------------------------
+
+by nicolas-grekas at 2015-10-20T06:49:18Z
+
+I've got it :)
+Yes, php on Windows has iconv embedded without any additional .dll
