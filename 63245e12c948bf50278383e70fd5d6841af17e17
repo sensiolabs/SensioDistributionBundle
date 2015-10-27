@@ -1,0 +1,26 @@
+---------------------------------------------------------------------------
+
+by apfelbox at 2015-10-27T13:40:40Z
+
+You shouldn't use this bundle with PHP < 5.3.9.
+
+The `composer.json` states the same:
+
+```
+"require": {
+    "php": ">=5.3.9",
+    ...
+}
+```
+
+---------------------------------------------------------------------------
+
+by lyrixx at 2015-10-27T13:57:35Z
+
+@apfelbox Anyway, this patch is valid ;)
+
+---------------------------------------------------------------------------
+
+by jvasseur at 2015-10-27T13:59:13Z
+
+@apfelbox The symfony requirements sould work on the lowest possible version of PHP to warn the user that his version is to old.
