@@ -102,7 +102,7 @@ cd $TARGET/symfony/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
 
 if [ -d $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle ]; then
     cd $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle && rm -rf Tests Resources/doc
-else if [ -d $TARGET/symfony/assetic-bundle ]; then
+elif [ -d $TARGET/symfony/assetic-bundle ]; then
     cd $TARGET/symfony/assetic-bundle && rm -rf Tests Resources/doc
 fi
 
