@@ -70,19 +70,29 @@ else
 fi
 
 # kriswallsmith
-cd $TARGET/kriswallsmith/assetic && rm -rf CHANGELOG* phpunit.xml* tests docs
+if [ -d $TARGET/kriswallsmith/assetic ]; then
+    cd $TARGET/kriswallsmith/assetic && rm -rf CHANGELOG* phpunit.xml* tests docs
+fi
 
 # Monolog
 cd $TARGET/monolog/monolog && rm -rf README.markdown phpunit.xml* tests
 
 # Sensio
-cd $TARGET/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+if [ -d $TARGET/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle ]; then
+    cd $TARGET/sensio/distribution-bundle/Sensio/Bundle/DistributionBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+else
+    cd $TARGET/sensio/distribution-bundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+fi
 if [ -d $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle ]; then
     cd $TARGET/sensio/framework-extra-bundle/Sensio/Bundle/FrameworkExtraBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
 else
     cd $TARGET/sensio/framework-extra-bundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
 fi
-cd $TARGET/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+if [ -d $TARGET/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle ]; then
+    cd $TARGET/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+else
+    cd $TARGET/sensio/generator-bundle && rm -rf phpunit.xml* Tests CHANGELOG* Resources/doc
+fi
 
 # Swiftmailer
 cd $TARGET/swiftmailer/swiftmailer && rm -rf CHANGES README* build* docs notes test-suite tests create_pear_package.php package*
@@ -92,7 +102,7 @@ cd $TARGET/symfony/symfony && rm -rf README.md phpunit.xml* tests *.sh vendor
 
 if [ -d $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle ]; then
     cd $TARGET/symfony/assetic-bundle/Symfony/Bundle/AsseticBundle && rm -rf Tests Resources/doc
-else
+else if [ -d $TARGET/symfony/assetic-bundle ]; then
     cd $TARGET/symfony/assetic-bundle && rm -rf Tests Resources/doc
 fi
 
