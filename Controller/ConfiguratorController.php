@@ -11,7 +11,7 @@
 
 namespace Sensio\Bundle\DistributionBundle\Controller;
 
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -21,8 +21,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class ConfiguratorController extends ContainerAware
+class ConfiguratorController
 {
+    use ContainerAwareTrait;
+    
     /**
      * @return Response A Response instance
      */
