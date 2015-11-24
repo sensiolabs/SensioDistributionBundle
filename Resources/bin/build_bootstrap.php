@@ -27,7 +27,6 @@ function getRealpath($path, $message = 'Directory %s does not seem to be valid.'
 
 $argv = $_SERVER['argv'];
 $autoloadDir = $bootstrapDir = null;
-$useNewDirectoryStructure = false;
 
 // allow the base path to be passed as the first argument, or default
 if (!empty($argv[1])) {
@@ -38,22 +37,15 @@ if (!empty($argv[2])) {
     $autoloadDir = getRealpath($argv[2]);
 }
 
-if (!empty($argv[3])) {
-    $useNewDirectoryStructure = true;
-}
-
 $rootDir = __DIR__.'/../../../../../../../..';
 if (null === $autoloadDir) {
     $autoloadDir = getRealpath($rootDir.'/app', 'Looks like you don\'t have a standard layout.');
 }
 if (null === $bootstrapDir) {
     $bootstrapDir = $autoloadDir;
-    if ($useNewDirectoryStructure) {
-        $bootstrapDir = getRealpath($rootDir.'/var');
-    }
 }
 
 require_once $autoloadDir.'/autoload.php';
 
 // here we pass realpaths as resolution between absolute and relative path can be wrong
-ScriptHandler::doBuildBootstrap($bootstrapDir, $autoloadDir, $useNewDirectoryStructure);
+ScriptHandler::doBuildBootstrap($bootstrapDir, $autoloadDir);
