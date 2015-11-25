@@ -1,0 +1,31 @@
+---------------------------------------------------------------------------
+
+by fabpot at 2015-11-25T04:15:12Z
+
+The changes on Symfony SE were done in 2.8 but this bundle is still compatible with 2.3. IIUC, this PR makes the bundle compatible with 2.8+ only.
+
+---------------------------------------------------------------------------
+
+by Tobion at 2015-11-25T10:23:27Z
+
+The distribution-bundle 5.x is only compatible with 2.8+ already. 5.x removed the webconfigurator, so it cannot be used in 2.3/2.7 because this will fail: https://github.com/symfony/symfony-standard/blob/2.3/app/config/routing_dev.yml#L10
+
+So maybe we should raise the requirements of the components in composer.json, even if it's not really the components requirements that changed but framework-standard-edition.
+
+---------------------------------------------------------------------------
+
+by stof at 2015-11-25T10:27:59Z
+
+@Tobion the 5.x bundle can perfectly be used with 2.3 if you don't use the configuration (then, it is a matter of the SE choosing whether it needs the configurator or no, but projects not needing the configurator may decide to use the latest version of the bundle)
+
+---------------------------------------------------------------------------
+
+by Tobion at 2015-11-25T10:35:53Z
+
+@stof if you argue this way then the distribtion bundle with this change can also be used with SE 2.3/2.7 if you change the bootstrap inclusion.
+
+---------------------------------------------------------------------------
+
+by Tobion at 2015-11-25T10:38:53Z
+
+Anyway, I don't think this discussion matters. SE 2.3/2.7 don't have 5.x as in their dependencies. And if people want to use SE 2.3 and manually upgrade the distribution bundle, they need to know what they are doing, i.e. change bootstrap inclusion and remove configurator.
