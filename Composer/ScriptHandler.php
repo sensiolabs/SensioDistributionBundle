@@ -207,7 +207,7 @@ class ScriptHandler
             $fs->copy(__DIR__.'/../Resources/skeleton/app/check.php', $binDir.'/symfony_requirements', true);
             $fs->remove(array($appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true));
 
-            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'.PHP_EOL.str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
+            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'."\n".str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
             $fs->chmod($binDir.'/symfony_requirements', 0755);
         }
 
@@ -241,7 +241,7 @@ class ScriptHandler
         $fs->remove($appDir.'/SymfonyStandard');
     }
 
-    public static function doBuildBootstrap($bootstrapDir, $autoloadDir = null, $useNewDirectoryStructure = false)
+    public static function doBuildBootstrap($bootstrapDir)
     {
         $file = $bootstrapDir.'/bootstrap.php.cache';
         if (file_exists($file)) {
@@ -258,8 +258,6 @@ class ScriptHandler
             'Symfony\\Component\\HttpFoundation\\ResponseHeaderBag',
 
             'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
-            // Cannot be included because annotations will parse the big compiled class file
-            //'Symfony\\Component\\DependencyInjection\\ContainerAware',
             'Symfony\\Component\\DependencyInjection\\Container',
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
@@ -275,9 +273,7 @@ class ScriptHandler
         // which won't be included into the cache then.
         // we know that composer autoloader is first (see bin/build_bootstrap.php)
         $autoloaders = spl_autoload_functions();
-        if (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Bundle\\FrameworkBundle\\HttpKernel')) {
-            $classes[] = 'Symfony\\Bundle\\FrameworkBundle\\HttpKernel';
-        } elseif (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel')) {
+        if (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel')) {
             $classes[] = 'Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel';
         } else {
             $classes[] = 'Symfony\\Component\\HttpKernel\\HttpKernel';
@@ -285,33 +281,15 @@ class ScriptHandler
 
         ClassCollectionLoader::load($classes, dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
-        $fs = new Filesystem();
         $bootstrapContent = substr(file_get_contents($file), 5);
-
-        if ($useNewDirectoryStructure) {
-            $cacheDir = $fs->makePathRelative($bootstrapDir, $autoloadDir);
-            $bootstrapContent = str_replace(array("return \$this->rootDir.'/logs", "return \$this->rootDir.'/cache"), array("return \$this->rootDir.'/".$cacheDir.'logs', "return \$this->rootDir.'/".$cacheDir.'cache'), $bootstrapContent);
-        }
-
-        if ($autoloadDir) {
-            $fs = new Filesystem();
-            $autoloadDir = $fs->makePathRelative($autoloadDir, $bootstrapDir);
-        }
 
         file_put_contents($file, sprintf(<<<'EOF'
 <?php
 
-namespace {
-    error_reporting(error_reporting() & ~E_USER_DEPRECATED);
-    $loader = require_once __DIR__.'/%sautoload.php';
-}
-
 %s
 
-namespace { return $loader; }
-
 EOF
-            , $autoloadDir, $bootstrapContent));
+            , $bootstrapContent));
     }
 
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)

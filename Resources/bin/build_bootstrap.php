@@ -56,4 +56,4 @@ if (null === $bootstrapDir) {
 require_once $autoloadDir.'/autoload.php';
 
 // here we pass realpaths as resolution between absolute and relative path can be wrong
-ScriptHandler::doBuildBootstrap($bootstrapDir, $autoloadDir, $useNewDirectoryStructure);
+ScriptHandler::doBuildBootstrap($bootstrapDir);
