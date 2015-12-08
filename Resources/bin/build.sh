@@ -49,7 +49,7 @@ fi
 cd /tmp/Symfony
 
 # cleanup
-rm -rf app/cache/* app/logs/* .git*
+rm -rf app/cache/* app/logs/* .git/
 chmod 777 app/cache app/logs
 find . -name .DS_Store | xargs rm -rf -
 
@@ -113,7 +113,6 @@ cd $TARGET/twig/twig && rm -rf AUTHORS CHANGELOG README.markdown bin doc package
 
 # cleanup
 find $TARGET -name .git | xargs rm -rf -
-find $TARGET -name .gitignore | xargs rm -rf -
 find $TARGET -name .gitmodules | xargs rm -rf -
 find $TARGET -name .svn | xargs rm -rf -
 

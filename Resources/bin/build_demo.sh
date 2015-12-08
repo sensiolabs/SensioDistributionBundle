@@ -41,7 +41,7 @@ composer install --prefer-dist --no-interaction --ignore-platform-reqs --no-plug
 cd /tmp/Symfony
 rm -f UPGRADE*
 mv .gitignore keep.gitignore
-rm -rf app/cache/* app/logs/* .git*
+rm -rf app/cache/* app/logs/* .git/
 mv keep.gitignore .gitignore
 chmod 777 app/cache app/logs
 find . -name .DS_Store | xargs rm -rf -
@@ -101,7 +101,6 @@ cd $TARGET/twig/extensions && rm -rf README doc phpunit.xml* test
 
 # final cleanup
 find $TARGET -name .git | xargs rm -rf -
-find $TARGET -name .gitignore | xargs rm -rf -
 find $TARGET -name .gitmodules | xargs rm -rf -
 find $TARGET -name .svn | xargs rm -rf -
 
