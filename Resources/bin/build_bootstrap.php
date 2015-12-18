@@ -42,7 +42,7 @@ if (!empty($argv[3])) {
     $useNewDirectoryStructure = true;
 }
 
-$rootDir = __DIR__.'/../../../../../../../..';
+$rootDir = __DIR__.'/../../../../..';
 if (null === $autoloadDir) {
     $autoloadDir = getRealpath($rootDir.'/app', 'Looks like you don\'t have a standard layout.');
 }
