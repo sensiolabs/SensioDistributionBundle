@@ -27,13 +27,13 @@ class ScriptHandler
      * a composer.json and set new options, making them immediately available
      * to forthcoming listeners.
      */
-    protected static $options = [
+    protected static $options = array(
         'symfony-app-dir' => 'app',
         'symfony-web-dir' => 'web',
         'symfony-env' => false,
         'symfony-assets-install' => 'hard',
         'symfony-cache-warmup' => false,
-    ];
+    );
 
     /**
      * Asks if the new directory structure should be used, installs the structure if needed.
@@ -206,7 +206,7 @@ class ScriptHandler
             }
             $fs->copy(__DIR__.'/../Resources/skeleton/app/SymfonyRequirements.php', $varDir.'/SymfonyRequirements.php', true);
             $fs->copy(__DIR__.'/../Resources/skeleton/app/check.php', $binDir.'/symfony_requirements', true);
-            $fs->remove([$appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true]);
+            $fs->remove(array($appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true));
 
             $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'."\n".str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
             $fs->chmod($binDir.'/symfony_requirements', 0755);
@@ -249,7 +249,7 @@ class ScriptHandler
             unlink($file);
         }
 
-        $classes = [
+        $classes = array(
             'Symfony\\Component\\HttpFoundation\\ParameterBag',
             'Symfony\\Component\\HttpFoundation\\HeaderBag',
             'Symfony\\Component\\HttpFoundation\\FileBag',
@@ -267,7 +267,7 @@ class ScriptHandler
             'Symfony\\Component\\Config\\ConfigCache',
             // cannot be included as commands are discovered based on the path to this class via Reflection
             //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
-        ];
+        );
 
         // introspect the autoloader to get the right file
         // we cannot use class_exist() here as it would load the class
@@ -341,16 +341,16 @@ EOF
 
         $fs = new Filesystem();
 
-        $fs->mkdir([$binDir, $varDir]);
+        $fs->mkdir(array($binDir, $varDir));
 
-        foreach ([
+        foreach (array(
             $appDir.'/console' => $binDir.'/console',
             $appDir.'/phpunit.xml.dist' => $rootDir.'/phpunit.xml.dist',
-        ] as $source => $target) {
+        ) as $source => $target) {
             $fs->rename($source, $target, true);
         }
 
-        foreach (['/logs', '/cache'] as $dir) {
+        foreach (array('/logs', '/cache') as $dir) {
             $fs->rename($appDir.$dir, $varDir.$dir);
         }
 
@@ -382,12 +382,12 @@ EOF;
         <server name="KERNEL_DIR" value="$appDir/" />
     </php>
 EOF;
-        $phpunit = str_replace(['<directory>../src', '"bootstrap.php.cache"', $phpunitKernelBefore], ['<directory>src', '"'.$varDir.'/bootstrap.php.cache"', $phpunitKernelAfter], file_get_contents($rootDir.'/phpunit.xml.dist'));
+        $phpunit = str_replace(array('<directory>../src', '"bootstrap.php.cache"', $phpunitKernelBefore), array('<directory>src', '"'.$varDir.'/bootstrap.php.cache"', $phpunitKernelAfter), file_get_contents($rootDir.'/phpunit.xml.dist'));
         $composer = str_replace('"symfony-app-dir": "app",', "\"symfony-app-dir\": \"app\",\n        \"symfony-bin-dir\": \"bin\",\n        \"symfony-var-dir\": \"var\",", file_get_contents($rootDir.'/composer.json'));
 
         $fs->dumpFile($webDir.'/app.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app.php')));
         $fs->dumpFile($webDir.'/app_dev.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app_dev.php')));
-        $fs->dumpFile($binDir.'/console', str_replace([".'/bootstrap.php.cache'", ".'/AppKernel.php'"], [".'/".$fs->makePathRelative($varDir, $binDir)."bootstrap.php.cache'", ".'/".$fs->makePathRelative($appDir, $binDir)."AppKernel.php'"], file_get_contents($binDir.'/console')));
+        $fs->dumpFile($binDir.'/console', str_replace(array(".'/bootstrap.php.cache'", ".'/AppKernel.php'"), array(".'/".$fs->makePathRelative($varDir, $binDir)."bootstrap.php.cache'", ".'/".$fs->makePathRelative($appDir, $binDir)."AppKernel.php'"), file_get_contents($binDir.'/console')));
         $fs->dumpFile($rootDir.'/phpunit.xml.dist', $phpunit);
         $fs->dumpFile($rootDir.'/composer.json', $composer);
 
@@ -421,7 +421,7 @@ EOF;
 
     protected static function getPhpArguments()
     {
-        $arguments = [];
+        $arguments = array();
 
         $phpFinder = new PhpExecutableFinder();
         if (method_exists($phpFinder, 'findArguments')) {
