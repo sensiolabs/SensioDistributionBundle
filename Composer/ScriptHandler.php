@@ -305,8 +305,6 @@ EOF
         $options = static::getOptions($event);
         if ($options['symfony-env']) {
             $cmd .= ' --env='.$options['symfony-env'];
-        } else {
-            $cmd .= $event->isDevMode() ? ' --env=dev' : ' --env=prod';
         }
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
