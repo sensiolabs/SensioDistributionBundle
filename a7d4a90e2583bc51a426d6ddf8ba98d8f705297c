@@ -1,0 +1,68 @@
+---------------------------------------------------------------------------
+
+by stof at 2016-01-28T09:03:48Z
+
+rather than a separate upgrade file for each version, I would rather have a single upgrade file (the changes needed for each major version upgrade are small)
+
+---------------------------------------------------------------------------
+
+by iltar at 2016-01-28T09:07:15Z
+
+I'll rename the file, I think I can leave the contents the same as for each major another line of heading can be added.
+
+---------------------------------------------------------------------------
+
+by Tobion at 2016-01-28T10:48:47Z
+
+You could add the other two bc breaks as well. See https://github.com/symfony/symfony-standard/blob/2.8/UPGRADE-2.8.md
+But they need to be rephrased from the perspective of this bundle and not symfony SE.
+
+---------------------------------------------------------------------------
+
+by stof at 2016-01-28T14:50:15Z
+
+the removal of the web configurator is a v4 BC break btw, not a v5 one.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2016-02-15T18:29:33Z
+
+Another comment from one developer who had some troubles with this issue: https://github.com/symfony/symfony/issues/17803
+
+---------------------------------------------------------------------------
+
+by spdionis at 2016-02-15T18:32:07Z
+
+@stof I had to delete the configurator when upgrading from v4 to v5. Unless I'm missing something it's a v5 break.
+
+EDIT: this file would've helped a lot earlier today :) +1
+
+---------------------------------------------------------------------------
+
+by stof at 2016-02-15T18:37:10Z
+
+ah indeed. The v3 to v4 BC break was the removal of the AcmeDemoBundle installation. My bad
+
+---------------------------------------------------------------------------
+
+by stof at 2016-02-15T18:37:38Z
+
+@iltar any chance to finish this PR ?
+
+---------------------------------------------------------------------------
+
+by iltar at 2016-02-15T19:53:13Z
+
+@stof I will see that I can finish this tomorrow morning
+
+---------------------------------------------------------------------------
+
+by iltar at 2016-02-16T07:09:34Z
+
+PR is updated, I've pretty much used the existing text that @Tobion linked.
+
+---------------------------------------------------------------------------
+
+by iltar at 2016-02-16T07:15:00Z
+
+@fabpot done & squashed
