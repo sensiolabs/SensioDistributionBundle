@@ -677,6 +677,14 @@ class SymfonyRequirements extends RequirementCollection
                 'Upgrade your <strong>intl</strong> extension with a newer ICU version (4+).'
             );
 
+            if (class_exists('Symfony\Component\Intl\Intl')) {
+                $this->addRecommendation(
+                    \Symfony\Component\Intl\Intl::getIcuDataVersion() === \Symfony\Component\Intl\Intl::getIcuVersion(),
+                    sprintf('intl ICU version installed on your system (%s) should match the ICU data bundled with Symfony (%s)', \Symfony\Component\Intl\Intl::getIcuVersion(), \Symfony\Component\Intl\Intl::getIcuDataVersion()),
+                    'In most cases you should be fine, but please verify there is no inconsistencies between data provided by Symfony and the intl extension. See https://github.com/symfony/symfony/issues/15007 for an example of inconsistencies you might run into.'
+                );
+            }
+
             $this->addPhpIniRecommendation(
                 'intl.error_level',
                 create_function('$cfgValue', 'return (int) $cfgValue === 0;'),
