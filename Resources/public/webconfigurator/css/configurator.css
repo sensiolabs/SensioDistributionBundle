@@ -9,6 +9,10 @@
     line-height: 20px;
     padding-bottom: 20px;
 }
+p.help {
+    padding: 12px 16px;
+    word-break: break-word;
+}
 .step .symfony-block-steps span {
     display: inline-block;
     padding: 2px 3px;
