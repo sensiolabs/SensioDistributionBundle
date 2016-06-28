@@ -354,9 +354,6 @@ EOF;
     public static function doBuildBootstrap($bootstrapDir, $autoloadDir = null, $useNewDirectoryStructure = false)
     {
         $file = $bootstrapDir.'/bootstrap.php.cache';
-        if (file_exists($file)) {
-            unlink($file);
-        }
 
         $classes = array(
             'Symfony\\Component\\HttpFoundation\\ParameterBag',
