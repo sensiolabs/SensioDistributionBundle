@@ -376,7 +376,7 @@ class RequirementCollection implements IteratorAggregate
  */
 class SymfonyRequirements extends RequirementCollection
 {
-    const REQUIRED_PHP_VERSION = '5.3.3';
+    const REQUIRED_MIN_PHP_VERSION = '5.3.3';
 
     /**
      * Constructor that initializes the requirements.
@@ -387,13 +387,21 @@ class SymfonyRequirements extends RequirementCollection
 
         $installedPhpVersion = phpversion();
 
+        $composerFileContents = file_get_contents(__DIR__.'/../composer.json');
+        if (array_key_exists('php', $composerFileContents['require'])) {
+            $phpDependency = $composerFileContents['require']['php'];
+            $requiredPhpVersion = preg_replace('/[^0-9.]/', '', $phpDependency);
+        } else {
+            $requiredPhpVersion = self::REQUIRED_MIN_PHP_VERSION;
+        }
+
         $this->addRequirement(
-            version_compare($installedPhpVersion, self::REQUIRED_PHP_VERSION, '>='),
-            sprintf('PHP version must be at least %s (%s installed)', self::REQUIRED_PHP_VERSION, $installedPhpVersion),
+            version_compare($installedPhpVersion, $requiredPhpVersion, '>='),
+            sprintf('PHP version must be at least %s (%s installed)', $requiredPhpVersion, $installedPhpVersion),
             sprintf('You are running PHP version "<strong>%s</strong>", but Symfony needs at least PHP "<strong>%s</strong>" to run.
                 Before using Symfony, upgrade your PHP installation, preferably to the latest version.',
-                $installedPhpVersion, self::REQUIRED_PHP_VERSION),
-            sprintf('Install PHP %s or newer (installed version is %s)', self::REQUIRED_PHP_VERSION, $installedPhpVersion)
+                $installedPhpVersion, $requiredPhpVersion),
+            sprintf('Install PHP %s or newer (installed version is %s)', $requiredPhpVersion, $installedPhpVersion)
         );
 
         $this->addRequirement(
@@ -433,7 +441,7 @@ class SymfonyRequirements extends RequirementCollection
             );
         }
 
-        if (version_compare($installedPhpVersion, self::REQUIRED_PHP_VERSION, '>=')) {
+        if (version_compare($installedPhpVersion, $requiredPhpVersion, '>=')) {
             $timezones = array();
             foreach (DateTimeZone::listAbbreviations() as $abbreviations) {
                 foreach ($abbreviations as $abbreviation) {
