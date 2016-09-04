@@ -168,6 +168,9 @@ class PhpIniRequirement extends Requirement
  */
 class RequirementCollection implements IteratorAggregate
 {
+    /**
+     * @var Requirement[]
+     */
     private $requirements = array();
 
     /**
@@ -265,7 +268,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * Returns both requirements and recommendations.
      *
-     * @return array Array of Requirement instances
+     * @return Requirement[]
      */
     public function all()
     {
@@ -275,7 +278,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * Returns all mandatory requirements.
      *
-     * @return array Array of Requirement instances
+     * @return Requirement[]
      */
     public function getRequirements()
     {
@@ -292,7 +295,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * Returns the mandatory requirements that were not met.
      *
-     * @return array Array of Requirement instances
+     * @return Requirement[]
      */
     public function getFailedRequirements()
     {
@@ -309,7 +312,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * Returns all optional recommendations.
      *
-     * @return array Array of Requirement instances
+     * @return Requirement[]
      */
     public function getRecommendations()
     {
@@ -326,7 +329,7 @@ class RequirementCollection implements IteratorAggregate
     /**
      * Returns the recommendations that were not met.
      *
-     * @return array Array of Requirement instances
+     * @return Requirement[]
      */
     public function getFailedRecommendations()
     {
