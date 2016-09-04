@@ -162,9 +162,9 @@ class ScriptHandler
         $webDir = $options['symfony-web-dir'];
 
         $symlink = '';
-        if ($options['symfony-assets-install'] == 'symlink') {
+        if ('symlink' == $options['symfony-assets-install']) {
             $symlink = '--symlink ';
-        } elseif ($options['symfony-assets-install'] == 'relative') {
+        } elseif ('relative' == $options['symfony-assets-install']) {
             $symlink = '--symlink --relative ';
         }
 
@@ -450,8 +450,8 @@ EOF;
     /**
      * Returns a relative path to the directory that contains the `console` command.
      *
-     * @param Event $event      The command event.
-     * @param string       $actionName The name of the action
+     * @param Event  $event      The command event
+     * @param string $actionName The name of the action
      *
      * @return string|null The path to the console directory, null if not found.
      */
