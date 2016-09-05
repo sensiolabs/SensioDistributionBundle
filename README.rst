@@ -34,4 +34,20 @@ application, the check is available:
 
 .. code-block:: bash
 
+    // In Symfony 2.x
     $ ./app/console security:check
+
+    // As of Symfony 2.8 and 3.x
+    $ ./bin/console security:check
+
+Contributing
+------------
+
+To contribute to this bundle, you just need a GitHub account.
+If you need some help to start, you can check the [Symfony guidelines][1] and [code style conventions][2].
+Bug fixes should be submitted against the 4.0 branch when possible, and new features are accepted on master only.
+
+Pull requests are welcome!
+
+[1]: https://symfony.com/doc/current/contributing/code/patches.html
+[2]: https://symfony.com/doc/current/contributing/code/standards.html
