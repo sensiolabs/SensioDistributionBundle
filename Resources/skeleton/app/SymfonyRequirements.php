@@ -708,9 +708,9 @@ class SymfonyRequirements extends RequirementCollection
 
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
             $this->addRecommendation(
-                $this->getRealpathCacheSize() > 1000,
-                'realpath_cache_size should be above 1024 in php.ini',
-                'Set "<strong>realpath_cache_size</strong>" to e.g. "<strong>1024</strong>" in php.ini<a href="#phpini">*</a> to improve performance on windows.'
+                $this->getRealpathCacheSize() > 5 * 1024 * 1024,
+                'realpath_cache_size should be above 5242880 in php.ini',
+                'Setting "<strong>realpath_cache_size</strong>" to e.g. "<strong>5242880</strong>" or "<strong>5000k</strong>" in php.ini<a href="#phpini">*</a> may improve performance on Windows significantly in some cases.'
             );
         }
 
