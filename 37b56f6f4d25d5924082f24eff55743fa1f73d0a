@@ -1,0 +1,33 @@
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2015-12-08T16:19:43Z
+
+@mhujer thanks for proposing this improvement and for your excellent explanation.
+
+Although I don't use Windows, I did some tests on my computer. The default `realpath_cache_size` was 16K and I changed it to 5000K as you suggested. A quick test on a complex Symfony app gave me a 5% CPU time gain. I need to do more tests, but this change looks promising indeed.
+
+It'd be great if some Windows users could share their thoughts (and tests) about this proposal. Ping @WouterJ
+
+---------------------------------------------------------------------------
+
+by wouterj at 2015-12-08T23:25:27Z
+
+I did a quick test with the Symfony demo application using PHP 5.5.12 on Windows 8.1 using Wamp and I can't see any major performance changes when setting this value to 1024 or 5000k (did some very basic tests however).
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-03T19:46:08Z
+
+This one looks good to me. @mhujer Could you please address @stof comment?
+
+---------------------------------------------------------------------------
+
+by mhujer at 2016-09-06T05:28:04Z
+
+@HeahDude fixed and rebased
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-06T05:47:10Z
+
+Thanks @mhujer. LGTM 👍
