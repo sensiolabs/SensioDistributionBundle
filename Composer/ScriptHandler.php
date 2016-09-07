@@ -30,7 +30,7 @@ class ScriptHandler
     protected static $options = array(
         'symfony-app-dir' => 'app',
         'symfony-web-dir' => 'web',
-        'symfony-env' => false,
+        'symfony-env' => 'dev',
         'symfony-assets-install' => 'hard',
         'symfony-cache-warmup' => false,
     );
@@ -302,9 +302,8 @@ EOF
             $console .= ' --ansi';
         }
 
-        $options = static::getOptions($event);
-        if ($options['symfony-env']) {
-            $cmd .= ' --env='.$options['symfony-env'];
+        if ('dev' !== $env = static::getOptions($event)['symfony-env']) {
+            $cmd .= '--env='.$env;
         }
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
@@ -398,9 +397,8 @@ EOF;
     {
         $options = array_merge(static::$options, $event->getComposer()->getPackage()->getExtra());
 
-        $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
-
         $options['symfony-env'] = getenv('SYMFONY_ENV') ?: $options['symfony-env'];
+        $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
 
         $options['process-timeout'] = $event->getComposer()->getConfig()->get('process-timeout');
 
