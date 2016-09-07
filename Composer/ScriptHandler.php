@@ -255,32 +255,17 @@ class ScriptHandler
             'Symfony\\Component\\HttpFoundation\\FileBag',
             'Symfony\\Component\\HttpFoundation\\ServerBag',
             'Symfony\\Component\\HttpFoundation\\Request',
-            'Symfony\\Component\\HttpFoundation\\Response',
-            'Symfony\\Component\\HttpFoundation\\ResponseHeaderBag',
 
-            'Symfony\\Component\\DependencyInjection\\ContainerAwareInterface',
-            'Symfony\\Component\\DependencyInjection\\Container',
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
             'Symfony\\Component\\ClassLoader\\ApcClassLoader',
-            'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
-            'Symfony\\Component\\Config\\ConfigCache',
-            // cannot be included as commands are discovered based on the path to this class via Reflection
-            //'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
         );
 
-        // introspect the autoloader to get the right file
-        // we cannot use class_exist() here as it would load the class
-        // which won't be included into the cache then.
-        // we know that composer autoloader is first (see bin/build_bootstrap.php)
-        $autoloaders = spl_autoload_functions();
-        if (is_array($autoloaders[0]) && method_exists($autoloaders[0][0], 'findFile') && $autoloaders[0][0]->findFile('Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel')) {
-            $classes[] = 'Symfony\\Component\\HttpKernel\\DependencyInjection\\ContainerAwareHttpKernel';
+        if (method_exists('Symfony\Component\ClassLoader\ClassCollectionLoader', 'inline')) {
+            ClassCollectionLoader::inline($classes, $file, array());
         } else {
-            $classes[] = 'Symfony\\Component\\HttpKernel\\HttpKernel';
+            ClassCollectionLoader::load($classes, dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
         }
-
-        ClassCollectionLoader::load($classes, dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
 
         $bootstrapContent = substr(file_get_contents($file), 5);
 
