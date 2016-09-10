@@ -1,0 +1,65 @@
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2016-09-05T06:39:14Z
+
+To handle future Symfony versions, we could change this logic as follows:
+
+Define an array with the exact Symfony version which changed the PHP requirement:
+
+```php
+$requiredPhpVersions = [
+    '3.0.0' => '5.3.3',
+    '10.0.0' => '5.5.9',
+];
+```
+
+This array is read like: *"if your Symfony version is less than the array key, then you need the PHP version defined as the array value"*:
+
+```php
+
+foreach ($requiredPhpVersions as $symfonyVersion => $phpVersion) {
+    if (version_compare($installedSymfonyVersion, $symfonyVersion, '<')) {
+        return $phpVersion;
+    }
+}
+```
+
+In the future, if we decide to require PHP 7.0.0 starting from Symfony 4.0.0, then we'd define this array:
+
+```php
+$requiredPhpVersions = [
+    '3.0.0' => '5.3.3',
+    '4.0.0' => '5.5.9',
+    '10.0.0' => '7.0.0',
+];
+```
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-05T07:29:26Z
+
+Sounds good to me, even if the matching key/value is not accurate.
+
+---------------------------------------------------------------------------
+
+by javiereguiluz at 2016-09-05T07:33:07Z
+
+@HeahDude I agree ... it'll work, but it doesn't look right. Let's wait for more ideas.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-05T07:38:41Z
+
+Agreed. For the record I'm fine with handling a new constant for each major version of symfony, considering that a single major tag of this bundle should not be compatible with more than two major symfony versions at the same time.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-10T17:56:07Z
+
+@fabpot updated and rebased on 4.0 branch.
+
+---------------------------------------------------------------------------
+
+by fabpot at 2016-09-10T19:11:25Z
+
+👍
