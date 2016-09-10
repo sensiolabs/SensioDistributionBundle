@@ -1,0 +1,29 @@
+---------------------------------------------------------------------------
+
+by fabpot at 2016-09-06T01:04:15Z
+
+But 4.0 is compatible with Symfony 2.3, so that does not work.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-06T05:44:29Z
+
+@fabpot just checked [symfony-standard in 2.3](https://github.com/symfony/symfony-standard/blob/2.3/composer.json#L49) and this seems to be ok. Am I missing something?
+
+---------------------------------------------------------------------------
+
+by fabpot at 2016-09-07T04:55:56Z
+
+Have you tested this on a 2.3 SE?
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-10T15:23:10Z
+
+@fabpot tested and rebased :)
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-10T15:59:02Z
+
+Makes sense. Done :)
