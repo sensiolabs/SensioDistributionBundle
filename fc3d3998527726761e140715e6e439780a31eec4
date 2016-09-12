@@ -1,0 +1,45 @@
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-11T00:08:26Z
+
+Thanks @CthulhuDen.
+
+This should target 4.0 branch.
+
+You can either rebase and change the target thanks to GitHub's new feature by clicking on "edit" on the title of the PR, or we can handle it on merge.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-11T00:08:33Z
+
+👍
+
+---------------------------------------------------------------------------
+
+by CthulhuDen at 2016-09-11T00:35:02Z
+
+@HeahDude I tried to do that, but it seems it now tries to merge master into 4.0. Perhaps I should just open another PR.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-11T00:37:46Z
+
+@CthulhuDen If you don't know how to rebase on 4.0, just reset the target branch to master, we will handle it on merge. Thank you.
+
+---------------------------------------------------------------------------
+
+by CthulhuDen at 2016-09-11T00:39:55Z
+
+@HeahDude I just checked, this bug is not in 4.0 branch, it was introduced during merge.
+
+---------------------------------------------------------------------------
+
+by HeahDude at 2016-09-11T00:44:32Z
+
+Nice, thanks again :)
+
+---------------------------------------------------------------------------
+
+by waplet at 2016-09-12T09:37:51Z
+
+Any ideas when this will be applied?
