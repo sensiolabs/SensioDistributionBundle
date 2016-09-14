@@ -34,10 +34,10 @@ Contributing
 ------------
 
 To contribute to this bundle, you just need a GitHub account.
-If you need some help to start, you can check the [Symfony guidelines][1] and [code style conventions][2].
+If you need some help to start, you can check the `Symfony guidelines`_ and `code style conventions`_.
 Bug fixes should be submitted against the 4.0 branch when possible, and new features are accepted on master only.
 
 Pull requests are welcome!
 
-[1]: https://symfony.com/doc/current/contributing/code/patches.html
-[2]: https://symfony.com/doc/current/contributing/code/standards.html
+.. _Symfony guidelines: https://symfony.com/doc/current/contributing/code/patches.html
+.. _code style conventions: https://symfony.com/doc/current/contributing/code/standards.html

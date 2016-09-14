@@ -376,6 +376,7 @@ EOF;
         $options = array_merge(static::$options, $event->getComposer()->getPackage()->getExtra());
 
         $options['symfony-assets-install'] = getenv('SYMFONY_ASSETS_INSTALL') ?: $options['symfony-assets-install'];
+        $options['symfony-cache-warmup'] = getenv('SYMFONY_CACHE_WARMUP') ?: $options['symfony-cache-warmup'];
 
         $options['process-timeout'] = $event->getComposer()->getConfig()->get('process-timeout');
 
