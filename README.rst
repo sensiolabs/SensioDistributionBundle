@@ -10,7 +10,7 @@ Composer Hooks
 The bundle hooks up into the Composer process to automate the following actions
 when running an install or an update:
 
-* Update the ``bootstrap.php.cache`` file (and clears the cache);
+* Clears the cache;
 
 * Install the assets under the web root directory;
 

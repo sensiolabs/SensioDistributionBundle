@@ -57,29 +57,10 @@ class ScriptHandler
     }
 
     /**
-     * Builds the bootstrap file.
-     *
-     * The bootstrap file contains PHP file that are always needed by the application.
-     * It speeds up the application bootstrapping.
-     *
-     * @param Event $event
+     * @deprecated kept for BC, but noop
      */
     public static function buildBootstrap(Event $event)
     {
-        $options = static::getOptions($event);
-        $bootstrapDir = $autoloadDir = $options['symfony-app-dir'];
-
-        if (static::useNewDirectoryStructure($options)) {
-            $bootstrapDir = $options['symfony-var-dir'];
-            if (!static::hasDirectory($event, 'symfony-var-dir', $bootstrapDir, 'build bootstrap file')) {
-                return;
-            }
-        }
-        if (!static::hasDirectory($event, 'symfony-app-dir', $autoloadDir, 'build bootstrap file')) {
-            return;
-        }
-
-        static::executeBuildBootstrap($event, $bootstrapDir, $autoloadDir, $options['process-timeout']);
     }
 
     protected static function hasDirectory(Event $event, $configName, $path, $actionName)
@@ -239,39 +220,14 @@ class ScriptHandler
         $fs->remove($appDir.'/SymfonyStandard');
     }
 
+    /**
+     * @deprecated kept for BC
+     */
     public static function doBuildBootstrap($bootstrapDir)
     {
-        $file = $bootstrapDir.'/bootstrap.php.cache';
-        if (file_exists($file)) {
-            unlink($file);
+        if (!file_exists($file = $bootstrapDir.'/bootstrap.php.cache')) {
+            file_put_contents($file, '');
         }
-
-        $classes = array(
-            'Symfony\\Component\\HttpFoundation\\ParameterBag',
-            'Symfony\\Component\\HttpFoundation\\HeaderBag',
-            'Symfony\\Component\\HttpFoundation\\FileBag',
-            'Symfony\\Component\\HttpFoundation\\ServerBag',
-            'Symfony\\Component\\HttpFoundation\\Request',
-
-            'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
-            'Symfony\\Component\\ClassLoader\\ApcClassLoader',
-        );
-
-        if (method_exists('Symfony\Component\ClassLoader\ClassCollectionLoader', 'inline')) {
-            ClassCollectionLoader::inline($classes, $file, array());
-        } else {
-            ClassCollectionLoader::load($classes, dirname($file), basename($file, '.php.cache'), false, false, '.php.cache');
-        }
-
-        $bootstrapContent = substr(file_get_contents($file), 5);
-
-        file_put_contents($file, sprintf(<<<'EOF'
-<?php
-
-%s
-
-EOF
-            , $bootstrapContent));
     }
 
     protected static function executeCommand(Event $event, $consoleDir, $cmd, $timeout = 300)
@@ -287,25 +243,6 @@ EOF
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf("An error occurred when executing the \"%s\" command:\n\n%s\n\n%s.", escapeshellarg($cmd), $process->getOutput(), $process->getErrorOutput()));
-        }
-    }
-
-    protected static function executeBuildBootstrap(Event $event, $bootstrapDir, $autoloadDir, $timeout = 300)
-    {
-        $php = escapeshellarg(static::getPhp(false));
-        $phpArgs = implode(' ', array_map('escapeshellarg', static::getPhpArguments()));
-        $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
-        $bootstrapDir = escapeshellarg($bootstrapDir);
-        $autoloadDir = escapeshellarg($autoloadDir);
-        $useNewDirectoryStructure = '';
-        if (static::useNewDirectoryStructure(static::getOptions($event))) {
-            $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
-        }
-
-        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
-        if (!$process->isSuccessful()) {
-            throw new \RuntimeException('An error occurred when generating the bootstrap file.');
         }
     }
 
