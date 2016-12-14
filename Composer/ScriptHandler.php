@@ -30,6 +30,7 @@ class ScriptHandler
     protected static $options = array(
         'symfony-app-dir' => 'app',
         'symfony-web-dir' => 'web',
+        'symfony-assets-dir' => null,
         'symfony-assets-install' => 'hard',
         'symfony-cache-warmup' => false,
     );
@@ -159,7 +160,8 @@ class ScriptHandler
             return;
         }
 
-        $webDir = $options['symfony-web-dir'];
+        $assetsDirOption = null !== $options['symfony-assets-dir'] ? 'symfony-assets-dir' : 'symfony-web-dir';
+        $assetsDir = $options[$assetsDirOption];
 
         $symlink = '';
         if ('symlink' == $options['symfony-assets-install']) {
@@ -168,11 +170,11 @@ class ScriptHandler
             $symlink = '--symlink --relative ';
         }
 
-        if (!static::hasDirectory($event, 'symfony-web-dir', $webDir, 'install assets')) {
+        if (!static::hasDirectory($event, $assetsDirOption, $assetsDir, 'install assets')) {
             return;
         }
 
-        static::executeCommand($event, $consoleDir, 'assets:install '.$symlink.escapeshellarg($webDir), $options['process-timeout']);
+        static::executeCommand($event, $consoleDir, 'assets:install '.$symlink.escapeshellarg($assetsDir), $options['process-timeout']);
     }
 
     /**
@@ -284,7 +286,9 @@ EOF
         }
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
+        $process->run(function ($type, $buffer) use ($event) {
+            $event->getIO()->write($buffer, false);
+        });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf("An error occurred when executing the \"%s\" command:\n\n%s\n\n%s.", escapeshellarg($cmd), $process->getOutput(), $process->getErrorOutput()));
         }
@@ -303,7 +307,9 @@ EOF
         }
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
-        $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
+        $process->run(function ($type, $buffer) use ($event) {
+            $event->getIO()->write($buffer, false);
+        });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
         }
