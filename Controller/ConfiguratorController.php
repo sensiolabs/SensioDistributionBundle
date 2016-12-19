@@ -13,6 +13,8 @@ namespace Sensio\Bundle\DistributionBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\DistributionBundle\Configurator\Step\StepInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * ConfiguratorController.
@@ -29,6 +31,11 @@ class ConfiguratorController extends ContainerAware
         $configurator = $this->container->get('sensio_distribution.webconfigurator');
 
         $step = $configurator->getStep($index);
+
+        if (!$step instanceof StepInterface) {
+            throw new NotFoundHttpException(sprintf('The step "%s" does not exist.', $index));
+        }
+
         $form = $this->container->get('form.factory')->create($step->getFormType(), $step);
 
         $request = $this->container->get('request');
