@@ -261,7 +261,6 @@ class ScriptHandler
             'Symfony\\Component\\DependencyInjection\\Container',
             'Symfony\\Component\\HttpKernel\\Kernel',
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
-            'Symfony\\Component\\ClassLoader\\ApcClassLoader',
             'Symfony\\Component\\HttpKernel\\Bundle\\Bundle',
             'Symfony\\Component\\Config\\ConfigCache',
             // cannot be included as commands are discovered based on the path to this class via Reflection
