@@ -254,7 +254,6 @@ class ScriptHandler
             'Symfony\\Component\\HttpFoundation\\Request',
 
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
-            'Symfony\\Component\\ClassLoader\\ApcClassLoader',
         );
 
         if (method_exists('Symfony\Component\ClassLoader\ClassCollectionLoader', 'inline')) {
