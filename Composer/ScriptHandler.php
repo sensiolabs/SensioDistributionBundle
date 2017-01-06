@@ -426,17 +426,10 @@ EOF;
     protected static function getConsoleDir(Event $event, $actionName)
     {
         $options = static::getOptions($event);
+        $binDirExists = isset($options['symfony-bin-dir']) && static::hasDirectory($event, 'symfony-bin-dir', $options['symfony-bin-dir'], $actionName);
 
-        if (static::useNewDirectoryStructure($options)) {
-            if (!static::hasDirectory($event, 'symfony-bin-dir', $options['symfony-bin-dir'], $actionName)) {
-                return;
-            }
-
+        if ($binDirExists && file_exists($options['symfony-bin-dir'].DIRECTORY_SEPARATOR.'console')) {
             return $options['symfony-bin-dir'];
-        }
-
-        if (!static::hasDirectory($event, 'symfony-app-dir', $options['symfony-app-dir'], 'execute command')) {
-            return;
         }
 
         return $options['symfony-app-dir'];
