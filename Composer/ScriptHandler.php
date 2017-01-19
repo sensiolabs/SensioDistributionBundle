@@ -22,6 +22,8 @@ use Composer\Script\Event;
  */
 class ScriptHandler
 {
+    private static $needsInlineKernelClass = false;
+
     /**
      * Composer variables are declared static so that an event could update
      * a composer.json and set new options, making them immediately available
@@ -256,6 +258,10 @@ class ScriptHandler
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
         );
 
+        if (self::$needsInlineKernelClass) {
+            $classes[] = 'Symfony\\Component\\HttpKernel\\Kernel';
+        }
+
         if (method_exists('Symfony\Component\ClassLoader\ClassCollectionLoader', 'inline')) {
             ClassCollectionLoader::inline($classes, $file, array());
         } else {
@@ -300,6 +306,8 @@ EOF
         if (static::useNewDirectoryStructure(static::getOptions($event))) {
             $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
         }
+
+        static::checkNeedsInlineKernelClass($event, $autoloadDir);
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
@@ -452,5 +460,16 @@ EOF;
     protected static function useNewDirectoryStructure(array $options)
     {
         return isset($options['symfony-var-dir']) && is_dir($options['symfony-var-dir']);
+    }
+
+    private static function checkNeedsInlineKernelClass(Event $event, $autoloadDir)
+    {
+        $autoload = $event->getComposer()->getPackage()->getAutoload();
+
+        if (!isset($autoload['classmap'])) {
+            return;
+        }
+
+        self::$needsInlineKernelClass = in_array($autoloadDir.'/AppKernel.php', $autoload['classmap'], true);
     }
 }
