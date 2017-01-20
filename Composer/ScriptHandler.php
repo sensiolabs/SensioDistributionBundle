@@ -22,8 +22,6 @@ use Composer\Script\Event;
  */
 class ScriptHandler
 {
-    private static $needsInlineKernelClass = false;
-
     /**
      * Composer variables are declared static so that an event could update
      * a composer.json and set new options, making them immediately available
@@ -241,7 +239,7 @@ class ScriptHandler
         $fs->remove($appDir.'/SymfonyStandard');
     }
 
-    public static function doBuildBootstrap($bootstrapDir)
+    public static function doBuildBootstrap($bootstrapDir, $inlineKernelClass)
     {
         $file = $bootstrapDir.'/bootstrap.php.cache';
         if (file_exists($file)) {
@@ -258,7 +256,7 @@ class ScriptHandler
             'Symfony\\Component\\ClassLoader\\ClassCollectionLoader',
         );
 
-        if (self::$needsInlineKernelClass) {
+        if ($inlineKernelClass) {
             $classes[] = 'Symfony\\Component\\HttpKernel\\Kernel';
         }
 
@@ -300,6 +298,10 @@ EOF
         $php = escapeshellarg(static::getPhp(false));
         $phpArgs = implode(' ', array_map('escapeshellarg', static::getPhpArguments()));
         $cmd = escapeshellarg(__DIR__.'/../Resources/bin/build_bootstrap.php');
+        $inlineKernelClass = '';
+        if (static::needsInlineKernelClass($event, $autoloadDir)) {
+            $inlineKernelClass = escapeshellarg('--inline-kernel-class');
+        }
         $bootstrapDir = escapeshellarg($bootstrapDir);
         $autoloadDir = escapeshellarg($autoloadDir);
         $useNewDirectoryStructure = '';
@@ -307,9 +309,7 @@ EOF
             $useNewDirectoryStructure = escapeshellarg('--use-new-directory-structure');
         }
 
-        static::checkNeedsInlineKernelClass($event, $autoloadDir);
-
-        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure, getcwd(), null, null, $timeout);
+        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$cmd.' '.$bootstrapDir.' '.$autoloadDir.' '.$useNewDirectoryStructure.' '.$inlineKernelClass, getcwd(), null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException('An error occurred when generating the bootstrap file.');
@@ -462,14 +462,14 @@ EOF;
         return isset($options['symfony-var-dir']) && is_dir($options['symfony-var-dir']);
     }
 
-    private static function checkNeedsInlineKernelClass(Event $event, $autoloadDir)
+    private static function needsInlineKernelClass(Event $event, $autoloadDir)
     {
         $autoload = $event->getComposer()->getPackage()->getAutoload();
 
         if (!isset($autoload['classmap'])) {
-            return;
+            return false;
         }
 
-        self::$needsInlineKernelClass = in_array($autoloadDir.'/AppKernel.php', $autoload['classmap'], true);
+        return in_array($autoloadDir.'/AppKernel.php', $autoload['classmap'], true);
     }
 }
