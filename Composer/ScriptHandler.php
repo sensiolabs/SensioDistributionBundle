@@ -273,7 +273,7 @@ EOF
             , $bootstrapContent));
     }
 
-    protected static function executeCommand(Event $event, $consoleDir, $cmd, $env = null, $timeout = 300)
+    protected static function executeCommand(Event $event, $consoleDir, $cmd, $timeout = 300, $env = null)
     {
         $php = escapeshellarg(static::getPhp(false));
         $phpArgs = implode(' ', array_map('escapeshellarg', static::getPhpArguments()));
