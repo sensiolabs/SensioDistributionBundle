@@ -75,6 +75,11 @@ class ScriptHandler
                 return;
             }
         }
+
+        if (!static::useSymfonyAutoloader($options)) {
+            $autoloadDir = $options['vendor-dir'];
+        }
+
         if (!static::hasDirectory($event, 'symfony-app-dir', $autoloadDir, 'build bootstrap file')) {
             return;
         }
@@ -377,6 +382,7 @@ EOF;
         $options['symfony-cache-warmup'] = getenv('SYMFONY_CACHE_WARMUP') ?: $options['symfony-cache-warmup'];
 
         $options['process-timeout'] = $event->getComposer()->getConfig()->get('process-timeout');
+        $options['vendor-dir'] = $event->getComposer()->getConfig()->get('vendor-dir');
 
         return $options;
     }
@@ -452,5 +458,17 @@ EOF;
     protected static function useNewDirectoryStructure(array $options)
     {
         return isset($options['symfony-var-dir']) && is_dir($options['symfony-var-dir']);
+    }
+
+    /**
+     * Returns true if the application bespoke autoloader is used.
+     *
+     * @param array $options Composer options
+     *
+     * @return bool
+     */
+    protected static function useSymfonyAutoloader(array $options)
+    {
+        return isset($options['symfony-app-dir']) && is_file($options['symfony-app-dir'].'/autoload.php');
     }
 }
