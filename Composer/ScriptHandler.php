@@ -112,11 +112,11 @@ class ScriptHandler
     protected static function prepareDeploymentTargetHeroku(Event $event)
     {
         $options = static::getOptions($event);
-        if (($stack = getenv('STACK')) && ($stack == 'cedar' || $stack == 'cedar-14')) {
+        if (($stack = getenv('STACK')) && ($stack == 'cedar-14' || $stack == 'heroku-16')) {
             $fs = new Filesystem();
             if (!$fs->exists('Procfile')) {
                 $event->getIO()->write('Heroku deploy detected; creating default Procfile for "web" dyno');
-                $fs->dumpFile('Procfile', sprintf('web: $(composer config bin-dir)/heroku-php-apache2 %s/', $options['symfony-web-dir']));
+                $fs->dumpFile('Procfile', sprintf('web: heroku-php-apache2 %s/', $options['symfony-web-dir']));
             }
         }
     }
