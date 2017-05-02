@@ -286,6 +286,10 @@ EOF
         if ($event->getIO()->isDecorated()) {
             $console .= ' --ansi';
         }
+        
+        if ($environment = getenv('SYMFONY_ENV')) {
+            $cmd .= ' --env='.$environment;
+        }
 
         $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
