@@ -1,0 +1,23 @@
+---------------------------------------------------------------------------
+
+by ro0NL at 2017-05-03T15:11:16Z
+
+Trailing dot removed.
+
+---------------------------------------------------------------------------
+
+by ro0NL at 2017-05-03T16:33:28Z
+
+What about removing the `escapeshellarg` as well? It seems to cause double escaping + we're putting it between double quotes as well; removing it....
+
+before
+```
+An error occurred when executing the "'assets:install --symlink --relative '\''web'\'''" command:
+```
+
+after
+```
+An error occurred when executing the "assets:install --symlink --relative 'web'" command:
+```
+
+Am i missing something?
