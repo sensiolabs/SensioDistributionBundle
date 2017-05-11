@@ -407,7 +407,7 @@ EOF;
             $arguments = $phpFinder->findArguments();
         }
 
-        if ($env = strval(getenv('COMPOSER_ORIGINAL_INIS'))) {
+        if ($env = getenv('COMPOSER_ORIGINAL_INIS')) {
             $paths = explode(PATH_SEPARATOR, $env);
             $ini = array_shift($paths);
         } else {
@@ -427,7 +427,7 @@ EOF;
      * @param Event  $event      The command event
      * @param string $actionName The name of the action
      *
-     * @return string|null The path to the console directory, null if not found.
+     * @return string|null The path to the console directory, null if not found
      */
     protected static function getConsoleDir(Event $event, $actionName)
     {
