@@ -144,14 +144,15 @@ class ScriptHandler
     }
 
     /**
-     * Warm up the Symfony cache.
+     * Warms up the Symfony cache.
      *
      * @param Event $event
      */
     public static function warmupCache(Event $event)
     {
         $options = static::getOptions($event);
-        $consoleDir = static::getConsoleDir($event, 'Warm up the cache');
+        $consoleDir = static::getConsoleDir($event, 'warm up the cache');
+
         if (null === $consoleDir) {
             return;
         }
@@ -197,7 +198,7 @@ class ScriptHandler
     }
 
     /**
-     * Updated the requirements file.
+     * Updates the requirements file.
      *
      * @param Event $event
      */
