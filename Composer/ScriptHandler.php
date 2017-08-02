@@ -198,7 +198,7 @@ class ScriptHandler
     }
 
     /**
-     * Updates the requirements file.
+     * Updated the requirements file.
      *
      * @param Event $event
      */
