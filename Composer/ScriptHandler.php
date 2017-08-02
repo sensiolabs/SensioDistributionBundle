@@ -144,6 +144,23 @@ class ScriptHandler
     }
 
     /**
+     * Warms up the Symfony cache.
+     *
+     * @param Event $event
+     */
+    public static function warmupCache(Event $event)
+    {
+        $options = static::getOptions($event);
+        $consoleDir = static::getConsoleDir($event, 'warm up the cache');
+
+        if (null === $consoleDir) {
+            return;
+        }
+
+        static::executeCommand($event, $consoleDir, 'cache:warmup', $options['process-timeout']);
+    }
+
+    /**
      * Installs the assets under the web root directory.
      *
      * For better interoperability, assets are copied instead of symlinked by default.
