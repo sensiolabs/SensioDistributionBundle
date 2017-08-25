@@ -212,7 +212,7 @@ class ScriptHandler
             $fs->copy(__DIR__.'/../Resources/skeleton/app/check.php', $binDir.'/symfony_requirements', true);
             $fs->remove(array($appDir.'/check.php', $appDir.'/SymfonyRequirements.php', true));
 
-            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'."\n".str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative($varDir, $binDir)."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
+            $fs->dumpFile($binDir.'/symfony_requirements', '#!/usr/bin/env php'."\n".str_replace(".'/SymfonyRequirements.php'", ".'/".$fs->makePathRelative(realpath($varDir), realpath($binDir))."SymfonyRequirements.php'", file_get_contents($binDir.'/symfony_requirements')));
             $fs->chmod($binDir.'/symfony_requirements', 0755);
         }
 
@@ -223,7 +223,7 @@ class ScriptHandler
         if ($fs->exists($webDir.'/config.php')) {
             $requiredDir = $newDirectoryStructure ? $varDir : $appDir;
 
-            $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative($requiredDir, $webDir).'SymfonyRequirements.php', file_get_contents(__DIR__.'/../Resources/skeleton/web/config.php')));
+            $fs->dumpFile($webDir.'/config.php', str_replace('/../app/SymfonyRequirements.php', '/'.$fs->makePathRelative(realpath($requiredDir), realpath($webDir)).'SymfonyRequirements.php', file_get_contents(__DIR__.'/../Resources/skeleton/web/config.php')));
         }
     }
 
@@ -365,7 +365,7 @@ EOF;
 
         $fs->dumpFile($webDir.'/app.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app.php')));
         $fs->dumpFile($webDir.'/app_dev.php', str_replace($appDir.'/bootstrap.php.cache', $varDir.'/bootstrap.php.cache', file_get_contents($webDir.'/app_dev.php')));
-        $fs->dumpFile($binDir.'/console', str_replace(array(".'/bootstrap.php.cache'", ".'/AppKernel.php'"), array(".'/".$fs->makePathRelative($varDir, $binDir)."bootstrap.php.cache'", ".'/".$fs->makePathRelative($appDir, $binDir)."AppKernel.php'"), file_get_contents($binDir.'/console')));
+        $fs->dumpFile($binDir.'/console', str_replace(array(".'/bootstrap.php.cache'", ".'/AppKernel.php'"), array(".'/".$fs->makePathRelative(realpath($varDir), realpath($binDir))."bootstrap.php.cache'", ".'/".$fs->makePathRelative(realpath($appDir), realpath($binDir))."AppKernel.php'"), file_get_contents($binDir.'/console')));
         $fs->dumpFile($rootDir.'/phpunit.xml.dist', $phpunit);
         $fs->dumpFile($rootDir.'/composer.json', $composer);
 
