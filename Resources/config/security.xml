@@ -9,7 +9,7 @@
 
         <service id="sensio_distribution.security_checker.command" class="SensioLabs\Security\Command\SecurityCheckerCommand">
             <argument type="service" id="sensio_distribution.security_checker" />
-            <tag name="console.command" />
+            <tag name="console.command" command="security:check" />
         </service>
     </services>
 </container>
