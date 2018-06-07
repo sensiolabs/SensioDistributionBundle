@@ -107,7 +107,7 @@ class ScriptHandler
     protected static function prepareDeploymentTargetHeroku(Event $event)
     {
         $options = static::getOptions($event);
-        if (($stack = getenv('STACK')) && ($stack == 'cedar' || $stack == 'cedar-14')) {
+        if (($stack = getenv('STACK')) && ('cedar' == $stack || 'cedar-14' == $stack)) {
             $fs = new Filesystem();
             if (!$fs->exists('Procfile')) {
                 $event->getIO()->write('Heroku deploy detected; creating default Procfile for "web" dyno');
@@ -439,7 +439,7 @@ EOF;
             $arguments = $phpFinder->findArguments();
         }
 
-        if ($env = strval(getenv('COMPOSER_ORIGINAL_INIS'))) {
+        if ($env = (string) (getenv('COMPOSER_ORIGINAL_INIS'))) {
             $paths = explode(PATH_SEPARATOR, $env);
             $ini = array_shift($paths);
         } else {

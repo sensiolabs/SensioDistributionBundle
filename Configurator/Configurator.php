@@ -80,7 +80,7 @@ class Configurator
      */
     public function getSteps()
     {
-        if ($this->sortedSteps === null) {
+        if (null === $this->sortedSteps) {
             $this->sortedSteps = $this->getSortedSteps();
             foreach ($this->sortedSteps as $step) {
                 $step->setParameters($this->parameters);
