@@ -448,15 +448,8 @@ class SymfonyRequirements extends RequirementCollection
         }
 
         if (false !== $requiredPhpVersion && version_compare($installedPhpVersion, $requiredPhpVersion, '>=')) {
-            $timezones = array();
-            foreach (DateTimeZone::listAbbreviations() as $abbreviations) {
-                foreach ($abbreviations as $abbreviation) {
-                    $timezones[$abbreviation['timezone_id']] = true;
-                }
-            }
-
             $this->addRequirement(
-                isset($timezones[@date_default_timezone_get()]),
+                in_array(@date_default_timezone_get(), DateTimeZone::listIdentifiers(), true),
                 sprintf('Configured default timezone "%s" must be supported by your installation of PHP', @date_default_timezone_get()),
                 'Your default timezone is not supported by PHP. Check for typos in your <strong>php.ini</strong> file and have a look at the list of deprecated timezones at <a href="http://php.net/manual/en/timezones.others.php">http://php.net/manual/en/timezones.others.php</a>.'
             );
