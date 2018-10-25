@@ -1,0 +1,23 @@
+---------------------------------------------------------------------------
+
+by fabpot at 2018-10-25T13:53:05Z
+
+What about removing version 3 and 4 as they won't work anymore anyway?
+
+---------------------------------------------------------------------------
+
+by lmatte7 at 2018-10-25T15:02:56Z
+
+I certainly can, my only worry would be about dependency conflicts with other bundles that may not have updated yet. If that's not really a worry I can push an update to remove v3 and v4.
+
+---------------------------------------------------------------------------
+
+by fabpot at 2018-10-25T15:08:15Z
+
+Not an issue as Composer will then use an older version of this package.
+
+---------------------------------------------------------------------------
+
+by lmatte7 at 2018-10-25T15:17:49Z
+
+Ok thanks, I just wanted to check! I've pushed a new update that only includes v5 of the security checker.
